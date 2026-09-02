@@ -107,4 +107,4 @@ pip install -r requirements.txt
 
 ---
 
-<sub>Private during the course. UVA Darden School of Business, GBUS 8496 A, 2027 MBA Q1.</sub>
+<sub>UVA Darden School of Business, GBUS 8496 A, 2027 MBA Q1.</sub>
