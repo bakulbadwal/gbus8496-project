@@ -1,0 +1,14 @@
+# Base toolchain — matches what the course notebooks use. Add direction-specific
+# packages (e.g. sentence-transformers, rank-bm25, anthropic, openai) once the direction is chosen,
+# and pin versions when the evaluation numbers are final.
+pandas
+numpy
+scikit-learn
+statsmodels
+matplotlib
+jupyter
+ipykernel
+nbconvert
+pypdf
+openpyxl
+python-dotenv

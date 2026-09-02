@@ -1,0 +1,35 @@
+# data — never committed (data/README.md is the recipe)
+data/*
+!data/README.md
+
+# secrets
+.env
+.env.*
+*.key
+*.pem
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.ipynb_checkpoints/
+
+# large model / embedding caches
+*.npy
+*.npz
+*.pkl
+*.parquet
+*.safetensors
+models/
+.cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# scratch
+scratch/
+tmp/
