@@ -100,7 +100,7 @@ pip install -r requirements.txt
 | Member | GitHub | Workstream (see spec §9) |
 |---|---|---|
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
-| Thaddeus | [@thadeusk](https://github.com/thadeusk) | TBD |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
 | | | |
 | | | |
 | | | |
