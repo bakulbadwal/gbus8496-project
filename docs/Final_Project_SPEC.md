@@ -32,6 +32,10 @@ Verbatim: *"one page, submitted on Canvas. It should contain: the problem and th
 application; the dataset and its source; what you will build or analyze; what your evaluation will
 be — what you will measure, and against what ground truth; and anything you need from me."*
 
+**Canvas assignment page (read Sep 5):** *"You should upload a word document (either .doc or .docx)."* Uploader
+accepts **DOC/DOCX only** — not PDF, not Markdown. Unlimited attempts. *"Note that this submission should be one
+per team (not one per person)."* and *"this submission will count for everyone in your Teams group."*
+
 Fill-in template — each element is one short paragraph:
 
 | # | Element | What a strong answer contains |

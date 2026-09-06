@@ -6,6 +6,20 @@ proposal can be uploaded before **Tue Sep 8 midnight**.
 
 ---
 
+## Chosen — Sep 5: DonorsChoose screening triage (not on Albert's list)
+
+Nothing came back from the team by Saturday, so the default was set and the proposal drafted
+(`docs/proposal/`). Reasoning, briefly: four of the five options below are Albert's own examples,
+and he "strongly encourages" other directions; Ambition (10) rewards an unusual problem and the
+room votes on whether the problem is real. DonorsChoose is a nonprofit whose volunteer screeners
+read every teacher proposal — a real bottleneck with a real user — and its 2018 Kaggle release
+gives ~182,000 proposals with essays, prices, and **the human screener's actual decision** as ground
+truth. That lets one project run the whole course arc: tabular model → text embeddings (S7) → LLM
+screener (S8) → payoff-derived triage thresholds (S4–5) → an LLM-vs-human agreement study on the
+disagreements (S12), with cost per 1,000 proposals for each tier. Files verified downloadable
+without a login from the Hugging Face mirror on Sep 5. CUAD (Option 1 below) is the fallback if
+Albert objects.
+
 ## What the rubric rewards, in one line
 
 A **named decision-maker**, a **real dataset**, an artifact we built, an evaluation against
