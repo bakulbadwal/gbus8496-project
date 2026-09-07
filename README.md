@@ -101,8 +101,8 @@ pip install -r requirements.txt
 | Member | GitHub | Workstream (see spec §9) |
 |---|---|---|
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
-| Malorie Black | pending | TBD — proposed *Second Gift* |
-| Reid Jacobson | pending | TBD |
+| Malorie Black | [@blackm33](https://github.com/blackm33) | TBD — proposed *Second Gift* |
+| Reid Jacobson | [@Reido938](https://github.com/Reido938) | TBD |
 | Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
 | Rodolfo Perez-Cortes Manrique | pending | TBD — proposed *Amazon traction* |
 
