@@ -6,7 +6,34 @@ proposal can be uploaded before **Tue Sep 8 midnight**.
 
 ---
 
-## Chosen — Sep 6: Amazon new-product traction (Rodolfo's proposal, hardened)
+## Recommended — Sep 7: Predicting the Second Gift (Malorie's proposal)
+
+Malorie proposed, in Teams on Sep 7, a donor-retention model on *DonorsChoose Open Data 2002–2019*
+(ICPSR 37898): which first-time donors give again within 12 months, with a decision layer that
+ranks follow-ups against a fixed outreach budget. Her draft is `docs/proposal/Proposal_v3_*_as-received.*`;
+the filled-in final is `Proposal_v3_FINAL.docx`. **Recommended over the Amazon direction, for three
+reasons that map straight onto the rubric:**
+
+1. **Ground truth is observed behavior**, not a constructed proxy. The second gift either happened
+   or it didn't, on 11.4M donations with donor IDs. Amazon's label (N reviews in 12 months) had to
+   be invented and defended.
+2. **The stakeholder is real and on the team.** Malorie founded GoGood Technologies, whose customers
+   are exactly the development lead in the proposal, and she is working with the Darden Foundation on
+   alumni asks. The room's first vote is "this problem is real" — a founder presenting her own
+   customer's problem wins that vote; a hypothetical reseller does not.
+3. **The evaluation is already the right shape.** Time-based cohort split, PR-AUC + calibration,
+   RFM as the honest baseline (what small nonprofits actually do), expected value per contact minus
+   cost per contact → threshold, association-not-causation stated for the thank-you-packet question,
+   error analysis on thin-history donors, and a transfer limitation tested rather than assumed.
+
+**Risks:** the two files run to ~13 GB (sample cohorts; ask Albert), ICPSR downloads need a free
+account (not confirmed on the page — it sits behind a bot check — but standard for ICPSR), dates are
+month-level, and there is no donor demographics file. None is a blocker.
+
+**Fallbacks, in order:** Amazon new-product traction (Rodolfo, v2 below), DonorsChoose screening
+triage (v1), CUAD. Rodolfo should own the modelling workstream on the chosen project.
+
+## Superseded — Sep 6: Amazon new-product traction (Rodolfo's proposal, hardened)
 
 Rodolfo proposed, in Teams on Sep 6, a traction classifier on the *Amazon Reviews 2023* dataset
 (McAuley Lab): does a product reach N reviews within 12 months of its first review, trained on

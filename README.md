@@ -29,8 +29,8 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Team formed (Canvas / Google sheet) | ✅ done |
 | Team chat (Teams) | ✅ open |
 | Everyone on this repo | ⏳ handles being collected |
-| Direction chosen | ✅ **Sep 6 — Amazon new-product traction (Rodolfo's proposal, hardened)**. Why and what changed from the Sep 5 default: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) §Chosen |
-| Proposal drafted → uploaded | ✅ **v2 drafted Sep 6** — [docs/proposal/Proposal_v2.docx](docs/proposal/Proposal_v2.docx) (Canvas requires .doc/.docx; v1 = DonorsChoose kept as fallback) · ⏳ upload **Mon Sep 7** evening |
+| Direction chosen | ⏳ **Two live candidates, team decides Mon Sep 7:** Malorie's *Predicting the Second Gift* (recommended — see memo) vs Rodolfo's *Amazon new-product traction*. [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
+| Proposal drafted → uploaded | ✅ both candidates drafted as .docx in [docs/proposal/](docs/proposal/) — **v3_FINAL** (Second Gift) and **v2** (Amazon) · ⏳ upload the winner **Tue Sep 8 before 11:59 PM** |
 | Evaluation harness + gold set | not started (build this **before** the system) |
 | System, baselines, error analysis, cost model | not started |
 | Slides, exec summary, AI-use note, zip | not started |
@@ -38,8 +38,8 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 ## Read these first
 
 1. [docs/Final_Project_SPEC.md](docs/Final_Project_SPEC.md) — Albert's assignment decoded: the five proposal elements, the two hard requirements, the grading formula, the six deliverables, the nine worked examples, a week-by-week timeline, and a five-person workstream split.
-2. [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) — candidate directions scored against the rubric. **Chosen Sep 6: Amazon new-product traction** (see the memo's "Chosen" section); DonorsChoose (v1) and CUAD are the fallbacks if Albert pushes back.
-3. [docs/proposal/Proposal_v2.md](docs/proposal/Proposal_v2.md) — the one-page proposal (the .docx beside it is what gets uploaded). [data/README.md](data/README.md) has the fetch recipe and the leakage warning.
+2. [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) — every candidate direction scored against the rubric, newest first. Top section = current recommendation.
+3. [docs/proposal/](docs/proposal/) — one-page proposals as .docx (what Canvas takes) with markdown beside each: `Proposal_v3_FINAL` (Second Gift, Malorie), `Proposal_v2` (Amazon, Rodolfo), `Proposal_v1` (DonorsChoose screening). [data/README.md](data/README.md) currently holds the Amazon fetch recipe; it is rewritten once the direction is final.
 4. [docs/albert/Final_Group_Project_Albert.pdf](docs/albert/Final_Group_Project_Albert.pdf) — the original assignment, verbatim. When in doubt, this wins.
 
 His nine examples are *suggestions*. Any business problem qualifies as long as there is a named user, a real dataset, an artifact we built, and an evaluation against ground truth.
@@ -101,10 +101,10 @@ pip install -r requirements.txt
 | Member | GitHub | Workstream (see spec §9) |
 |---|---|---|
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
-| Malorie Black | pending | TBD |
+| Malorie Black | pending | TBD — proposed *Second Gift* |
 | Reid Jacobson | pending | TBD |
 | Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
-| Rodolfo Perez-Cortes Manrique | pending | TBD — proposed the direction |
+| Rodolfo Perez-Cortes Manrique | pending | TBD — proposed *Amazon traction* |
 
 ---
 
