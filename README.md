@@ -28,7 +28,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 |---|---|
 | Team formed (Canvas / Google sheet) | ✅ done |
 | Team chat (Teams) | ✅ open |
-| Everyone on this repo | ⏳ handles being collected |
+| Everyone on this repo | ✅ all five invited (Sep 7); pending acceptances show in Settings → Collaborators |
 | Direction chosen | ⏳ **Two live candidates, team decides Mon Sep 7:** Malorie's *Predicting the Second Gift* (recommended — see memo) vs Rodolfo's *Amazon new-product traction*. [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
 | Proposal drafted → uploaded | ✅ both candidates drafted as .docx in [docs/proposal/](docs/proposal/) — **v3_FINAL** (Second Gift) and **v2** (Amazon) · ⏳ upload the winner **Tue Sep 8 before 11:59 PM** |
 | Evaluation harness + gold set | not started (build this **before** the system) |
@@ -104,7 +104,7 @@ pip install -r requirements.txt
 | Malorie Black | [@blackm33](https://github.com/blackm33) | TBD — proposed *Second Gift* |
 | Reid Jacobson | [@Reido938](https://github.com/Reido938) | TBD |
 | Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
-| Rodolfo Perez-Cortes Manrique | pending | TBD — proposed *Amazon traction* |
+| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | TBD — proposed *Amazon traction* |
 
 ---
 
