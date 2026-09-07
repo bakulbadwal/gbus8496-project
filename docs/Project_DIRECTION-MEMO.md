@@ -6,7 +6,35 @@ proposal can be uploaded before **Tue Sep 8 midnight**.
 
 ---
 
-## Chosen — Sep 5: DonorsChoose screening triage (not on Albert's list)
+## Chosen — Sep 6: Amazon new-product traction (Rodolfo's proposal, hardened)
+
+Rodolfo proposed, in Teams on Sep 6, a traction classifier on the *Amazon Reviews 2023* dataset
+(McAuley Lab): does a product reach N reviews within 12 months of its first review, trained on
+metadata only, plus per-category attribute drivers and a price-positioning cut. **Taken, for three
+reasons:** it is a teammate's own idea (the room's "problem is real" vote and the effort-share
+formula both reward a presenter who owns the question); the dataset is public, not gated, per-category,
+and verified downloadable without a login; and the build is a one-shot with the grade living in the
+evaluation, which is where this team is strongest. **Four things were hardened before it went into the
+proposal**, and they are the difference between a Kaggle exercise and Albert's rubric:
+
+1. **Leakage.** The meta file's `rating_number` and `average_rating` are Sep 2023 snapshots of the
+   outcome. Excluded from features; the proposal commits to showing the inflated score if they are
+   left in. `price` is also a 2023 snapshot: kept, with a price-removed robustness run.
+2. **A real user with asymmetric costs.** The buyer at a reseller / private-label seller deciding
+   stock vs skip. That turns the classifier into a payoff-derived decision rule (Sessions 4–5) with
+   expected profit against *stock everything* and *stock nothing*.
+3. **Honest ground truth.** The label is constructed (N reviews in 12 months) and the proposal says
+   so, sets N per category, requires the 12-month window to close before the cutoff, and reports
+   sensitivity to N. Survivorship (delisted products are absent) is named as a measured limitation.
+4. **Text earns its place or doesn't.** Tabular-only vs tabular + title/description embeddings, so
+   the result answers Albert's own example question (Airbnb: "held-out error against a tabular-only
+   baseline").
+
+Rodolfo's Variant B (price band within category) is folded in as the price partial-dependence
+analysis rather than a separate build. **Fallbacks, in order:** DonorsChoose screening triage (the
+Sep 5 default below, proposal v1 still in `docs/proposal/`), then CUAD contract review.
+
+## Superseded — Sep 5 default: DonorsChoose screening triage (not on Albert's list)
 
 Nothing came back from the team by Saturday, so the default was set and the proposal drafted
 (`docs/proposal/`). Reasoning, briefly: four of the five options below are Albert's own examples,
