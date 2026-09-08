@@ -67,15 +67,15 @@ const doc = new Document({
       }),
       new Paragraph({ children: [t("Predicting the Second Gift", { size: 40, bold: true, color: NAVY })], spacing: { after: 10 } }),
       new Paragraph({
-        children: [t("Which first-time donors will give again, and which ones a small nonprofit should spend its scarce staff hours on.", { size: BODY + 2, italics: true, color: INKMUTED })],
+        children: [t("Which first-time donors will give again, and which ones a small nonprofit should spend staff time on.", { size: BODY + 2, italics: true, color: INKMUTED })],
         spacing: { after: 60 },
         border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: BRASS, space: 3 } },
       }),
-      P([["Team ", { bold: true, color: NAVY }], "Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique"], { after: 80 }),
+      P([["Team ", { bold: true, color: NAVY }], "Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique · Bakul Badwal"], { after: 80 }),
 
       H("1 · Problem and business application"),
-      P(["Most nonprofits acquire a donor once and never hear from them again. The second gift is the highest-leverage moment in the donor lifecycle, and small organizations are the least equipped to work it. Our stakeholder is the development lead at a nonprofit with roughly a $500K budget and no data staff: each month she can personally follow up with only a fraction of first-time donors, and today she builds that list by hand from recency and gift size."]),
-      P([["The decision is specific: ", { bold: true }], "given a fixed outreach budget in staff hours, which first-time donors receive follow-up, and where does the cutoff sit? Our output is a ranked follow-up list with a recommended threshold and the expected dollars behind it. One of us founded GoGood Technologies, a donor-engagement platform serving exactly this customer, so real practitioners can check the output. ", ["In practice: ", { bold: true }], "the hand-built list becomes a scored one, and the budget question gets a number."]),
+      P(["Most nonprofits acquire a donor once and never hear from them again. The second gift is where retention is won or lost, and small organizations have the least capacity to work it. Our stakeholder is the development lead at a nonprofit with roughly a $500K budget and no data staff. Each month she can personally follow up with only a fraction of first-time donors, and today she builds that list by hand from recency and gift size."]),
+      P([["The decision: ", { bold: true }], "given a fixed outreach budget in staff hours, which first-time donors get a follow-up, and where does the cutoff sit? Our output is a ranked follow-up list with a recommended threshold and the expected dollars behind it. One of us founded GoGood Technologies, a donor-engagement platform whose customers are this stakeholder, so practitioners can check the output. Deployed, it replaces the hand-built list and puts a number on the budget question."]),
 
       H("2 · Dataset and source"),
       P([["DonorsChoose Open Data, United States, 2002–2019", { italics: true }], " (ICPSR 37898, doi.org/10.3886/ICPSR37898.v1). Public-use files, free with a no-cost ICPSR account. Two files: Donations (11,377,479 records) and Projects (2,149,817), covering September 2002 to June 2019 with activity through December 2019. Donations carries DONOR_ID, so we reconstruct each donor's history and build our own label, plus amount, month, donor type, and matched, teacher-referred, and thank-you-packet flags. Two constraints accepted up front: dates are month-level, and there is no demographics file, so donor type is the only donor attribute."]),
@@ -85,7 +85,7 @@ const doc = new Document({
       B([["Features. ", { bold: true }], "Donation-side (amount, seasonality, matched, gift card, teacher-referred, donor type, thank-you packet) and project-side (subject, grade, cost, state). Fields that could post-date the second gift are checked for timing before use."]),
       B([["Split. ", { bold: true }], "Time-based, never random: train on first-gift cohorts through 2016, hold out 2017 and 2018, observe outcomes through December 2019."]),
       B([["Decision layer. ", { bold: true }], "Predicted probability and second-gift amount become expected value per contact, minus an explicit cost per contact in staff time; the threshold is derived from those payoffs, not tuned."]),
-      B([["Cost at scale. ", { bold: true }], "Scoring a year of first-time donors is a batch job on one machine, no API spend. The operating cost is the staff hours the threshold allocates, reported explicitly."]),
+      B([["Cost at scale. ", { bold: true }], "Scoring a year of first-time donors is a batch job on one machine, with no API spend. The operating cost is the staff hours the threshold allocates, and we report it."]),
 
       H("4 · Evaluation — what we measure, against what ground truth"),
       P(["Ground truth is observed donor behavior in the held-out cohorts, not hand labels. Four measurements:"], { after: 30 }),
@@ -97,7 +97,7 @@ const doc = new Document({
 
       H("5 · What we need from you"),
       B(["Confirmation that a well-supported negative finding against the RFM baseline is an acceptable result."]),
-      B(["Guidance on ~13 GB on JupyterHub, or approval to use a stratified sample of donor cohorts."]),
+      B(["The two files total about 13 GB, more than JupyterHub comfortably holds. Either guidance on working with them there, or approval to use a stratified sample of donor cohorts."]),
       new Paragraph({ children: runs(["Any concern about anchoring the framing to a company a team member founded."]), numbering: { reference: "bul", level: 0 }, spacing: { after: 0, line: 238 } }),
     ],
   }],

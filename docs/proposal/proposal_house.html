@@ -37,7 +37,7 @@ b{color:#fff;font-weight:600}
   <div>
     <div class="eyebrow">Final project proposal · GBUS 8496 Machine Learning and AI for Business · Prof. Michael Albert</div>
     <h1>Predicting the Second Gift</h1>
-    <p class="lede">Which first-time donors will give again, and which ones a small nonprofit should spend its scarce staff hours on.</p>
+    <p class="lede">Which first-time donors will give again, and which ones a small nonprofit should spend staff time on.</p>
   </div>
   <div class="links">
     <b>GROUP 11 · SEPTEMBER 8, 2026</b>
@@ -46,7 +46,7 @@ b{color:#fff;font-weight:600}
   </div>
 </div>
 
-<div class="team"><b>Team</b> Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique</div>
+<div class="team"><b>Team</b> Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique · Bakul Badwal</div>
 
 <div class="glance">
   <div class="g"><div class="k">Stakeholder</div><div class="v">Development lead at a ~$500K nonprofit, no data staff</div></div>
@@ -59,8 +59,8 @@ b{color:#fff;font-weight:600}
 <div class="cols">
 <div>
 <h2><span>01</span>Problem and business application</h2>
-<p>Most nonprofits acquire a donor once and never hear from them again. The second gift is the highest-leverage moment in the donor lifecycle, and small organizations are the least equipped to work it. Our stakeholder is the development lead at a nonprofit with roughly a $500K budget and no data staff: each month she can personally follow up with only a fraction of first-time donors, and today she builds that list by hand from recency and gift size.</p>
-<p><b>The decision is specific:</b> given a fixed outreach budget in staff hours, which first-time donors receive follow-up, and where does the cutoff sit? Our output is a ranked follow-up list with a recommended threshold and the expected dollars behind it. One of us founded GoGood Technologies, a donor-engagement platform serving exactly this customer, so real practitioners can check the output. <b>In practice:</b> the hand-built list becomes a scored one, and the budget question gets a number.</p>
+<p>Most nonprofits acquire a donor once and never hear from them again. The second gift is where retention is won or lost, and small organizations have the least capacity to work it. Our stakeholder is the development lead at a nonprofit with roughly a $500K budget and no data staff. Each month she can personally follow up with only a fraction of first-time donors, and today she builds that list by hand from recency and gift size.</p>
+<p><b>The decision:</b> given a fixed outreach budget in staff hours, which first-time donors get a follow-up, and where does the cutoff sit? Our output is a ranked follow-up list with a recommended threshold and the expected dollars behind it. One of us founded GoGood Technologies, a donor-engagement platform whose customers are this stakeholder, so practitioners can check the output. Deployed, it replaces the hand-built list and puts a number on the budget question.</p>
 
 <h2><span>02</span>Dataset and source</h2>
 <p><i>DonorsChoose Open Data, United States, 2002–2019</i> (ICPSR 37898). Public-use files, free with a no-cost ICPSR account. Two files: Donations (11,377,479 records) and Projects (2,149,817), covering September 2002 to June 2019 with activity through December 2019. Donations carries DONOR_ID, so we reconstruct each donor's history and build our own label, plus amount, month, donor type, and matched, teacher-referred, and thank-you-packet flags. Two constraints accepted up front: dates are month-level, and there is no demographics file, so donor type is the only donor attribute.</p>
@@ -71,7 +71,7 @@ b{color:#fff;font-weight:600}
 <li><b>Features.</b> Donation-side (amount, seasonality, matched, gift card, teacher-referred, donor type, thank-you packet) and project-side (subject, grade, cost, state). Fields that could post-date the second gift are checked for timing before use.</li>
 <li><b>Split.</b> Time-based, never random: train on first-gift cohorts through 2016, hold out 2017 and 2018, observe outcomes through December 2019.</li>
 <li><b>Decision layer.</b> Predicted probability and second-gift amount become expected value per contact, minus an explicit cost per contact in staff time; the threshold is derived from those payoffs, not tuned.</li>
-<li><b>Cost at scale.</b> Scoring a year of first-time donors is a batch job on one machine, no API spend. The operating cost is the staff hours the threshold allocates, reported explicitly.</li>
+<li><b>Cost at scale.</b> Scoring a year of first-time donors is a batch job on one machine, with no API spend. The operating cost is the staff hours the threshold allocates, and we report it.</li>
 </ul>
 </div>
 <div>
@@ -88,7 +88,7 @@ b{color:#fff;font-weight:600}
 <h2><span>05</span>What we need from you</h2>
 <ul>
 <li>Confirmation that a well-supported negative finding against the RFM baseline is an acceptable result.</li>
-<li>Guidance on ~13 GB on JupyterHub, or approval to use a stratified sample of donor cohorts.</li>
+<li>The two files total about 13 GB, more than JupyterHub comfortably holds. Either guidance on working with them there, or approval to use a stratified sample of donor cohorts.</li>
 <li>Any concern about anchoring the framing to a company a team member founded.</li>
 </ul>
 </div>
