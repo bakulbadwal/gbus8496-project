@@ -18,7 +18,7 @@ One business problem, one artifact we built, one evaluation we can defend.
 | | Due | Where | Counts |
 |---|---|---|---|
 | **Proposal** | **Tue Sep 8, 2026 · midnight** | Canvas → *Final Project Proposal - per team* (one uploader for the team) | Not graded; **approval is mandatory** |
-| **Final project** | **Fri Oct 2, 2026 · 11:59 PM** | Box link on Canvas, one file `Group_#.zip` | **40% of the course grade** |
+| **Final project** | **Fri Oct 2, 2026 · 11:59 PM** | Box link on Canvas, one file `Group_11.zip` | **40% of the course grade** |
 
 Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in Sessions 13–14, order drawn at random, all members present.
 

@@ -22,7 +22,7 @@ const doc = new Document({
     properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 800, bottom: 800, left: 1080, right: 1080 } } },
     children: [
       new Paragraph({ children: [new TextRun({ text: "Project Proposal: Predicting the Second Gift", font: FONT, size: 32, bold: true })], spacing: { after: 40 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: "222222", space: 2 } } }),
-      P(["GBUS 8496 Machine Learning and AI for Business · Prof. Michael Albert · Group [#] · September 8, 2026"], { after: 20 }),
+      P(["GBUS 8496 Machine Learning and AI for Business · Prof. Michael Albert · Group 11 · September 8, 2026"], { after: 20 }),
       P([["Team: ", { bold: true }], "Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique"], { after: 60 }),
 
       H("Problem and business application"),
