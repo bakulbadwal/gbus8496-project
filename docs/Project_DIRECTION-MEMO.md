@@ -6,9 +6,9 @@ proposal can be uploaded before **Tue Sep 8 midnight**.
 
 ---
 
-## Recommended — Sep 7: Predicting the Second Gift (Malorie's proposal)
+## CHOSEN — Sep 7 team poll, 4 of 4: Predicting the Second Gift (Malorie's proposal). Group 11.
 
-Malorie proposed, in Teams on Sep 7, a donor-retention model on *DonorsChoose Open Data 2002–2019*
+Malorie proposed, in Teams on Sep 7 (poll that evening: 4 of 4 for this option; proposal submitted Sep 8 as Group 11), a donor-retention model on *DonorsChoose Open Data 2002–2019*
 (ICPSR 37898): which first-time donors give again within 12 months, with a decision layer that
 ranks follow-ups against a fixed outreach budget. Her draft is `docs/proposal/Proposal_v3_*_as-received.*`;
 the filled-in final is `Proposal_v3_FINAL.docx`. **Recommended over the Amazon direction, for three

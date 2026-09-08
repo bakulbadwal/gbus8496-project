@@ -11,11 +11,13 @@ Read, in order: `README.md` → `docs/Final_Project_SPEC.md` → `docs/Project_D
 Albert's original assignment is `docs/albert/Final_Group_Project_Albert.pdf` and wins any conflict.
 
 Two deadlines: **proposal Tue Sep 8 2026 midnight** (Canvas, one page, five elements, one uploader)
-and **final Fri Oct 2 2026 11:59 PM** (Box, `Group_#.zip`, 40% of the grade).
+and **final Fri Oct 2 2026 11:59 PM** (Box, `Group_11.zip` — we are Group 11, 40% of the grade).
 
-The direction may not be decided yet. Check the "Where we are" table in `README.md`. Do not start
-building a system for a direction the team has not agreed on; the evaluation harness for the agreed
-direction comes first regardless.
+**Direction is decided (Sep 7 poll, 4 of 4): Predicting the Second Gift** — donor retention on
+DonorsChoose Open Data 2002–2019 (ICPSR 37898). The submitted proposal is
+`docs/proposal/Proposal_v3_FINAL.docx`; `data/README.md` has the fetch recipe and label rules. Do not
+build anything until Albert's feedback (expected Thu Sep 10) is in `README.md`; the evaluation harness
+comes first regardless.
 
 ## 2. The standard: every number is rebuilt, every result is re-runnable
 

@@ -13,7 +13,7 @@ fill-in template. Direction options are in a separate memo, `Project_DIRECTION-M
 | | Due | Where | Graded? |
 |---|---|---|---|
 | **Proposal** | **Tue Sep 8, midnight** | Canvas → *Final Project Proposal - per team* | No — but approval is mandatory before you may present |
-| **Final project** | **Fri Oct 2, 11:59 PM** | Box link on the Canvas assignment, one file `Group_#.zip` | **Yes — 40% of the course grade** |
+| **Final project** | **Fri Oct 2, 11:59 PM** | Box link on the Canvas assignment, one file `Group_#.zip` — **ours is `Group_11.zip`** | **Yes — 40% of the course grade** |
 
 From the Sep 1 announcement:
 - Teams already exist on Canvas, so the proposal is **team-scoped**: **one person uploads, it counts for everyone.**
@@ -98,7 +98,7 @@ themselves. Everyone floors at half the project score; an equal share (1/(n−1)
 
 ---
 
-## 5. Deliverables — one `Group_#.zip` to Box by Oct 2
+## 5. Deliverables — one `Group_#.zip` (ours: `Group_11.zip`) to Box by Oct 2
 
 1. **Slides** used in the presentation.
 2. **Annotated notebook or small repo** — *"in the style of the course starter code"*: what you tried, what you kept, why. If not a notebook, a detailed `README.md`. *"If you think something is clear, someone else reading your code will still find it confusing."*
