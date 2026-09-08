@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hero.png" alt="GBUS 8496 Final Group Project — Darden, Fall 2026" width="100%">
+<img src="assets/hero.png?v=2" alt="GBUS 8496 Final Group Project — Darden, Fall 2026" width="100%">
 
 # GBUS 8496 · Final Group Project
 
