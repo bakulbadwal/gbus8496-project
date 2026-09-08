@@ -23,7 +23,8 @@ const doc = new Document({
     children: [
       new Paragraph({ children: [new TextRun({ text: "Project Proposal: Predicting the Second Gift", font: FONT, size: 32, bold: true })], spacing: { after: 40 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: "222222", space: 2 } } }),
       P(["GBUS 8496 Machine Learning and AI for Business · Prof. Michael Albert · Group 11 · September 8, 2026"], { after: 20 }),
-      P([["Team: ", { bold: true }], "Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique"], { after: 60 }),
+      P([["Team: ", { bold: true }], "Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique"], { after: 20 }),
+      P([["Repository: ", { bold: true }], "github.com/bakulbadwal/gbus8496-project — this proposal, the two fallback directions we considered, the data recipe, and the working notebooks as they are built."], { after: 60 }),
 
       H("Problem and business application"),
       P(["Most nonprofits acquire a donor once and never hear from them again. The highest-leverage moment in the donor lifecycle is the second gift, and the organizations least equipped to work it are small ones. Our stakeholder is the development lead at a nonprofit with roughly a $500K annual budget and no dedicated data staff. Each month she can personally follow up with only a fraction of the people who gave for the first time, and today she builds that list by hand from recency and gift size."]),
