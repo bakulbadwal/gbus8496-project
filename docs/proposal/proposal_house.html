@@ -6,21 +6,21 @@
 @page{size:letter;margin:0}
 :root{--primary:#C9A96A;--ink:#F2EDE3;--ink-muted:#D9D3C6;--ink-subtle:#B4AE9F;--ink-tertiary:#8A8474;--canvas:#081321;--s1:#0d1c2b;--s2:#13253a;--hair:rgba(201,169,106,.22);--hair2:rgba(201,169,106,.45)}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:9.6pt;line-height:1.36}
-.page{width:8.5in;height:11in;padding:.42in .5in .38in;position:relative;overflow:hidden}
-.top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--hair2);padding-bottom:7pt}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:8.7pt;line-height:1.27}
+.page{width:8.5in;height:11in;padding:.38in .5in .55in;position:relative;overflow:hidden}
+.top{display:grid;grid-template-columns:1fr 2.55in;gap:14pt;align-items:start;border-bottom:1px solid var(--hair2);padding-bottom:6pt}
 .eyebrow{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.2pt;letter-spacing:.16em;text-transform:uppercase;color:var(--primary)}
-h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:22pt;line-height:1.05;margin:3pt 0 3pt;color:#fff;letter-spacing:-.01em}
-.lede{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:10.4pt;color:var(--ink-muted);margin:0;max-width:5.6in}
-.links{text-align:right;font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;line-height:1.7;color:var(--ink-subtle);padding-top:2pt;white-space:nowrap}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:21pt;white-space:nowrap;line-height:1.05;margin:3pt 0 3pt;color:#fff;letter-spacing:-.01em}
+.lede{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:10pt;color:var(--ink-muted);margin:0}
+.links{text-align:right;font-family:"IBM Plex Mono",Menlo,monospace;font-size:6.9pt;line-height:1.6;color:var(--ink-subtle);padding-top:2pt;white-space:normal;word-break:break-all}
 .links b{display:block;color:var(--ink);font-weight:500}
 .links a{color:var(--primary);text-decoration:none}
-.team{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;color:var(--ink-subtle);margin:6pt 0 7pt;letter-spacing:.02em}
+.team{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.2pt;color:var(--ink-subtle);margin:5pt 0 5pt;letter-spacing:.02em}
 .team b{color:var(--ink-muted);font-weight:500}
-.glance{display:grid;grid-template-columns:repeat(5,1fr);gap:4pt;margin:0 0 8pt}
-.g{background:var(--s1);border:1px solid var(--hair);border-radius:4px;padding:5pt 6pt}
+.glance{display:grid;grid-template-columns:repeat(5,1fr);gap:4pt;margin:0 0 6pt}
+.g{background:var(--s1);border:1px solid var(--hair);border-radius:4px;padding:4pt 6pt}
 .g .k{font-family:"IBM Plex Mono",Menlo,monospace;font-size:6.4pt;letter-spacing:.14em;color:var(--primary);text-transform:uppercase;margin-bottom:2pt}
-.g .v{font-size:8.2pt;line-height:1.28;color:var(--ink-muted)}
+.g .v{font-size:7.5pt;line-height:1.22;color:var(--ink-muted)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 14pt}
 h2{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin:7pt 0 3pt;padding-bottom:2pt;border-bottom:1px solid var(--hair)}
 h2 span{color:var(--ink-tertiary);margin-right:6pt}
@@ -42,8 +42,7 @@ b{color:#fff;font-weight:600}
   <div class="links">
     <b>GROUP 11 · SEPTEMBER 8, 2026</b>
     <a href="https://github.com/bakulbadwal/gbus8496-project">↗ github.com/bakulbadwal/gbus8496-project</a>
-    <span>proposals · fallbacks · data recipe · notebooks</span>
-    <a href="https://doi.org/10.3886/ICPSR37898.v1">↗ doi.org/10.3886/ICPSR37898.v1</a>
+        <a href="https://doi.org/10.3886/ICPSR37898.v1">↗ doi.org/10.3886/ICPSR37898.v1</a>
   </div>
 </div>
 
