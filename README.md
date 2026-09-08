@@ -13,6 +13,20 @@ One business problem, one artifact we built, one evaluation we can defend.
 
 ---
 
+## The team
+
+All five of us have push access to this repo. GitHub's **Contributors** sidebar only lists people
+who have already pushed a commit, so it will fill in as we each start working — it is not the
+membership list. This table is.
+
+| Member | GitHub | Workstream (see spec §9) |
+|---|---|---|
+| Malorie Black | [@blackm33](https://github.com/blackm33) | TBD — proposed *Second Gift* |
+| Reid Jacobson | [@Reido938](https://github.com/Reido938) | TBD |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
+| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | TBD — proposed *Amazon traction* |
+| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
+
 ## Two deadlines
 
 | | Due | Where | Counts |
@@ -95,16 +109,6 @@ pip install -r requirements.txt
 - Raw data and API keys never get committed. `data/README.md` says how to fetch data; keys live in `.env` (ignored).
 - Notebooks are read aloud in class: annotate every decision, no unexplained cells.
 - A discrepancy between our number and someone else's is a finding, not a bug to hide.
-
-## Team
-
-| Member | GitHub | Workstream (see spec §9) |
-|---|---|---|
-| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
-| Malorie Black | [@blackm33](https://github.com/blackm33) | TBD — proposed *Second Gift* |
-| Reid Jacobson | [@Reido938](https://github.com/Reido938) | TBD |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
-| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | TBD — proposed *Amazon traction* |
 
 ---
 
