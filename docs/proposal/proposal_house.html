@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Predicting the Second Gift — GBUS 8496 proposal, Group 11</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@page{size:letter;margin:0}
+:root{--primary:#C9A96A;--ink:#F2EDE3;--ink-muted:#D9D3C6;--ink-subtle:#B4AE9F;--ink-tertiary:#8A8474;--canvas:#081321;--s1:#0d1c2b;--s2:#13253a;--hair:rgba(201,169,106,.22);--hair2:rgba(201,169,106,.45)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:9.6pt;line-height:1.36}
+.page{width:8.5in;height:11in;padding:.42in .5in .38in;position:relative;overflow:hidden}
+.top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--hair2);padding-bottom:7pt}
+.eyebrow{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.2pt;letter-spacing:.16em;text-transform:uppercase;color:var(--primary)}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:22pt;line-height:1.05;margin:3pt 0 3pt;color:#fff;letter-spacing:-.01em}
+.lede{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:10.4pt;color:var(--ink-muted);margin:0;max-width:5.6in}
+.links{text-align:right;font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;line-height:1.7;color:var(--ink-subtle);padding-top:2pt;white-space:nowrap}
+.links b{display:block;color:var(--ink);font-weight:500}
+.links a{color:var(--primary);text-decoration:none}
+.team{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;color:var(--ink-subtle);margin:6pt 0 7pt;letter-spacing:.02em}
+.team b{color:var(--ink-muted);font-weight:500}
+.glance{display:grid;grid-template-columns:repeat(5,1fr);gap:4pt;margin:0 0 8pt}
+.g{background:var(--s1);border:1px solid var(--hair);border-radius:4px;padding:5pt 6pt}
+.g .k{font-family:"IBM Plex Mono",Menlo,monospace;font-size:6.4pt;letter-spacing:.14em;color:var(--primary);text-transform:uppercase;margin-bottom:2pt}
+.g .v{font-size:8.2pt;line-height:1.28;color:var(--ink-muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 14pt}
+h2{font-family:"IBM Plex Mono",Menlo,monospace;font-size:7.4pt;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin:7pt 0 3pt;padding-bottom:2pt;border-bottom:1px solid var(--hair)}
+h2 span{color:var(--ink-tertiary);margin-right:6pt}
+p{margin:0 0 4pt}
+ul{margin:0 0 3pt 11pt;padding:0}li{margin:0 0 2.5pt}
+b{color:#fff;font-weight:600}
+.callout{background:var(--s2);border-left:2px solid var(--primary);padding:5pt 7pt;margin:5pt 0 4pt;color:var(--ink-muted)}
+.callout b{color:var(--ink)}
+.foot{position:absolute;left:.5in;right:.5in;bottom:.3in;border-top:1px solid var(--hair);padding-top:4pt;font-family:"IBM Plex Mono",Menlo,monospace;font-size:6.6pt;color:var(--ink-tertiary);display:flex;justify-content:space-between}
+.foot a{color:var(--ink-subtle);text-decoration:none}
+</style></head><body><div class="page">
+
+<div class="top">
+  <div>
+    <div class="eyebrow">Final project proposal · GBUS 8496 Machine Learning and AI for Business · Prof. Michael Albert</div>
+    <h1>Predicting the Second Gift</h1>
+    <p class="lede">Which first-time donors will give again, and which ones a small nonprofit should spend its scarce staff hours on.</p>
+  </div>
+  <div class="links">
+    <b>GROUP 11 · SEPTEMBER 8, 2026</b>
+    <a href="https://github.com/bakulbadwal/gbus8496-project">↗ github.com/bakulbadwal/gbus8496-project</a>
+    <span>proposals · fallbacks · data recipe · notebooks</span>
+    <a href="https://doi.org/10.3886/ICPSR37898.v1">↗ doi.org/10.3886/ICPSR37898.v1</a>
+  </div>
+</div>
+
+<div class="team"><b>Team</b> Bakul Badwal · Malorie Black · Reid Jacobson · Thadeus Knospe · Rodolfo Perez-Cortes Manrique</div>
+
+<div class="glance">
+  <div class="g"><div class="k">Stakeholder</div><div class="v">Development lead at a ~$500K nonprofit, no data staff</div></div>
+  <div class="g"><div class="k">Decision</div><div class="v">Which first-time donors get a personal follow-up, and where the cutoff sits</div></div>
+  <div class="g"><div class="k">Data</div><div class="v">DonorsChoose Open Data 2002–2019 (ICPSR 37898): 11.4M donations, 2.1M projects</div></div>
+  <div class="g"><div class="k">Ground truth</div><div class="v">Observed second gift within 12 months, held-out 2017–18 cohorts</div></div>
+  <div class="g"><div class="k">Honest baseline</div><div class="v">RFM — the recency-and-amount rule small nonprofits actually use</div></div>
+</div>
+
+<div class="cols">
+<div>
+<h2><span>01</span>Problem and business application</h2>
+<p>Most nonprofits acquire a donor once and never hear from them again. The second gift is the highest-leverage moment in the donor lifecycle, and small organizations are the least equipped to work it. Our stakeholder is the development lead at a nonprofit with roughly a $500K budget and no data staff: each month she can personally follow up with only a fraction of first-time donors, and today she builds that list by hand from recency and gift size.</p>
+<p><b>The decision is specific:</b> given a fixed outreach budget in staff hours, which first-time donors receive follow-up, and where does the cutoff sit? Our output is a ranked follow-up list with a recommended threshold and the expected dollars behind it. One of us founded GoGood Technologies, a donor-engagement platform serving exactly this customer, so real practitioners can check the output. <b>In practice:</b> the hand-built list becomes a scored one, and the budget question gets a number.</p>
+
+<h2><span>02</span>Dataset and source</h2>
+<p><i>DonorsChoose Open Data, United States, 2002–2019</i> (ICPSR 37898). Public-use files, free with a no-cost ICPSR account. Two files: Donations (11,377,479 records) and Projects (2,149,817), covering September 2002 to June 2019 with activity through December 2019. Donations carries DONOR_ID, so we reconstruct each donor's history and build our own label, plus amount, month, donor type, and matched, teacher-referred, and thank-you-packet flags. Two constraints accepted up front: dates are month-level, and there is no demographics file, so donor type is the only donor attribute.</p>
+
+<h2><span>03</span>What we will build</h2>
+<ul>
+<li><b>Label.</b> For each donor whose first recorded gift falls in the observation window: a second gift within 12 months? Only cohorts whose window closes before December 2019 are labeled.</li>
+<li><b>Features.</b> Donation-side (amount, seasonality, matched, gift card, teacher-referred, donor type, thank-you packet) and project-side (subject, grade, cost, state). Fields that could post-date the second gift are checked for timing before use.</li>
+<li><b>Split.</b> Time-based, never random: train on first-gift cohorts through 2016, hold out 2017 and 2018, observe outcomes through December 2019.</li>
+<li><b>Decision layer.</b> Predicted probability and second-gift amount become expected value per contact, minus an explicit cost per contact in staff time; the threshold is derived from those payoffs, not tuned.</li>
+<li><b>Cost at scale.</b> Scoring a year of first-time donors is a batch job on one machine, no API spend. The operating cost is the staff hours the threshold allocates, reported explicitly.</li>
+</ul>
+</div>
+<div>
+<h2><span>04</span>Evaluation — what we measure, against what ground truth</h2>
+<p>Ground truth is observed donor behavior in the held-out cohorts, not hand labels. Four measurements:</p>
+<ul>
+<li><b>Discrimination and calibration.</b> PR-AUC because the class is imbalanced, plus a calibration curve: an uncalibrated score cannot support a threshold.</li>
+<li><b>Honest baselines.</b> RFM, the recency-and-amount heuristic small nonprofits actually use, plus random targeting and contact-everyone. Business metric: net value retained per hour of outreach at a fixed budget. If the model does not beat RFM, that is the finding.</li>
+<li><b>Does stewardship predict retention?</b> The thank-you-packet flag records a real post-gift action. We estimate its association with a second gift controlling for gift size; packets were not randomly assigned, so association, not cause.</li>
+<li><b>Error analysis by cohort.</b> We expect the model to be weakest on donors with the thinnest history, the case the stakeholder cares about most.</li>
+</ul>
+<div class="callout"><b>Limitation we test rather than assume.</b> DonorsChoose donors are marketplace donors; small-nonprofit donors are relational. We test which signal survives: behavioral features versus platform-specific ones.</div>
+
+<h2><span>05</span>What we need from you</h2>
+<ul>
+<li>Confirmation that a well-supported negative finding against the RFM baseline is an acceptable result.</li>
+<li>Guidance on ~13 GB on JupyterHub, or approval to use a stratified sample of donor cohorts.</li>
+<li>Any concern about anchoring the framing to a company a team member founded.</li>
+</ul>
+</div>
+</div>
+
+<div class="foot">
+  <span>GROUP 11 · PROPOSAL SUBMITTED ON CANVAS SEP 8, 2026 · ALBERT'S FEEDBACK EXPECTED THU SEP 10</span>
+  <span><a href="https://github.com/bakulbadwal/gbus8496-project">github.com/bakulbadwal/gbus8496-project</a></span>
+</div>
+</div></body></html>

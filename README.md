@@ -30,7 +30,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Team chat (Teams) | ✅ open |
 | Everyone on this repo | ✅ all five invited with push access; four accepted, Malorie's invite pending (checked Sep 8 AM) |
 | Direction chosen | ✅ **Predicting the Second Gift** (Malorie) — team poll Sep 7, 4 of 4. Amazon traction (Rodolfo) is the fallback. Reasoning: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
-| Proposal drafted → uploaded | ✅ final: [docs/proposal/Proposal_v3_FINAL.docx](docs/proposal/Proposal_v3_FINAL.docx) (Group 11 filled in) · ⏳ Bakul uploads to Canvas **Tue Sep 8 before 11:59 PM** · Albert's feedback expected Thu Sep 10 |
+| Proposal drafted → uploaded | ✅ final: [docs/proposal/Proposal_v4_FINAL.docx](docs/proposal/Proposal_v4_FINAL.docx) (styled, repo link, Group 11) · pretty PDF: [Proposal_v4_house-style.pdf](docs/proposal/Proposal_v4_house-style.pdf) · ⏳ Bakul uploads to Canvas **Tue Sep 8 before 11:59 PM** · Albert's feedback expected Thu Sep 10 |
 | Evaluation harness + gold set | not started (build this **before** the system) |
 | System, baselines, error analysis, cost model | not started |
 | Slides, exec summary, AI-use note, zip | not started |
@@ -39,7 +39,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 
 1. [docs/Final_Project_SPEC.md](docs/Final_Project_SPEC.md) — Albert's assignment decoded: the five proposal elements, the two hard requirements, the grading formula, the six deliverables, the nine worked examples, a week-by-week timeline, and a five-person workstream split.
 2. [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) — every candidate direction scored against the rubric, newest first. Top section = current recommendation.
-3. [docs/proposal/](docs/proposal/) — **`Proposal_v3_FINAL.docx` is what was submitted** (Second Gift, Group 11). `Proposal_v2` (Amazon) and `Proposal_v1` (DonorsChoose screening) are the fallbacks, kept for the record. [data/README.md](data/README.md) has the ICPSR fetch recipe and the label/leakage notes.
+3. [docs/proposal/](docs/proposal/) — **`Proposal_v4_FINAL.docx` is the submitted version** (Second Gift, Group 11; v3 is the plain draft it replaced). `Proposal_v4_house-style.pdf` is the same content in the house look for sharing. `Proposal_v2` (Amazon) and `Proposal_v1` (DonorsChoose screening) are the fallbacks, kept for the record. [data/README.md](data/README.md) has the ICPSR fetch recipe and the label/leakage notes.
 4. [docs/albert/Final_Group_Project_Albert.pdf](docs/albert/Final_Group_Project_Albert.pdf) — the original assignment, verbatim. When in doubt, this wins.
 
 His nine examples are *suggestions*. Any business problem qualifies as long as there is a named user, a real dataset, an artifact we built, and an evaluation against ground truth.
