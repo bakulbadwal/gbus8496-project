@@ -13,11 +13,26 @@ Albert's original assignment is `docs/albert/Final_Group_Project_Albert.pdf` and
 Two deadlines: **proposal Tue Sep 8 2026 midnight** (Canvas, one page, five elements, one uploader)
 and **final Fri Oct 2 2026 11:59 PM** (Box, `Group_11.zip` — we are Group 11, 40% of the grade).
 
-**Direction is decided (Sep 7 poll, 4 of 4): Predicting the Second Gift** — donor retention on
-DonorsChoose Open Data 2002–2019 (ICPSR 37898). The submitted proposal is
-`docs/proposal/Proposal_v3_FINAL.docx`; `data/README.md` has the fetch recipe and label rules. Do not
-build anything until Albert's feedback (expected Thu Sep 10) is in `README.md`; the evaluation harness
-comes first regardless.
+**Direction is decided (Sep 7 poll, 4 of 4) and APPROVED by Albert on Sep 9: Predicting the Second
+Gift** — donor retention on DonorsChoose Open Data 2002–2019 (ICPSR 37898). The submitted proposal is
+`docs/proposal/Proposal_v4_FINAL.docx`.
+
+🔴 **Read `docs/ALBERT-FEEDBACK.md` before writing any code.** It carries his guidance and it
+overrides the proposal where they differ. The three things that change what you do:
+
+1. **One check gates everything.** `src/check_donor_id.py` must pass before any other work — it
+   confirms `DONOR_ID` links gifts across projects. If it fails, the project is dead and we move to
+   the Amazon fallback. Do not build around it, do not assume it passes.
+2. **His measurement order, not ours.** (1) the ranking result at stewardship capacity against the
+   baseline ladder — this is the decision and the headline; (2) calibration and error analysis by
+   cohort; (3) the thank-you-packet question, dropped without regret if the flag's timing is
+   ambiguous. Do not start (2) before (1) produces a number.
+3. **Compute.** Use the JupyterHub **Very Large Virtual Machine**; the full files fit. If you sample
+   anyway, sample **whole first-gift cohorts by month**, never random rows — random rows destroy
+   donor histories and flatten the time trend.
+
+`data/README.md` has the fetch recipe and the label rules. The evaluation harness still comes before
+the model.
 
 ## 2. The standard: every number is rebuilt, every result is re-runnable
 

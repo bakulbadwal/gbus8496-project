@@ -44,9 +44,11 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Team chat (Teams) | ✅ open |
 | Everyone on this repo | ✅ all five invited with push access; four accepted, Malorie's invite pending (checked Sep 8 AM) |
 | Direction chosen | ✅ **Predicting the Second Gift** (Malorie) — team poll Sep 7, 4 of 4. Amazon traction (Rodolfo) is the fallback. Reasoning: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
-| Proposal drafted → uploaded | ✅ final: [docs/proposal/Proposal_v4_FINAL.docx](docs/proposal/Proposal_v4_FINAL.docx) (styled, repo link, Group 11) · pretty PDF: [Proposal_v4_house-style.pdf](docs/proposal/Proposal_v4_house-style.pdf) · ⏳ Bakul uploads to Canvas **Tue Sep 8 before 11:59 PM** · Albert's feedback expected Thu Sep 10 |
-| Evaluation harness + gold set | not started (build this **before** the system) |
-| System, baselines, error analysis, cost model | not started |
+| Proposal submitted → **APPROVED** | ✅ submitted Sep 8; **Albert approved it Sep 9** ("a well-designed proposal"). His guidance changes the build order — read [docs/ALBERT-FEEDBACK.md](docs/ALBERT-FEEDBACK.md) before doing anything |
+| 🔴 **Donor-ID link check** | **BLOCKING — do this first.** Albert: confirm `DONOR_ID` links gifts across projects, *"the whole project depends on it"*. Run `python src/check_donor_id.py <donations csv>` on the Very Large VM and post the numbers in the chat |
+| Skeleton (label → split → scorer → dumb baseline) | not started — starts once the check passes |
+| Evaluation harness + gold set | not started (build this **before** the model) |
+| Measurements 1–3 (Albert's order) | not started — ranking-at-capacity **first**, then calibration + error analysis, then the thank-you-packet question (droppable) |
 | Slides, exec summary, AI-use note, zip | not started |
 
 ## Read these first
