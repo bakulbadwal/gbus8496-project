@@ -19,13 +19,58 @@ All five of us have push access to this repo. GitHub's **Contributors** sidebar 
 who have already pushed a commit, so it will fill in as we each start working — it is not the
 membership list. This table is.
 
-| Member | GitHub | Workstream (see spec §9) |
+| Member | GitHub | Workstream | Status |
+|---|---|---|---|
+| Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | ready to start |
+| Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ready to start |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | ready to start |
+| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ready to start |
+| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ skeleton pushed Sep 9 |
+
+## Start here — the skeleton is built, pick up your part
+
+The shared foundation is done and smoke-tested, so nobody is blocked and nobody has to agree with
+anyone else about what a "second gift" means. Read
+[`notebooks/01_labels_and_baseline.ipynb`](notebooks/01_labels_and_baseline.ipynb) first — it walks
+through the label decisions and ends with the handoff.
+
+**Setup, on the JupyterHub Very Large VM:**
+
+```bash
+git clone https://github.com/bakulbadwal/gbus8496-project.git && cd gbus8496-project
+pip install -r requirements.txt
+
+# 1. THE BLOCKING CHECK — run this before anything else, post the output in the chat
+python src/check_donor_id.py data/raw/<donations file>.csv
+
+# 2. Build the labelled cohort table everything else reads
+python src/labels.py data/raw/<donations file>.csv data/processed/cohorts.parquet
+
+# 3. The headline measurement: ranking at capacity vs the baseline ladder
+python evals/score.py data/processed/cohorts.parquet holdout
+```
+
+**No ICPSR access yet?** You can still run and change everything today:
+
+```bash
+python evals/make_fixture.py data/raw/fixture_donations.csv   # synthetic, same schema
+```
+
+Every number from the fixture is meaningless by construction — it exists to prove the code runs.
+
+**What each workstream starts from:**
+
+| Owner | Starts from | First thing to produce |
 |---|---|---|
-| Malorie Black | [@blackm33](https://github.com/blackm33) | TBD — proposed *Second Gift* |
-| Reid Jacobson | [@Reido938](https://github.com/Reido938) | TBD |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | TBD |
-| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | TBD — proposed *Amazon traction* |
-| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | TBD |
+| Reid | `cohorts.parquet` joined back to the projects file | features that beat first-gift-amount alone |
+| Rodolfo | `cohorts.parquet`, **train split only** | a model scored through `evals/score.py`; touch the holdout once |
+| Thadeus | `evals/score.py` | calibration curve, and the error analysis cut by cohort |
+| Malorie | the capacity table | a real cost per contact and a defensible capacity number |
+
+**Rules that keep this comparable.** The label window, the split boundary and the capacity all live
+in [`src/config.py`](src/config.py) and nowhere else — if you want to change one, say so in the chat
+first, because it invalidates every number anyone has already produced. The holdout split is not
+looked at until a result is final.
 
 ## Two deadlines
 
@@ -46,8 +91,8 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Direction chosen | ✅ **Predicting the Second Gift** (Malorie) — team poll Sep 7, 4 of 4. Amazon traction (Rodolfo) is the fallback. Reasoning: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
 | Proposal submitted → **APPROVED** | ✅ submitted Sep 8; **Albert approved it Sep 9** ("a well-designed proposal"). His guidance changes the build order — read [docs/ALBERT-FEEDBACK.md](docs/ALBERT-FEEDBACK.md) before doing anything |
 | 🔴 **Donor-ID link check** | **BLOCKING — do this first.** Albert: confirm `DONOR_ID` links gifts across projects, *"the whole project depends on it"*. Run `python src/check_donor_id.py <donations csv>` on the Very Large VM and post the numbers in the chat |
-| Skeleton (label → split → scorer → dumb baseline) | not started — starts once the check passes |
-| Evaluation harness + gold set | not started (build this **before** the model) |
+| Skeleton (label → split → scorer → baselines) | ✅ **done Sep 9** — `src/` + `evals/score.py`, smoke-tested end to end on a synthetic fixture (13-cell notebook, 0 errors). Real numbers pending ICPSR access |
+| Evaluation harness | ✅ measurement 1 done (`evals/score.py`) — ranking at capacity vs the baseline ladder. Calibration + error analysis still to come (Thadeus) |
 | Measurements 1–3 (Albert's order) | not started — ranking-at-capacity **first**, then calibration + error analysis, then the thank-you-packet question (droppable) |
 | Slides, exec summary, AI-use note, zip | not started |
 

@@ -11,4 +11,5 @@ ipykernel
 nbconvert
 pypdf
 openpyxl
+pyarrow
 python-dotenv
