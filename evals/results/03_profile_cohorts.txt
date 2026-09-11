@@ -1,0 +1,37 @@
+HOLDOUT: 943,137 donors, 16.1% gave again, $72,670,827 of subsequent giving
+
+=== BY DONOR TYPE ===
+               donors  donor_share  repeat_rate  median_first_gift  subsequent_value  value_share
+donor_type                                                                                       
+citizen donor  814971        0.864        0.126             40.000    16,792,616.780        0.231
+organization      708        0.001        0.698         11,988.195    45,405,467.210        0.625
+teacher        127458        0.135        0.382             65.000    10,472,742.800        0.144
+
+=== VALUE CONCENTRATION — ALL DONOR TYPES: share of subsequent giving held by the top X% of donors ===
+  top   0.01% of donors (      94) →  50.9%
+  top   0.10% of donors (     943) →  69.7%
+  top   1.00% of donors (   9,431) →  81.2%
+  top   5.00% of donors (  47,156) →  93.5%
+  top  10.00% of donors (  94,313) →  98.0%
+
+=== 12 LARGEST SECOND-GIFT TOTALS ===
+   donor_type  cohort  first_gift_amount  second_gift_count  second_gift_amount
+ organization 2018-04        217,069.090              66348       2,251,041.350
+ organization 2017-06         29,601.550              36426       1,995,481.080
+ organization 2017-10      4,090,076.520               2271       1,808,187.280
+ organization 2018-08         44,459.430              47833       1,770,072.440
+ organization 2017-04        595,577.650              25112       1,658,672.090
+ organization 2018-08        111,636.790              13549       1,570,123.090
+ organization 2018-10         71,166.440              41139       1,405,481.240
+ organization 2018-08        193,878.830               5021       1,355,989.260
+ organization 2017-09          6,013.170                665         985,720.550
+ organization 2018-10      4,751,745.330               1251         984,936.490
+ organization 2017-05         38,446.840              17258         972,880.880
+citizen donor 2017-04         74,512.760               1424         883,799.890
+
+=== VALUE CONCENTRATION — CITIZEN DONOR ONLY: share of subsequent giving held by the top X% of donors ===
+  top   0.10% of donors (     814) →  33.7%
+  top   1.00% of donors (   8,149) →  63.0%
+  top  10.00% of donors (  81,497) →  97.8%
+
+config.STAKEHOLDER_POPULATION = 'citizen donor': 814,971 donors, 12.6% repeat, $16,792,617 subsequent giving

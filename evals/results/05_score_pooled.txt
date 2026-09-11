@@ -1,0 +1,22 @@
+Scoring split 'holdout', population = all donor types: 943,137 donors, 16.1% gave again, $72,670,827 of subsequent giving in total
+
+               ranking  capacity  donors_contacted  repeat_donors_found  precision  recall  value_identified  value_capture_rate  value_per_contact
+           gift_amount    0.0100              9443                 3685     0.3902  0.0243   49,529,621.5700              0.6816         5,245.1151
+first_month_gift_count    0.0100              9443                 4627     0.4900  0.0305   45,434,220.1900              0.6252         4,811.4180
+                random    0.0100              9443                 1548     0.1639  0.0102      717,190.4500              0.0099            75.9494
+           gift_amount    0.0500             47170                15195     0.3221  0.1000   54,418,192.1800              0.7488         1,153.6611
+first_month_gift_count    0.0500             47170                20113     0.4264  0.1324   52,181,326.2000              0.7181         1,106.2397
+                random    0.0500             47170                 7596     0.1610  0.0500    3,566,965.9300              0.0491            75.6194
+           gift_amount    0.1000             94326                28011     0.2970  0.1844   58,018,670.6500              0.7984           615.0867
+first_month_gift_count    0.1000             94326                35072     0.3718  0.2309   56,136,824.7700              0.7725           595.1363
+                random    0.1000             94326                15294     0.1621  0.1007    6,459,072.0500              0.0889            68.4761
+           gift_amount    0.2000            188638                46642     0.2473  0.3071   61,758,557.4000              0.8498           327.3919
+first_month_gift_count    0.2000            188638                50495     0.2677  0.3325   58,938,737.7400              0.8110           312.4436
+                random    0.2000            188638                30303     0.1606  0.1995   16,528,472.6500              0.2274            87.6201
+           gift_amount    0.5000            471576                92603     0.1964  0.6097   67,474,297.2800              0.9285           143.0826
+first_month_gift_count    0.5000            471576                88583     0.1878  0.5833   64,197,956.8800              0.8834           136.1349
+                random    0.5000            471576                76124     0.1614  0.5012   33,559,929.7700              0.4618            71.1655
+
+Reference — contact everyone: 943,137 contacts, $72,670,827 identified, $77.05 per contact
+
+At the stewardship capacity (10%), best ranking is 'gift_amount': $615.09 identified per contact, 79.8% of all subsequent giving reached.

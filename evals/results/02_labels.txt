@@ -1,0 +1,41 @@
+Separator: TAB
+Resolved columns:
+  donor_id    → DONOR_ID
+  project_id  → PROJECT_ID
+  month       → CREATED_MONTH
+  amount      → AMOUNT
+  matched     → PAYMENT_WAS_MATCHED
+  teacher_referred → IS_TEACHER_REFERRED
+  thank_you_packet → THANK_YOU_PACKET_MAILED
+  gift_card   → PAYMENT_INCLUDED_CAMPAIGN_GIFT_1
+  donor_type  → DONOR_TYPE
+  chunk 1: 1,000,000 rows
+  chunk 2: 2,000,000 rows
+  chunk 3: 3,000,000 rows
+  chunk 4: 4,000,000 rows
+  chunk 5: 5,000,000 rows
+  chunk 6: 6,000,000 rows
+  chunk 7: 7,000,000 rows
+  chunk 8: 8,000,000 rows
+  chunk 9: 9,000,000 rows
+  chunk 10: 10,000,000 rows
+  chunk 11: 11,000,000 rows
+  chunk 12: 11,377,479 rows
+
+Label construction:
+  rows_dropped_nonpositive_amount          151
+  donors_before_window_filter              3,466,533
+  positive_rate_strict                     0.1525
+  share_with_multiple_first_month_gifts    0.1047
+  donors_dropped_unclosed_window           189,083
+  donors_dropped_pre_coverage              297
+  donors_labelled                          3,277,153
+  positive_rate                            0.1579
+
+By split:
+          donors  positive_rate
+split                          
+holdout   943137       0.161034
+train    2334016       0.156635
+
+Wrote 3,277,153 labelled donors to /Users/bakulbadwal/Documents/GitHub/gbus8496-project/data/processed/cohorts.parquet

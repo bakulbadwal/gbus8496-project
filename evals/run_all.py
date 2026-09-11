@@ -14,8 +14,7 @@ It runs, in order, and stops at the first failure:
   4. evals/score.py            measurement 1 on citizen donors, then pooled for contrast
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
-presentation are traceable to a file, not to memory. Total runtime on a laptop is about ten
-minutes; the label step is most of it.
+presentation are traceable to a file, not to memory. Total runtime on a laptop is about a minute; measured 1.1 min on Sep 11.
 
 When the modelling workstream lands, add its scoring step here as step 5 so the model and the
 baselines are always produced by the same command.

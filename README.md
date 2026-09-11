@@ -63,7 +63,7 @@ Robustness note, already checked: 17 citizen-donor accounts made 200+ repeat gif
 
 That is the bar. Gift size finds dollars but not people: four in five contacts on its list do not return. A model earns its place by beating **$116 per contact** at 10% capacity, or by finding people the size rule misses.
 
-## Setup — takes ten minutes
+## Setup — takes about five minutes, most of it the download
 
 ```bash
 git clone https://github.com/bakulbadwal/gbus8496-project.git && cd gbus8496-project
@@ -75,8 +75,8 @@ free account, no institutional login needed — and unzip it into `data/raw/`. I
 never goes into git. Then, in order:
 
 ```bash
-python src/check_donor_id.py  data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv     # ~3 min, prints PASS
-python src/labels.py          data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv data/processed/cohorts.parquet   # ~5 min
+python src/check_donor_id.py  data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv     # ~35 s, prints PASS
+python src/labels.py          data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv data/processed/cohorts.parquet   # ~30 s
 python evals/profile_cohorts.py data/processed/cohorts.parquet                    # who is in it
 python evals/score.py         data/processed/cohorts.parquet holdout              # measurement 1
 ```
