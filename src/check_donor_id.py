@@ -50,6 +50,14 @@ DONOR_CANDIDATES = ["donor_id", "donorid", "donor", "donoracctid"]
 PROJECT_CANDIDATES = ["projectid", "project_id", "proj_id", "projid"]
 
 
+def detect_sep(path):
+    """ICPSR ships delimited files as tab-separated .tsv; Kaggle's older release was .csv.
+    Sniff the header line rather than trust the extension, so a renamed file cannot fool us."""
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        header = f.readline()
+    return "\t" if header.count("\t") > header.count(",") else ","
+
+
 def pick_column(header, candidates, role):
     """Find one column in `header` matching any of `candidates`, case- and underscore-insensitively."""
     normalized = {c.lower().replace("_", ""): c for c in header}
@@ -66,9 +74,11 @@ def pick_column(header, candidates, role):
 
 def main(path):
     # Read only the header first, so we can pick columns before committing to a big read.
-    header = list(pd.read_csv(path, nrows=0).columns)
+    sep = detect_sep(path)
+    header = list(pd.read_csv(path, nrows=0, sep=sep).columns)
     donor_col = pick_column(header, DONOR_CANDIDATES, "donor")
     project_col = pick_column(header, PROJECT_CANDIDATES, "project")
+    print(f"Separator            : {'TAB' if sep == chr(9) else 'comma'}")
     print(f"Using donor column   : {donor_col}")
     print(f"Using project column : {project_col}")
     print(f"Streaming {path} in chunks of {CHUNK:,} rows...\n")
@@ -80,7 +90,7 @@ def main(path):
     projects_per_donor = {}
     rows = 0
 
-    reader = pd.read_csv(path, usecols=[donor_col, project_col], chunksize=CHUNK,
+    reader = pd.read_csv(path, sep=sep, usecols=[donor_col, project_col], chunksize=CHUNK,
                          dtype=str, on_bad_lines="warn")
     for i, chunk in enumerate(reader, start=1):
         chunk = chunk.dropna(subset=[donor_col])

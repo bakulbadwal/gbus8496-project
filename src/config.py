@@ -44,14 +44,43 @@ STEWARDSHIP_CAPACITY = 0.10                       # default: she can reach the t
 CAPACITY_SWEEP = [0.01, 0.05, 0.10, 0.20, 0.50]   # reported as a curve, so the result is not one
                                                   # cherry-picked operating point
 
+# ── The population — a scoping decision the team must confirm ────────────────────────────────────
+# The file holds three donor types, and they are not one population (holdout cohorts, Sep 11):
+#
+#     type            share of donors   repeat rate   share of subsequent $   median first gift
+#     citizen donor        86.4%           12.6%             23.1%                 $40
+#     organization          0.1%           69.8%             62.5%             $11,988
+#     teacher              13.5%           38.2%             14.4%                 $65
+#
+# 708 organizations hold 62.5% of every dollar that came back; the largest made 66,348 donations in
+# its window. Those are corporate matching programs and foundations, not people a development lead
+# steward. Teachers are seeding their own classrooms. Pooling all three makes any ranker look
+# brilliant by finding the corporations, which is not the decision our stakeholder faces.
+#
+# Default: score citizen donors only. Set to None to score everyone (the pooled number is reported
+# in the notebook for contrast). Labels are built for ALL donors regardless — this filters at
+# scoring time, so the choice is reversible and both numbers stay reproducible.
+STAKEHOLDER_POPULATION = "citizen donor"
+
 # ── Column names ─────────────────────────────────────────────────────────────────────────────────
 # The ICPSR release may not use the same names as the older Kaggle release. Rather than hardcode,
 # every loader resolves names through these candidate lists (case- and underscore-insensitive).
 # Add to a list rather than editing code elsewhere.
 COLUMN_CANDIDATES = {
+    # required — label construction cannot proceed without these four
     "donor_id":   ["donor_id", "donorid", "donor", "donoracctid"],
     "project_id": ["projectid", "project_id", "proj_id", "projid"],
     "month":      ["created_month", "donation_created_month", "donation_month", "month",
                    "donation_received_date", "created_date", "donation_timestamp"],
     "amount":     ["amount", "donation_amount", "donation_total", "dollar_amount"],
+    # optional first-gift attributes — carried onto the cohort row when present, skipped when not.
+    # Verified against the ICPSR 37898 DS1 codebook (docs/codebook/DS1_Donations_Codebook.pdf).
+    "donor_type":       ["donor_type", "donortype"],
+    "matched":          ["payment_was_matched", "matched"],
+    "teacher_referred": ["is_teacher_referred", "teacher_referred"],
+    "thank_you_packet": ["thank_you_packet_mailed", "thankyou_packet_mailed", "thank_you_packet"],
+    "gift_card":        ["payment_included_campaign_gift_1", "payment_included_campaign_gift_card"],
 }
+REQUIRED_COLUMNS = ("donor_id", "project_id", "month", "amount")
+OPTIONAL_FLAGS = ("matched", "teacher_referred", "thank_you_packet", "gift_card")   # yes/no style
+OPTIONAL_CATEGORICAL = ("donor_type",)

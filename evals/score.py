@@ -110,10 +110,18 @@ def contact_everyone_reference(frame):
     }
 
 
-def main(cohorts_path, split="holdout", model_scores=None):
+def select_population(cohorts, population=config.STAKEHOLDER_POPULATION):
+    """Apply the population scoping decision from config. See the comment there for why."""
+    if population is None or "donor_type" not in cohorts.columns:
+        return cohorts, "all donor types"
+    return cohorts[cohorts["donor_type"] == population], population
+
+
+def main(cohorts_path, split="holdout", model_scores=None, population=config.STAKEHOLDER_POPULATION):
     cohorts = pd.read_parquet(cohorts_path)
+    cohorts, pop_label = select_population(cohorts, population)
     frame = cohorts[cohorts["split"] == split].reset_index(drop=True)
-    print(f"Scoring split '{split}': {len(frame):,} donors, "
+    print(f"Scoring split '{split}', population = {pop_label}: {len(frame):,} donors, "
           f"{frame['gave_again'].mean():.1%} gave again, "
           f"${frame['second_gift_amount'].sum():,.0f} of subsequent giving in total\n")
 
@@ -142,6 +150,8 @@ def main(cohorts_path, split="holdout", model_scores=None):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__)
-        print("Usage: python evals/score.py <cohorts parquet> [split]")
+        print("Usage: python evals/score.py <cohorts parquet> [split] [--all-donors]")
         sys.exit(1)
-    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "holdout")
+    pop = None if "--all-donors" in sys.argv else config.STAKEHOLDER_POPULATION
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    main(args[0], args[1] if len(args) > 1 else "holdout", population=pop)

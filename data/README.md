@@ -12,7 +12,36 @@ Raw data never gets committed. This file is the reproducible fetch recipe.
 - Verified against the DOI's DataCite registration on Sep 7, 2026: coverage is projects posted
   September 2002 through June 30, 2019, with activity through December 31, 2019.
 
-### Files we use
+### What actually arrived (Sep 11) — read this, it corrects the estimates above
+
+The "Download" button on the study page gives one zip, `ICPSR_37898-V1.zip`, **1.2 GB** (not the
+9 + 4 GB the page shows per dataset — those figures bundle every statistical-package format). It
+unpacks to 3.1 GB and holds all four datasets plus codebooks:
+
+```
+data/raw/ICPSR_37898/
+├── DS0001/37898-0001-Data.tsv    Donations   1.46 GB   11,377,479 rows   ← the one that matters
+├── DS0002/37898-0002-Data.tsv    Resources   0.97 GB   not used yet
+├── DS0003/37898-0003-Data.tsv    Projects    0.62 GB   2,149,817 rows    ← Reid's join target
+├── DS0004/                       restricted-use README only (no data)
+└── */37898-000N-Codebook-ICPSR.pdf            copied to docs/codebook/
+```
+
+**Facts that changed the code:**
+- Files are **tab-separated**, not comma. Both loaders now sniff the separator.
+- Column names are exactly `DONOR_ID, PROJECT_ID, AMOUNT, CREATED_MONTH, DONOR_TYPE,
+  PAYMENT_WAS_MATCHED, IS_TEACHER_REFERRED, THANK_YOU_PACKET_MAILED, PAYMENT_INCLUDED_CAMPAIGN_GIFT_1`.
+  Flags are inconsistently encoded within one file (`Yes/No` for some, `t/f` for others) — normalised.
+- `AMOUNT` has a minimum of **−15.00**: refunds exist. 151 rows; excluded from label construction.
+- Every row has a valid `DONOR_ID` and `PROJECT_ID`. No nulls to handle.
+- `CREATED_MONTH` runs from 2000-03; the 2000–2002 tail is a few hundred rows and is dropped as
+  pre-coverage.
+- Text fields in Projects (`SHORT_DESCRIPTION`, `NEED_STATEMENT`, `ESSAY_TEXT`) are **`MASKED BY
+  ICPSR`** — no essay text is available. Feature work is structured fields only.
+- `DONOR_TYPE` has three values, and they are three populations — see the scoping note in
+  `src/config.py`. **Organizations are 0.1% of donors and 62.5% of subsequent dollars.**
+
+### Files we use (original estimates, kept for the record)
 
 | File | Records (from the DOI record) | Approx. size (from Malorie's schema check) |
 |---|---|---|

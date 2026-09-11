@@ -42,26 +42,42 @@ CHUNK = 1_000_000
 
 # ── column and date handling ─────────────────────────────────────────────────────────────────────
 
-def resolve_columns(header, needed=("donor_id", "month", "amount", "project_id")):
+def resolve_columns(header, needed=config.REQUIRED_COLUMNS,
+                    optional=config.OPTIONAL_FLAGS + config.OPTIONAL_CATEGORICAL):
     """Map our logical names onto whatever the file actually calls them.
 
-    The ICPSR release may differ from the Kaggle one, so nothing is hardcoded. Raises with the real
-    header printed, rather than guessing and producing a silently wrong table.
+    The ICPSR release may differ from the Kaggle one, so nothing is hardcoded. Required columns
+    raise with the real header printed, rather than guessing and producing a silently wrong table.
+    Optional ones are included when found and silently skipped when not.
     """
     normalized = {c.lower().replace("_", ""): c for c in header}
-    resolved = {}
-    for logical in needed:
+
+    def find(logical):
         for candidate in config.COLUMN_CANDIDATES[logical]:
             key = candidate.lower().replace("_", "")
             if key in normalized:
-                resolved[logical] = normalized[key]
-                break
-        else:
+                return normalized[key]
+        return None
+
+    resolved = {}
+    for logical in needed:
+        found = find(logical)
+        if found is None:
             raise KeyError(
                 f"No column found for '{logical}'. Columns present: {list(header)}\n"
                 f"Add the right name to COLUMN_CANDIDATES['{logical}'] in src/config.py."
             )
+        resolved[logical] = found
+    for logical in optional:
+        found = find(logical)
+        if found is not None:
+            resolved[logical] = found
     return resolved
+
+
+def _to_bool(series):
+    """ICPSR encodes flags inconsistently within one file: Yes/No for some, t/f for others."""
+    return series.astype(str).str.strip().str.lower().isin(["yes", "y", "t", "true", "1"])
 
 
 def to_month_index(values):
@@ -88,28 +104,45 @@ def month_str_to_index(s):
 
 # ── loading ──────────────────────────────────────────────────────────────────────────────────────
 
+def detect_sep(path):
+    """ICPSR ships delimited files as tab-separated .tsv; the older Kaggle release was .csv.
+    Sniff the header line rather than trust the extension."""
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        header = f.readline()
+    return "\t" if header.count("\t") > header.count(",") else ","
+
+
 def load_donations(path, chunk=CHUNK, verbose=True):
     """Read only the four columns we need, in chunks, and return one tidy frame.
 
     Only four columns of ~11.4M rows are held, which fits comfortably on the Very Large VM. Reading
     the whole file would not.
     """
-    header = list(pd.read_csv(path, nrows=0).columns)
+    sep = detect_sep(path)
+    header = list(pd.read_csv(path, nrows=0, sep=sep).columns)
     cols = resolve_columns(header)
     if verbose:
+        print(f"Separator: {'TAB' if sep == chr(9) else 'comma'}")
         print("Resolved columns:")
         for logical, actual in cols.items():
             print(f"  {logical:<11} → {actual}")
 
     frames = []
-    reader = pd.read_csv(path, usecols=list(cols.values()), chunksize=chunk,
+    reader = pd.read_csv(path, sep=sep, usecols=list(cols.values()), chunksize=chunk,
                          dtype={cols["donor_id"]: str, cols["project_id"]: str},
                          on_bad_lines="warn")
+    keep = ["donor_id", "project_id", "month_index", "amount"]
+    flags = [f for f in config.OPTIONAL_FLAGS if f in cols]
+    cats = [c for c in config.OPTIONAL_CATEGORICAL if c in cols]
     for i, chunk_df in enumerate(reader, start=1):
         chunk_df = chunk_df.rename(columns={v: k for k, v in cols.items()})
         chunk_df["month_index"] = to_month_index(chunk_df["month"])
         chunk_df["amount"] = pd.to_numeric(chunk_df["amount"], errors="coerce")
-        frames.append(chunk_df[["donor_id", "project_id", "month_index", "amount"]])
+        for f in flags:
+            chunk_df[f] = _to_bool(chunk_df[f])
+        for c in cats:
+            chunk_df[c] = chunk_df[c].astype(str).str.strip()
+        frames.append(chunk_df[keep + flags + cats])
         if verbose:
             print(f"  chunk {i}: {sum(len(f) for f in frames):,} rows")
 
@@ -132,18 +165,29 @@ def build_cohorts(donations, same_month_counts=False, verbose=True):
     donors were dropped for an unclosed window, and how the positive rate moves under the
     same-month rule — so the choices in this file are auditable rather than assumed.
     """
-    d = donations
+    # Refunds and reversals appear as negative or zero amounts (codebook: AMOUNT min = -15.00).
+    # A reversal is not a gift, and must not create a first-gift cohort or count as a second gift.
+    n_nonpositive = int((donations["amount"] <= 0).sum())
+    d = donations[donations["amount"] > 0]
+
     first_month = d.groupby("donor_id")["month_index"].min().rename("cohort_month")
 
     # The first giving *event*: everything the donor gave in their first month, summed. If they
     # funded three classrooms in one checkout, that is one event worth the total.
     first = d.join(first_month, on="donor_id")
     is_first_month = first["month_index"] == first["cohort_month"]
-    first_event = (first[is_first_month]
-                   .groupby("donor_id")
-                   .agg(first_gift_amount=("amount", "sum"),
-                        first_month_gifts=("amount", "size"),
-                        first_project_id=("project_id", "first")))
+    # First-gift attributes ride along. For flags, "any" across the first-month event: if any part
+    # of that first checkout was matched / teacher-referred / got a thank-you packet, the event was.
+    aggs = dict(first_gift_amount=("amount", "sum"),
+                first_month_gifts=("amount", "size"),
+                first_project_id=("project_id", "first"))
+    for f in config.OPTIONAL_FLAGS:
+        if f in d.columns:
+            aggs[f"first_{f}"] = (f, "any")
+    for c in config.OPTIONAL_CATEGORICAL:
+        if c in d.columns:
+            aggs[c] = (c, "first")
+    first_event = first[is_first_month].groupby("donor_id").agg(**aggs)
 
     cohorts = pd.concat([first_month, first_event], axis=1).reset_index()
 
@@ -171,6 +215,7 @@ def build_cohorts(donations, same_month_counts=False, verbose=True):
               .groupby("donor_id").size())
     loose_extra = cohorts["first_month_gifts"] > 1
     diagnostics = {
+        "rows_dropped_nonpositive_amount": n_nonpositive,
         "donors_before_window_filter": len(cohorts),
         "positive_rate_strict": float((cohorts["donor_id"].isin(strict.index)).mean()),
         "share_with_multiple_first_month_gifts": float(loose_extra.mean()),

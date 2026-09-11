@@ -40,14 +40,14 @@ through the label decisions and ends with the handoff.
 git clone https://github.com/bakulbadwal/gbus8496-project.git && cd gbus8496-project
 pip install -r requirements.txt
 
-# 1. THE BLOCKING CHECK — run this before anything else, post the output in the chat
-python src/check_donor_id.py data/raw/<donations file>.csv
+# The data: download ICPSR_37898-V1.zip (delimited) from icpsr.umich.edu/web/ICPSR/studies/37898,
+# free account needed, and unzip into data/raw/. See data/README.md. Then:
 
-# 2. Build the labelled cohort table everything else reads
-python src/labels.py data/raw/<donations file>.csv data/processed/cohorts.parquet
-
-# 3. The headline measurement: ranking at capacity vs the baseline ladder
-python evals/score.py data/processed/cohorts.parquet holdout
+python src/check_donor_id.py  data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv   # PASSED Sep 11
+python src/labels.py          data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv data/processed/cohorts.parquet
+python evals/profile_cohorts.py data/processed/cohorts.parquet                  # who is in it, where the $ sit
+python evals/score.py         data/processed/cohorts.parquet holdout            # measurement 1, citizen donors
+python evals/score.py         data/processed/cohorts.parquet holdout --all-donors   # pooled, for contrast
 ```
 
 **No ICPSR access yet?** You can still run and change everything today:
@@ -90,9 +90,10 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Everyone on this repo | ✅ all five invited with push access; four accepted, Malorie's invite pending (checked Sep 8 AM) |
 | Direction chosen | ✅ **Predicting the Second Gift** (Malorie) — team poll Sep 7, 4 of 4. Amazon traction (Rodolfo) is the fallback. Reasoning: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
 | Proposal submitted → **APPROVED** | ✅ submitted Sep 8; **Albert approved it Sep 9** ("a well-designed proposal"). His guidance changes the build order — read [docs/ALBERT-FEEDBACK.md](docs/ALBERT-FEEDBACK.md) before doing anything |
-| 🔴 **Donor-ID link check** | **BLOCKING — do this first.** Albert: confirm `DONOR_ID` links gifts across projects, *"the whole project depends on it"*. Run `python src/check_donor_id.py <donations csv>` on the Very Large VM and post the numbers in the chat |
-| Skeleton (label → split → scorer → baselines) | ✅ **done Sep 9** — `src/` + `evals/score.py`, smoke-tested end to end on a synthetic fixture (13-cell notebook, 0 errors). Real numbers pending ICPSR access |
-| Evaluation harness | ✅ measurement 1 done (`evals/score.py`) — ranking at capacity vs the baseline ladder. Calibration + error analysis still to come (Thadeus) |
+| ✅ **Donor-ID link check** | **PASSED Sep 11** on the real file: 11,377,479 donations, 3,466,570 distinct donors, **25.4% give to more than one project**, so the ID follows the person. Also: **71.1% of all donors gave exactly once, ever** — the problem statement with a number on it |
+| Data on disk + labels built | ✅ **Sep 11** — ICPSR files in `data/raw/` (gitignored), codebooks in `docs/codebook/`. `cohorts.parquet`: **3,277,153 labelled donors, 15.8% gave again within 12 months**; train 2.33M / holdout 943K; 189K unlabelable 2019 cohorts dropped; 151 refund rows excluded |
+| Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
+| 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
 | Measurements 1–3 (Albert's order) | not started — ranking-at-capacity **first**, then calibration + error analysis, then the thank-you-packet question (droppable) |
 | Slides, exec summary, AI-use note, zip | not started |
 

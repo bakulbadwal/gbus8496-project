@@ -16,9 +16,9 @@ Relayed through Bakul from Albert's reply to our proposal questions; he was answ
 He is right, and it is the single point of failure. If `DONOR_ID` is scoped per project rather than
 per person, there is no donor history, no second-gift label, and no project.
 
-**Run `src/check_donor_id.py` first.** It answers exactly this and nothing else. Post the numbers in
-the team chat before any other work starts. If the answer is bad, we switch to the Amazon fallback
-(`docs/proposal/superseded/Proposal_v2.docx`) the same day, with three weeks still on the clock.
+**✅ PASSED, Sep 11, on the real file.** 3,466,570 distinct donors; 25.4% of them gave to more than one
+distinct project, so the ID follows the person across projects. `src/check_donor_id.py` reproduces it.
+The fallback is no longer needed.
 
 ## 2. Compute and data
 

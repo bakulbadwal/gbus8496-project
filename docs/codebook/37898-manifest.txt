@@ -1,0 +1,118 @@
+File Manifest for ICPSR 37898
+
+DonorsChoose. DonorsChoose Open Data, United States, 2002-2019. ICPSR37898-
+v1. Ann Arbor, MI: Inter-university Consortium for Political and Social
+Research [distributor], 2025-12-02. http://doi.org/10.3886/ICPSR37898.v1
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    37898-descriptioncitation.pdf       -       -         -       2025-12-02  -
+
+    37898-related_literature.txt        -       -         -       daily       -
+
+    37898-manifest.txt                  -       -         -       daily       -
+
+    37898-Documentation-dictionary.xlsx -       -         -       2025-12-02  dbaf835a1d50bdc5047100aa4e2691e5
+
+
+DS0001 Donations
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    37898-0001-Codebook-ICPSR.epub      -       -         -       2025-12-02  f1ff058a574a37255fbfc6eb18bbd822
+
+    37898-0001-Codebook-ICPSR.pdf       -       -         -       2025-12-02  7e73713b10663b0906f68a2296340bb8
+
+    37898-0001-Data.dta                 -       11,377,479 11      2025-12-02  6729cd41b280d9d5c5de6977ffcfcb5b
+
+    37898-0001-Data.rda                 -       11,377,479 11      2025-12-02  121efc05efe0dd02bba62c81eb589b79
+
+    37898-0001-Data.sav                 -       11,377,479 11      2025-12-02  1fd1aaaf6abaaad10981a35ad197b369
+
+    37898-0001-Data.stc                 -       11,377,479 11      2025-12-02  a0c12d06b4c6707fc1edfceaa634b961
+
+    37898-0001-Data.tsv                 -       11,377,479 11      2025-12-02  a374cf8aa5b8b1779e09220132f56615
+
+    37898-0001-Data.txt                 138     11,377,479 11      2025-12-02  914c5a863f9c6b0a11535bb46f4dc32e
+
+    37898-0001-Setup.dct                -       -         -       2025-12-02  08493c71bee3179aa9bbf404d160f5ed
+
+    37898-0001-Setup.do                 -       -         -       2025-12-02  578628889d91935eec29a6aee8aa1980
+
+    37898-0001-Setup.sas                -       -         -       2025-12-02  6f5398a248c6b8f10feea008c12c8b73
+
+    37898-0001-Setup.sps                -       -         -       2025-12-02  f6774e127fd117ee22a9d85c631602ce
+
+
+DS0002 Resources
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    37898-0002-Codebook-ICPSR.epub      -       -         -       2025-12-02  349606ac378aa982969f906e11473419
+
+    37898-0002-Codebook-ICPSR.pdf       -       -         -       2025-12-02  4153a31ccf368def54275bc0074bac23
+
+    37898-0002-Data.dta                 -       13,291,370 5       2025-12-02  607076a2d0a1da64158ffb7d0159fb7c
+
+    37898-0002-Data.rda                 -       13,291,370 5       2025-12-02  4658b7beeed50bd7b55f6c3e7d7e103a
+
+    37898-0002-Data.sav                 -       13,291,370 5       2025-12-02  82e0d3995233451514266be7d27b77d1
+
+    37898-0002-Data.stc                 -       13,291,370 5       2025-12-02  5baba267b8ace6cb4e26e2711e3d15a8
+
+    37898-0002-Data.tsv                 -       13,291,370 5       2025-12-02  287115d6596522eaa0f6e88f83204701
+
+    37898-0002-Data.txt                 157     13,291,370 5       2025-12-02  7e93b7805b53d33b29ec8ce73b173eb3
+
+    37898-0002-Setup.dct                -       -         -       2025-12-02  18b4fdb44b0e5a92656468a2084ad6bb
+
+    37898-0002-Setup.do                 -       -         -       2025-12-02  2bfbb19ef64f88af1c88a06f56badb56
+
+    37898-0002-Setup.sas                -       -         -       2025-12-02  f1b8763470598a155dd964e7339de81a
+
+    37898-0002-Setup.sps                -       -         -       2025-12-02  7c9d2f5a0a61040234d787eb38728b38
+
+
+DS0003 Projects Public-use Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    37898-0003-Codebook-ICPSR.epub      -       -         -       2025-12-02  440a5f672c3ff0ef7a8da2d94834ddb0
+
+    37898-0003-Codebook-ICPSR.pdf       -       -         -       2025-12-02  a8cf7805bf98c3316e893e4bc8e4469f
+
+    37898-0003-Data.dta                 -       2,149,817 28      2025-12-02  88d796d39f11a6793f00016010462b65
+
+    37898-0003-Data.rda                 -       2,149,817 28      2025-12-02  019650a3d94911dcaf627f68e5e4b174
+
+    37898-0003-Data.sav                 -       2,149,817 28      2025-12-02  c5f7871daf5ccf094194528c77ce0655
+
+    37898-0003-Data.stc                 -       2,149,817 28      2025-12-02  b49c52d17f1d22dcc0429085e537e85c
+
+    37898-0003-Data.tsv                 -       2,149,817 28      2025-12-02  37e7bd5ac4af5b71545fc6538c5be3dd
+
+    37898-0003-Data.txt                 560     2,149,817 28      2025-12-02  fafe5351ba4ca79bd87949d5573cbbcc
+
+    37898-0003-Setup.dct                -       -         -       2025-12-02  4ce5854343097c7d5fab1d6a3ab768d0
+
+    37898-0003-Setup.do                 -       -         -       2025-12-02  042c79fa71747ab7193f9e060eeff128
+
+    37898-0003-Setup.sas                -       -         -       2025-12-02  ee038e90db211876666d51293403cb39
+
+    37898-0003-Setup.sps                -       -         -       2025-12-02  761ed8c13e2cefd8aca9d4c8e236f18b
+
+
+DS0004 Projects Restricted-use Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    37898-0004-Documentation-ICPSR_README.pdf -       -         -       2025-12-02  83a380e2c063da2f60a25810a5f57305
+
