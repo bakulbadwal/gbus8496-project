@@ -12,19 +12,15 @@ Raw data never gets committed. This file is the reproducible fetch recipe.
 - Verified against the DOI's DataCite registration on Sep 7, 2026: coverage is projects posted
   September 2002 through June 30, 2019, with activity through December 31, 2019.
 
-### ⚠️ Do not share the data files — not on GitHub, not on Teams
+### ⚠️ The data never goes into GitHub
 
-Three separate reasons, any one of which is enough:
+Two hard reasons: GitHub rejects files over 100 MB (the donations table is 1.46 GB), and a repo
+carrying gigabytes of undiffable data is unusable for everyone who clones it. `data/` is gitignored.
+If a `.tsv` or the zip ever shows up in `git status`, stop and ask.
 
-1. **ICPSR terms of use.** The `TermsOfUse.html` inside the zip, stamped with the downloader's name
-   and date, says: *"You agree not to redistribute data or other materials without the written
-   agreement of ICPSR."* Posting the zip in the team chat is redistribution. Each of us downloads our
-   own copy and accepts the terms ourselves. Free account, five minutes.
-2. **GitHub rejects it.** Hard limit of 100 MB per file; the donations table is 1.46 GB.
-3. **The repo would be unusable.** Every clone would pull gigabytes of data nobody can diff.
-
-`data/` is gitignored for all three reasons. If a `.tsv` or the zip ever shows up in `git status`,
-something is wrong — stop and ask.
+For the record: the `TermsOfUse.html` in the zip says *"You agree not to redistribute data or other
+materials without the written agreement of ICPSR."* A copy passed around inside the team on the
+school's Teams is the team's call; anything beyond the five of us is not.
 
 ### What actually arrived (Sep 11) — read this, it corrects the estimates above
 
