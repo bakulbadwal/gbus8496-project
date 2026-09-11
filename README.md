@@ -36,7 +36,7 @@ membership list. This table is.
 | Baseline + model | Rodolfo | ⏳ not started | Train on `split == "train"`, citizen donors; score the holdout through `evals/score.py` **once** |
 | Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
 | Outreach economics + recommendation | Malorie | ⏳ not started | A real cost per contact, a defensible capacity, and the recommendation slide |
-| Slides · exec summary · AI-use note · zip | all | ⏳ not started | Presentations **Sep 28–29**; zip to Box Oct 2 |
+| Slides · exec summary · AI-use note · zip | all | ⏳ **spine done Sep 11** | [`docs/slides/OUTLINE.md`](docs/slides/OUTLINE.md): 10 slides, owner per slide, class-vote question per slide; Bakul's two slides drafted with figures in `docs/slides/assets/`. [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md): problem + approach written, findings + recommendation blank. Deck assembled in the final week. Presentations **Sep 28–29**; zip Oct 2 |
 
 ### What Bakul's workstream delivered
 
@@ -112,7 +112,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
 | 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
 | Measurements 2–3 (Albert's order) | ⏳ calibration + error analysis by cohort (Thadeus); thank-you-packet question — codebook has no timing, **recommend dropping as a feature** (Albert pre-approved) |
-| Slides, exec summary, AI-use note, zip | not started |
+| Slides, exec summary, AI-use note, zip | spine done — outline with owners, two slides drafted, summary half-written; deck built in the final week |
 
 ## Read these first
 
