@@ -27,50 +27,67 @@ membership list. This table is.
 | Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ready to start |
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ skeleton pushed Sep 9 |
 
-## Start here — the skeleton is built, pick up your part
+## Status by workstream — what is done, what is pending, what is left
 
-The shared foundation is done and smoke-tested, so nobody is blocked and nobody has to agree with
-anyone else about what a "second gift" means. Read
-[`notebooks/01_labels_and_baseline.ipynb`](notebooks/01_labels_and_baseline.ipynb) first — it walks
-through the label decisions and ends with the handoff.
+| Workstream | Owner | Status | What is left |
+|---|---|---|---|
+| **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file | Nothing blocking. One decision for the team to confirm (below) |
+| Exploratory analysis + features | Reid | ⏳ not started | Join `cohorts.parquet` to the Projects file on `first_project_id`; find features that beat gift size alone |
+| Baseline + model | Rodolfo | ⏳ not started | Train on `split == "train"`, citizen donors; score the holdout through `evals/score.py` **once** |
+| Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
+| Outreach economics + recommendation | Malorie | ⏳ not started | A real cost per contact, a defensible capacity, and the recommendation slide |
+| Slides · exec summary · AI-use note · zip | all | ⏳ not started | Presentations **Sep 28–29**; zip to Box Oct 2 |
 
-**Setup, on the JupyterHub Very Large VM:**
+### What Bakul's workstream delivered
+
+- **The blocking check, passed.** `src/check_donor_id.py` on the real file: 3,466,570 donors, 25.4% give to more than one project. The ID follows the person. Bonus finding: **71.1% of donors gave exactly once, ever.**
+- **The label**, `src/labels.py` → `data/processed/cohorts.parquet`: **3,277,153 donors**, one row each, with cohort month, first-gift amount and attributes (donor type, matched, teacher-referred, thank-you packet, gift card), the 12-month second-gift label, the subsequent amount, and the train/holdout split. Four judgment calls documented in notebook 01: same-month repeats excluded, twelve whole months, unclosed windows dropped, refunds excluded.
+- **The baseline ladder and the scorer** for Albert's measurement 1 (`src/baselines.py`, `evals/score.py`), with a built-in consistency check that holds on real data.
+- **The population finding.** Pooled, gift-size ranking "found" 80% of subsequent value — an artefact of 708 organizations holding 62.5% of the dollars. `evals/profile_cohorts.py` reproduces it in one command.
+- **Notebook 01**, executed on the real data with outputs saved, 0 errors. Read it first.
+
+### 🔴 One decision the team must confirm
+
+`src/config.py` sets `STAKEHOLDER_POPULATION = "citizen donor"`. Organizations (0.1% of donors, 62.5% of subsequent dollars, one made 66,348 donations in a year) and teachers (seeding their own classrooms, 38% repeat rate) are not who a development lead stewards. The label is built for everyone; the filter is applied at scoring, so it is one line to reverse. **If anyone disagrees, say so in the chat before building on it.**
+
+Robustness note, already checked: 17 citizen-donor accounts made 200+ repeat gifts in their window and hold 8% of citizen subsequent value. Excluding them moves the 10%-capacity headline from 56.4% to 53.2% of value, $116 to $101 per contact. The result does not depend on them; they are left in.
+
+### The headline so far — citizen donors, 10% capacity, holdout
+
+| Ranking | Precision | Recall | Value identified | $ per contact |
+|---|---|---|---|---|
+| **First gift size** (the honest baseline) | 19.7% | 15.7% | **56.4%** | **$116** |
+| First-month gift count | 20.4% | 16.2% | 41.4% | $85 |
+| Random | 12.7% | 10.1% | 9.1% | $19 |
+| Contact everyone | 12.6% | 100% | 100% | $21 |
+
+That is the bar. Gift size finds dollars but not people: four in five contacts on its list do not return. A model earns its place by beating **$116 per contact** at 10% capacity, or by finding people the size rule misses.
+
+## Setup — takes ten minutes
 
 ```bash
 git clone https://github.com/bakulbadwal/gbus8496-project.git && cd gbus8496-project
-pip install -r requirements.txt
-
-# The data: download ICPSR_37898-V1.zip (delimited) from icpsr.umich.edu/web/ICPSR/studies/37898,
-# free account needed, and unzip into data/raw/. See data/README.md. Then:
-
-python src/check_donor_id.py  data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv   # PASSED Sep 11
-python src/labels.py          data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv data/processed/cohorts.parquet
-python evals/profile_cohorts.py data/processed/cohorts.parquet                  # who is in it, where the $ sit
-python evals/score.py         data/processed/cohorts.parquet holdout            # measurement 1, citizen donors
-python evals/score.py         data/processed/cohorts.parquet holdout --all-donors   # pooled, for contrast
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 ```
 
-**No ICPSR access yet?** You can still run and change everything today:
+**Data.** Download `ICPSR_37898-V1.zip` (Delimited) from icpsr.umich.edu/web/ICPSR/studies/37898 —
+free account, no institutional login needed — and unzip it into `data/raw/`. It is 1.2 GB and
+never goes into git. Then, in order:
 
 ```bash
-python evals/make_fixture.py data/raw/fixture_donations.csv   # synthetic, same schema
+python src/check_donor_id.py  data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv     # ~3 min, prints PASS
+python src/labels.py          data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv data/processed/cohorts.parquet   # ~5 min
+python evals/profile_cohorts.py data/processed/cohorts.parquet                    # who is in it
+python evals/score.py         data/processed/cohorts.parquet holdout              # measurement 1
 ```
 
-Every number from the fixture is meaningless by construction — it exists to prove the code runs.
+**No VM required.** All of the above ran on a laptop. The Very Large VM on JupyterHub is available
+if your machine is slow or you would rather not hold 3 GB locally, but nothing here needs it.
 
-**What each workstream starts from:**
-
-| Owner | Starts from | First thing to produce |
-|---|---|---|
-| Reid | `cohorts.parquet` joined back to the projects file | features that beat first-gift-amount alone |
-| Rodolfo | `cohorts.parquet`, **train split only** | a model scored through `evals/score.py`; touch the holdout once |
-| Thadeus | `evals/score.py` | calibration curve, and the error analysis cut by cohort |
-| Malorie | the capacity table | a real cost per contact and a defensible capacity number |
-
-**Rules that keep this comparable.** The label window, the split boundary and the capacity all live
-in [`src/config.py`](src/config.py) and nowhere else — if you want to change one, say so in the chat
-first, because it invalidates every number anyone has already produced. The holdout split is not
-looked at until a result is final.
+**Rules that keep our numbers comparable.** The label window, the split boundary, the capacity and
+the population all live in [`src/config.py`](src/config.py) and nowhere else — change one only after
+saying so in the chat, because it invalidates every number anyone has already produced. Nobody
+looks at the holdout until a result is final; Rodolfo scores it once.
 
 ## Two deadlines
 
@@ -94,7 +111,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Data on disk + labels built | ✅ **Sep 11** — ICPSR files in `data/raw/` (gitignored), codebooks in `docs/codebook/`. `cohorts.parquet`: **3,277,153 labelled donors, 15.8% gave again within 12 months**; train 2.33M / holdout 943K; 189K unlabelable 2019 cohorts dropped; 151 refund rows excluded |
 | Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
 | 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
-| Measurements 1–3 (Albert's order) | not started — ranking-at-capacity **first**, then calibration + error analysis, then the thank-you-packet question (droppable) |
+| Measurements 2–3 (Albert's order) | ⏳ calibration + error analysis by cohort (Thadeus); thank-you-packet question — codebook has no timing, **recommend dropping as a feature** (Albert pre-approved) |
 | Slides, exec summary, AI-use note, zip | not started |
 
 ## Read these first
