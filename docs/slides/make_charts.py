@@ -103,6 +103,67 @@ def chart_donor_type_shares():
     print(f"donor_type_shares.png    (organizations: {org['donor_share']:.2%} of donors, {org['value_share']:.1%} of value)")
 
 
+# ── Dark variants for the deck (navy background matches the slide) ──────────────────────────────
+NAVY, INK_D, MUTED_D, SUBTLE_D, TERT_D, GRID_D = "#081321", "#F2EDE3", "#D9D3C6", "#B4AE9F", "#8A8474", "#13253A"
+BLUE_D, ORANGE_D = "#3987E5", "#D95926"   # dark-surface categorical slots 1 and 2, validated
+
+
+def _dark_axes(fig, ax):
+    fig.patch.set_facecolor(NAVY); ax.set_facecolor(NAVY)
+    for sp in ("top", "right", "left"): ax.spines[sp].set_visible(False)
+    ax.spines["bottom"].set_color(GRID_D)
+    ax.tick_params(colors=MUTED_D, labelsize=11, length=0)
+    ax.set_yticks([])
+
+
+def chart_donations_per_donor_dark(counts_shares=None):
+    """Slide 2. Same data as the light chart; recomputed unless shares are passed in."""
+    if counts_shares is None:
+        sep = labels.detect_sep(DONATIONS); counts = Counter()
+        for chunk in pd.read_csv(DONATIONS, sep=sep, usecols=["DONOR_ID"], chunksize=1_000_000, dtype=str):
+            counts.update(chunk["DONOR_ID"].dropna().values)
+        n = len(counts); b = Counter()
+        for v in counts.values():
+            b["1" if v == 1 else "2" if v == 2 else "3–5" if v <= 5 else "6–20" if v <= 20 else "21+"] += 1
+        order = ["1", "2", "3–5", "6–20", "21+"]; shares = [b[k] / n for k in order]
+    else:
+        order, shares = counts_shares
+    fig, ax = plt.subplots(figsize=(4.9, 4.25), dpi=220); _dark_axes(fig, ax)
+    bars = ax.bar(order, shares, color=BLUE_D, width=0.6)
+    for bar, sh in zip(bars, shares):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.015, f"{sh:.1%}", ha="center", va="bottom",
+                color=INK_D, fontsize=12, fontweight="bold" if sh == max(shares) else "normal")
+    ax.set_ylim(0, max(shares) * 1.2)
+    ax.set_xlabel("LIFETIME GIFTS PER DONOR", color=TERT_D, fontsize=8, labelpad=10, family="monospace")
+    fig.tight_layout(pad=0.6)
+    fig.savefig(OUT / "slide2_donations_per_donor_dark.png", facecolor=NAVY)
+    print("slide2_donations_per_donor_dark.png")
+
+
+def chart_donor_type_shares_dark():
+    """Slide 4. Donor share vs repeat-dollar share by type, holdout cohorts."""
+    c = pd.read_parquet(COHORTS); h = c[c["split"] == "holdout"]
+    g = h.groupby("donor_type").agg(donors=("donor_id", "size"), value=("second_gift_amount", "sum"))
+    g["donor_share"] = g["donors"] / g["donors"].sum(); g["value_share"] = g["value"] / g["value"].sum()
+    g = g.loc[["citizen donor", "teacher", "organization"]]
+    fig, ax = plt.subplots(figsize=(5.05, 4.15), dpi=220); _dark_axes(fig, ax)
+    x = range(3); w = 0.36
+    b1 = ax.bar([i - w / 2 - 0.01 for i in x], g["donor_share"], w, color=BLUE_D, label="Share of donors")
+    b2 = ax.bar([i + w / 2 + 0.01 for i in x], g["value_share"], w, color=ORANGE_D, label="Share of repeat dollars")
+    for bars in (b1, b2):
+        for bar in bars:
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.015, f"{bar.get_height():.1%}",
+                    ha="center", va="bottom", color=INK_D, fontsize=11)
+    ax.set_xticks(list(x)); ax.set_xticklabels(["Citizen donors", "Teachers", "Organizations"], color=MUTED_D, fontsize=11)
+    ax.set_ylim(0, 1.0)
+    leg = ax.legend(frameon=False, loc="upper right", fontsize=10, labelcolor=MUTED_D)
+    fig.tight_layout(pad=0.6)
+    fig.savefig(OUT / "slide4_donor_type_shares_dark.png", facecolor=NAVY)
+    print("slide4_donor_type_shares_dark.png")
+
+
 if __name__ == "__main__":
     chart_donor_type_shares()
     chart_donations_per_donor()
+    chart_donor_type_shares_dark()
+    chart_donations_per_donor_dark()
