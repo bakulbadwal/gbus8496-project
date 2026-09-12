@@ -1,0 +1,21 @@
+Holdout scored: 814,971 donors · cost per contact $25.00 (PLACEHOLDER)
+
+E[second gift | return], train median: $50.00  (by cohort year: 2013: $50, 2014: $50, 2015: $50, 2016: $50)
+Break-even probability p* = cost / E[amount] = 25.00 / 50.00 = 0.500  (PLACEHOLDER cost)
+Holdout donors with p > p*: 0.1%
+
+Policies on the holdout (value identified, not caused; cost is a PLACEHOLDER):
+                              policy  contacts  repeat_donors_found  value_identified  share_of_value          cost           net  net_per_contact
+           threshold  p > p* (0.500)       800                  460      2,287,144.52            0.14     20,000.00  2,267,144.52         2,833.93
+      capacity 10% by expected value     81509                18201      9,703,310.86            0.58  2,037,725.00  7,665,585.86            94.05
+capacity 10% by gift size (her rule)     81509                16085      9,476,045.41            0.56  2,037,725.00  7,438,320.41            91.26
+                    contact everyone    814971               102724     16,792,616.78            1.00 20,374,275.00 -3,581,658.22            -4.39
+
+Break-even p* and threshold-policy net, as cost per contact varies:
+  cost $  5: p* = 0.100 · contacts  499,309 (61.3%) · net $  12,272,692 · net/contact $  24.58
+  cost $ 10: p* = 0.200 · contacts   12,239 ( 1.5%) · net $   5,511,596 · net/contact $ 450.33
+  cost $ 25: p* = 0.500 · contacts      800 ( 0.1%) · net $   2,267,145 · net/contact $2,833.93
+  cost $ 50: p* = 1.000 · contacts        0 ( 0.0%) · net $           0 · net/contact $   0.00
+  cost $100: p* = 2.000 · contacts        0 ( 0.0%) · net $           0 · net/contact $   0.00
+
+Monday list for cohort 2018-12: 30,129 new donors, capacity → 3,013 contacts; top 200 written to monday_list_2018-12_top200.csv (donor ids only, no PII in this file).

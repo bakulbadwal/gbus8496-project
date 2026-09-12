@@ -62,6 +62,15 @@ CAPACITY_SWEEP = [0.01, 0.05, 0.10, 0.20, 0.50]   # reported as a curve, so the 
 # scoring time, so the choice is reversible and both numbers stay reproducible.
 STAKEHOLDER_POPULATION = "citizen donor"
 
+# ── The economics — PLACEHOLDERS, Malorie's workstream replaces these ────────────────────────────
+# The decision layer (src/decision.py) turns a probability into an act/skip rule the same way the
+# Session 5 hospital case did: act when p × benefit > cost, so the break-even probability is
+# cost / benefit. Everything below is a stand-in until real numbers exist. Every output that uses
+# them says so.
+COST_PER_CONTACT_USD = 25.0      # fully loaded staff cost of one personal follow-up. PLACEHOLDER.
+CONTACT_MINUTES = 15             # time per follow-up, to convert capacity in hours ↔ contacts. PLACEHOLDER.
+MONTHLY_OUTREACH_HOURS = None    # if set, overrides STEWARDSHIP_CAPACITY via CONTACT_MINUTES. PLACEHOLDER.
+
 # ── Column names ─────────────────────────────────────────────────────────────────────────────────
 # The ICPSR release may not use the same names as the older Kaggle release. Rather than hardcode,
 # every loader resolves names through these candidate lists (case- and underscore-insensitive).

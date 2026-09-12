@@ -30,12 +30,18 @@ DONATIONS = REPO / "data" / "raw" / "ICPSR_37898" / "DS0001" / "37898-0001-Data.
 COHORTS = REPO / "data" / "processed" / "cohorts.parquet"
 RESULTS = REPO / "evals" / "results"
 
+REF_SCORES = REPO / "data" / "processed" / "reference_scores.parquet"
+
 STEPS = [
     ("01_check_donor_id",  [sys.executable, "src/check_donor_id.py", str(DONATIONS)]),
     ("02_labels",          [sys.executable, "src/labels.py", str(DONATIONS), str(COHORTS)]),
     ("03_profile_cohorts", [sys.executable, "evals/profile_cohorts.py", str(COHORTS)]),
     ("04_score_citizen",   [sys.executable, "evals/score.py", str(COHORTS), "holdout"]),
     ("05_score_pooled",    [sys.executable, "evals/score.py", str(COHORTS), "holdout", "--all-donors"]),
+    ("06_reference_model", [sys.executable, "src/reference_model.py", str(COHORTS), str(REF_SCORES)]),
+    ("07_decision_layer",  [sys.executable, "src/decision.py", str(COHORTS), str(REF_SCORES)]),
+    # When the modelling workstream lands: write its holdout scores to a parquet with columns
+    # (donor_id, p_return) and add a step here that points decision.py at it.
 ]
 
 

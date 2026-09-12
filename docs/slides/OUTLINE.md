@@ -74,8 +74,10 @@ Tie back to slide 4: gift size finds dollars, what finds *people*?
 The capacity table from `evals/score.py`, three rows: model, gift-size rule, random. At 10%.
 Headline metric is **dollars identified per contact**, not AUC — Albert said the ranking at
 capacity is the decision. State the baseline is fair: RFM collapses to gift size on a first-gift
-cohort, and gift size is literally what she does by hand. If the model does not beat $116, say so
-and go to slide 9; Albert wrote that a well-supported negative finding earns a high grade.
+cohort, and gift size is literally what she does by hand. **The reference logistic on donation-file
+attributes only reaches $119 (ROC-AUC 0.58)** — so the story of this slide is whether the projects
+join moved it. If the model does not beat $116, say so and go to slide 9; Albert wrote that a
+well-supported negative finding earns a high grade.
 
 ### 7 · How we know it works, and where it does not — Thadeus, 60 seconds
 Calibration curve on the holdout. Error analysis by cohort year: does 2018 behave like 2015? Cut
@@ -84,11 +86,14 @@ of her donors are. That sentence is the honest one and the room will respect it.
 "how do you know it works" directly.
 
 ### 8 · What she does on Monday — Malorie, 60 seconds
-The decision layer. Her capacity in hours → contacts per month. Cost per contact from real
-practice (a number GoGood can defend). Expected subsequent giving identified per contact from
-slide 6, cohort median for amount (Albert: fine to start). Production cost: a batch job on one
-laptop, no API, once a month — effectively zero. Answers Albert's "cost at scale" in one line and
-turns the model into a Monday-morning list.
+The decision layer (`src/decision.py`). Her capacity in hours → contacts per month. Cost per
+contact from real practice (a number GoGood can defend) — **this number decides the
+recommendation**: break-even p* = cost / $50, and the sensitivity table in
+`evals/results/07_decision_layer.txt` shows it swings from "call 61%" at $5 to "call 0.1%" at $25.
+The line to land: **contacting everyone loses money** (−$3.6M on the holdout at $25) while the
+ranked 10% nets +$7.7M. Production cost: a batch job on one laptop, no API, once a month —
+effectively zero. Answers Albert's "cost at scale" in one line and turns the model into a
+Monday-morning list (a real one for Dec 2018 is in `evals/results/`).
 
 ### 9 · What we did not find, and what we are not claiming — Thadeus, 50 seconds
 Three things, plainly. (1) No causal claim: nobody was randomly assigned to be contacted, so we
@@ -107,9 +112,8 @@ The exact words come from slides 6 and 8.
 
 ## Gaps with no owner yet — someone claim these in the chat
 
-- **Second-gift amount model.** The decision layer needs expected value per contact = P(return) ×
-  E[amount]. Albert: cohort median is fine to start. Sits between Rodolfo (model) and Malorie
-  (economics). Twenty minutes of work; needs a name on it.
+- ~~Second-gift amount model~~ — **done as the default** (`src/decision.py`): cohort-year median
+  from train, $50 every year. Upgrade to a regression on log amount if someone wants it.
 - **Recorded backup of the talk.** Albert requires it. Record on the 26th or 27th once slides exist.
 - **The deck file itself.** This outline is markdown so five agents can read it. The actual deck
   gets built once, in the final week, from the sections each owner writes. Google Slides or

@@ -31,11 +31,11 @@ membership list. This table is.
 
 | Workstream | Owner | Status | What is left |
 |---|---|---|---|
-| **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file | Nothing blocking. One decision for the team to confirm (below) |
+| **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | Exploratory analysis + features | Reid | ⏳ not started | Join `cohorts.parquet` to the Projects file on `first_project_id`; find features that beat gift size alone |
-| Baseline + model | Rodolfo | ⏳ not started | Train on `split == "train"`, citizen donors; score the holdout through `evals/score.py` **once** |
+| Baseline + model | Rodolfo | ⏳ not started — **reference model in place** (`src/reference_model.py`) | Beat the reference: ROC-AUC 0.578, **$119/contact at 10%**. Read the note below first — the signal is not in the donations file |
 | Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
-| Outreach economics + recommendation | Malorie | ⏳ not started | A real cost per contact, a defensible capacity, and the recommendation slide |
+| Outreach economics + recommendation | Malorie | ⏳ not started — **decision layer built** (`src/decision.py`), inputs are placeholders | Replace `COST_PER_CONTACT_USD`, `CONTACT_MINUTES`, `MONTHLY_OUTREACH_HOURS` in `src/config.py`. Your cost number decides the recommendation — see below |
 | Slides · exec summary · AI-use note · zip | all | ⏳ **deck template built Sep 11** | [`docs/slides/Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — house style, 10 slides. Slides 1–4 and 6 carry real content; 5, 7–10 are styled frames with each owner's brief and a drop zone. Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). Rebuild with `node docs/slides/build_deck.js <out.pptx> docs/slides/assets`. Outline with owners: [`OUTLINE.md`](docs/slides/OUTLINE.md). [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md): problem + approach written, findings + recommendation blank. Presentations **Sep 28–29**; zip Oct 2 |
 
 ### What Bakul's workstream delivered
@@ -45,6 +45,32 @@ membership list. This table is.
 - **The baseline ladder and the scorer** for Albert's measurement 1 (`src/baselines.py`, `evals/score.py`), with a built-in consistency check that holds on real data.
 - **The population finding.** Pooled, gift-size ranking "found" 80% of subsequent value — an artefact of 708 organizations holding 62.5% of the dollars. `evals/profile_cohorts.py` reproduces it in one command.
 - **Notebook 01**, executed on the real data with outputs saved, 0 errors. Read it first.
+
+### What the reference model and the decision layer found — read before you build
+
+Both ran on the real holdout on Sep 12 (`evals/results/06_*.txt`, `07_*.txt`). Four things:
+
+1. **There is very little signal in the donations file alone.** A logistic regression on every
+   first-gift attribute gets ROC-AUC **0.578** on a 12.6% base rate. It edges gift size at capacity
+   ($119 vs $116 per contact, precision 22% vs 20%), but barely. **Rodolfo:** the model that matters
+   needs Reid's projects join — subject, cost, school, whether the project funded. **Reid:** that
+   join is where the whole result lives now.
+2. **Two attributes carry real sign.** Campaign gift-card donors are *less* likely to return
+   (coefficient −0.21: someone gifted the money is not a self-motivated donor). And the repeat rate
+   **falls by cohort year** (−0.21): behaviour is drifting. **Thadeus:** that drift is your error
+   analysis by cohort.
+3. **Contacting everyone loses money at any realistic cost.** A random citizen donor is worth
+   12.6% × $50 ≈ $6 in expected subsequent giving. At a $25 placeholder cost, contact-everyone nets
+   **−$3.6M** on the holdout; the 10% capacity policy nets **+$7.7M**. That is the business case for
+   ranking at all, and it is the sentence for slide 8.
+4. **The break-even probability is hostage to the cost number.** p* = cost / E[amount]. At $5 per
+   contact you call 61% of donors; at $10, 1.5%; at $25, 0.1%. **Malorie:** your cost per contact is
+   the single most consequential input in the project. The sensitivity table in
+   `evals/results/07_decision_layer.txt` shows exactly what each value implies.
+
+E[second gift | return] is the train-set cohort-year median, $50 in every year — DonorsChoose's
+default gift amount. Fine to start, per Albert; a regression on log amount is the upgrade if anyone
+wants it.
 
 ### 🔴 One decision the team must confirm
 

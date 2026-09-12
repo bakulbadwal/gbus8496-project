@@ -1,0 +1,23 @@
+Population: citizen donor · train 2,156,784 · holdout 814,971
+
+Standardised coefficients (holdout untouched during fitting):
+log_amount          +0.235
+first_gift_card     -0.213
+cohort_year         -0.210
+first_month_gifts   +0.199
+moy_08              +0.123
+moy_09              +0.106
+moy_11              +0.094
+moy_07              +0.094
+
+Holdout ROC-AUC 0.5783 · PR-AUC 0.1832 · base rate 0.1260
+
+At 10% capacity:
+               ranking  precision  recall  value_capture_rate  value_per_contact
+    reference_logistic     0.2233  0.1772              0.5778           119.0459
+           gift_amount     0.1973  0.1566              0.5643           116.2577
+first_month_gift_count     0.2037  0.1616              0.4141            85.3044
+                random     0.1267  0.1005              0.0906            18.6648
+
+Verdict: the reference logistic beats rank-by-gift-size on dollars per contact ($119 vs $116); precision 22.3% vs 19.7%.
+Holdout scores written to /Users/bakulbadwal/Documents/GitHub/gbus8496-project/data/processed/reference_scores.parquet — the decision layer reads these until a real model replaces them.
