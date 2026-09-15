@@ -114,17 +114,17 @@ The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](
 | Grades 6–8 × gift decile 8 | 25.6% vs 13.8% | **+$143/donor** |
 | Top first-gift-size decile | 25.9% vs 13.0% | **+$142/donor** |
 
-The five lowest family-level expected-value differentials were:
+Contrasting cells for the five highlighted effects were:
 
 | Term family | Repeat rate | Expected value: term | Expected value: comparison | Differential |
 |---|---:|---:|---:|---:|
-| Fulfillment/labor/materials present | 13.9% vs 18.7% | $19.32 | $89.95 | **−$70.64/donor** |
-| Payment-processing charges present | 13.9% vs 18.8% | $19.31 | $89.87 | **−$70.55/donor** |
-| Technology category | 13.1% vs 14.5% | $17.58 | $21.74 | **−$4.16/donor** |
-| Recorded sales tax > $0 | 13.5% vs 14.4% | $18.41 | $21.89 | **−$3.48/donor** |
-| Recorded shipping charges > $0 | 14.5% vs 13.6% | $19.17 | $21.10 | **−$1.92/donor** |
+| Mississippi × gift decile 1 | 9.0% vs 14.0% | $4.37 | $20.27 | **−$15.90/donor** |
+| Music × gift decile 1 | 6.5% vs 14.0% | $2.58 | $20.32 | **−$17.74/donor** |
+| Technology × gift decile 8 | 23.3% vs 13.7% | $129.20 | $17.50 | **+$111.70/donor** |
+| Grades 9–12 × gift decile 8 | 24.5% vs 13.8% | $152.59 | $18.77 | **+$133.82/donor** |
+| Gift decile 1 | 5.5% vs 14.8% | $2.53 | $22.03 | **−$19.50/donor** |
 
-The charge rows should be interpreted cautiously: their comparison groups also contain missing or zero-valued charge fields, so these are descriptive data-quality or project-composition signals, not evidence that a charge causes lower giving.
+These contrast cells are descriptive comparisons, not causal effects. They show how the same broad gift-size pattern can look different across project context, state, subject, or grade.
 
 **Interaction exploration:** project-only combinations showed meaningful spread before gift size was added. The largest observed project-only contrast was `Other subject × Trips` at **29.2%** repeat versus a **14.0%** comparison rate (**+15.2 percentage points**). State × category also varied from `Connecticut × Trips` at **7.9%** to `Indiana × Trips` at **20.6%**. When gift size was added, `Books × gift decile 8` reached **28.5%** repeat versus **13.8%** outside the cell, with approximately **+$158 per donor** in expected value.
 
