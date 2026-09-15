@@ -114,6 +114,18 @@ The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](
 | Grades 6–8 × gift decile 8 | 25.6% vs 13.8% | **+$143/donor** |
 | Top first-gift-size decile | 25.9% vs 13.0% | **+$142/donor** |
 
+The five lowest family-level expected-value differentials were:
+
+| Term family | Repeat rate | Expected value: term | Expected value: comparison | Differential |
+|---|---:|---:|---:|---:|
+| Fulfillment/labor/materials present | 13.9% vs 18.7% | $19.32 | $89.95 | **−$70.64/donor** |
+| Payment-processing charges present | 13.9% vs 18.8% | $19.31 | $89.87 | **−$70.55/donor** |
+| Technology category | 13.1% vs 14.5% | $17.58 | $21.74 | **−$4.16/donor** |
+| Sales tax present | 13.5% vs 14.4% | $18.41 | $21.89 | **−$3.48/donor** |
+| Shipping charges present | 14.5% vs 13.6% | $19.17 | $21.10 | **−$1.92/donor** |
+
+The charge rows should be interpreted cautiously: their comparison groups also contain missing or zero-valued charge fields, so these are descriptive data-quality or project-composition signals, not evidence that a charge causes lower giving.
+
 **Interaction exploration:** project-only combinations showed meaningful spread before gift size was added. The largest observed project-only contrast was `Other subject × Trips` at **29.2%** repeat versus a **14.0%** comparison rate (**+15.2 percentage points**). State × category also varied from `Connecticut × Trips` at **7.9%** to `Indiana × Trips` at **20.6%**. When gift size was added, `Books × gift decile 8` reached **28.5%** repeat versus **13.8%** outside the cell, with approximately **+$158 per donor** in expected value.
 
 These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
