@@ -102,6 +102,22 @@ The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](
 
 **Key takeaway:** project context appears more useful for explaining who returns and for modifying expected value than for replacing first-gift size as the strongest predictor of conditional donation amount. The next test is a regularized model evaluated at 10% capacity on the untouched holdout; exploratory percentage-point differences do not, by themselves, beat the `$116/contact` baseline.
 
+#### Reid's analysis callouts
+
+**Expected future value:** expected value is the average subsequent 12-month donation across all donors, so it combines repeat probability and the amount given after returning.
+
+| Term | Repeat rate | Expected-value difference |
+|---|---:|---:|
+| Mississippi × gift decile 8 | 30.2% vs 14.0% | **+$199/donor** |
+| Music × gift decile 8 | 26.9% vs 13.9% | **+$188/donor** |
+| Books × gift decile 8 | 28.5% vs 13.8% | **+$158/donor** |
+| Grades 6–8 × gift decile 8 | 25.6% vs 13.8% | **+$143/donor** |
+| Top first-gift-size decile | 25.9% vs 13.0% | **+$142/donor** |
+
+**Interaction exploration:** project-only combinations showed meaningful spread before gift size was added. The largest observed project-only contrast was `Other subject × Trips` at **29.2%** repeat versus a **14.0%** comparison rate (**+15.2 percentage points**). State × category also varied from `Connecticut × Trips` at **7.9%** to `Indiana × Trips` at **20.6%**. When gift size was added, `Books × gift decile 8` reached **28.5%** repeat versus **13.8%** outside the cell, with approximately **+$158 per donor** in expected value.
+
+These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
+
 ## Setup — takes about five minutes, most of it the download
 
 ```bash
