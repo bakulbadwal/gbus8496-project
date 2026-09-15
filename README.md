@@ -22,7 +22,7 @@ membership list. This table is.
 | Member | GitHub | Workstream | Status |
 |---|---|---|---|
 | Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | ready to start |
-| Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ready to start |
+| Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ✅ feature exploration pushed |
 | Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | ready to start |
 | Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ready to start |
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ skeleton pushed Sep 9 |
@@ -32,7 +32,7 @@ membership list. This table is.
 | Workstream | Owner | Status | What is left |
 |---|---|---|---|
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
-| Exploratory analysis + features | Reid | ⏳ not started | Join `cohorts.parquet` to the Projects file on `first_project_id`; find features that beat gift size alone |
+| **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
 | Baseline + model | Rodolfo | ⏳ not started — **reference model in place** (`src/reference_model.py`) | Beat the reference: ROC-AUC 0.578, **$119/contact at 10%**. Read the note below first — the signal is not in the donations file |
 | Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
 | Outreach economics + recommendation | Malorie | ⏳ not started — **decision layer built** (`src/decision.py`), inputs are placeholders | Replace `COST_PER_CONTACT_USD`, `CONTACT_MINUTES`, `MONTHLY_OUTREACH_HOURS` in `src/config.py`. Your cost number decides the recommendation — see below |
@@ -88,6 +88,19 @@ Robustness note, already checked: 17 citizen-donor accounts made 200+ repeat gif
 | Contact everyone | 12.6% | 100% | 100% | $21 |
 
 That is the bar. Gift size finds dollars but not people: four in five contacts on its list do not return. A model earns its place by beating **$116 per contact** at 10% capacity, or by finding people the size rule misses.
+
+### What Reid's exploratory workstream delivered
+
+The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](notebooks/02_feature_joining_and_effects.ipynb). The detailed narrative is [`docs/REID-FEATURE-EXPLORATION.md`](docs/REID-FEATURE-EXPLORATION.md).
+
+- **Projects join:** `first_project_id` matched 99.74% of cohort rows. The remaining rows are retained with `project_record_missing`; they appear to be a small public-use Projects coverage gap, not malformed IDs.
+- **Features constructed:** grade, subject, optional subject, project category, state, resource and charge fields, school free/reduced-price lunch percentage, students reached, posted month, and missing-project status. Post-outcome fields and raw teacher IDs are excluded to avoid leakage or memorization.
+- **Two outcomes separated:** repeat likelihood, `P(gave_again)`, and conditional future size, `E(second_gift_amount | gave_again)`. First-gift size is weak-to-moderate for return likelihood but substantially stronger for the amount a returning donor gives.
+- **Interaction exploration:** project-only candidates include state × category, subject × category, and subject × grade. Gift-size interactions show that category, subject, grade, and state modify the relationship between first-gift size and repeat behavior.
+- **Expected value:** the full citizen-training analysis covers 2,156,784 donors. The strongest families are state × gift decile, subject × gift decile, category × gift decile, and grade × gift decile. These are training associations, not causal effects or proof of holdout improvement.
+- **Significance and value tables:** full outputs are in [`docs/term_effects_table_full.csv`](docs/term_effects_table_full.csv), [`docs/term_value_effects_full.csv`](docs/term_value_effects_full.csv), and the de-duplicated family summary [`docs/term_value_effects_unique_families.csv`](docs/term_value_effects_unique_families.csv).
+
+**Key takeaway:** project context appears more useful for explaining who returns and for modifying expected value than for replacing first-gift size as the strongest predictor of conditional donation amount. The next test is a regularized model evaluated at 10% capacity on the untouched holdout; exploratory percentage-point differences do not, by themselves, beat the `$116/contact` baseline.
 
 ## Setup — takes about five minutes, most of it the download
 
