@@ -121,8 +121,8 @@ The five lowest family-level expected-value differentials were:
 | Fulfillment/labor/materials present | 13.9% vs 18.7% | $19.32 | $89.95 | **−$70.64/donor** |
 | Payment-processing charges present | 13.9% vs 18.8% | $19.31 | $89.87 | **−$70.55/donor** |
 | Technology category | 13.1% vs 14.5% | $17.58 | $21.74 | **−$4.16/donor** |
-| Sales tax present | 13.5% vs 14.4% | $18.41 | $21.89 | **−$3.48/donor** |
-| Shipping charges present | 14.5% vs 13.6% | $19.17 | $21.10 | **−$1.92/donor** |
+| Recorded sales tax > $0 | 13.5% vs 14.4% | $18.41 | $21.89 | **−$3.48/donor** |
+| Recorded shipping charges > $0 | 14.5% vs 13.6% | $19.17 | $21.10 | **−$1.92/donor** |
 
 The charge rows should be interpreted cautiously: their comparison groups also contain missing or zero-valued charge fields, so these are descriptive data-quality or project-composition signals, not evidence that a charge causes lower giving.
 
