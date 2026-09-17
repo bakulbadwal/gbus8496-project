@@ -16,3 +16,19 @@ recomputed by hand or by a second method, a manual read of the output.
 | 2026-09-11 | Bakul | Claude Code (Claude Fable 5.1) | Unowned deliverables: presentation outline (10 slides, owner + class-vote question per slide, Albert's two required answers and the disclosure placed), Bakul's two slides drafted with figures, exec-summary skeleton, and `evals/run_all.py` so every reported number reproduces from one command | Both figures are generated from the data by `docs/slides/make_charts.py`, not typed in; the two-hue palette passed the six-check colour validator (CVD ΔE 24.7, normal-vision 33.6); charts rendered and inspected — one title formatted a count as `708.0`, fixed and regenerated |
 | 2026-09-11 | Bakul | Claude Code (Claude Fable 5.1) | Built the deck template `docs/slides/Group11_deck.pptx` with pptxgenjs in the house style: slides 1–4 and 6 with real content (title + disclosure, the 71% chart, the four label decisions, the three-populations chart, the baseline table with real rows), slides 5 and 7–10 as styled frames with each owner's brief | File validated with the pptx schema/relationship checker (all pass); chart palette validated on the dark surface (CVD ΔE 26.8); every slide rendered through Keynote and inspected — native PowerPoint charts did not render there, so both charts became images generated from the data; three layout defects found and fixed (a stat label wrapping into a footnote, stat cards overflowing, a title breaking under its chart). PowerPoint's own PDF export reported success without writing a file, so the preview PDF is Keynote's render |
 | 2026-09-12 | Bakul | Claude Code (Claude Fable 5.1) | Unowned pieces: `tests/test_labels.py` (13 tests pinning every label rule on a hand-built fixture), `src/reference_model.py` (logistic floor a real model must beat; holdout scored once), `src/decision.py` (break-even threshold from payoffs, capacity vs threshold policies, cost sensitivity, a Monday list), `evals/check_submission.py` (pre-flight for Albert's six deliverables + zip build). Steps 06–07 added to `run_all.py` | Tests pass 13/13; every fixture donor's expected label was written down before the code ran. Reference model: thank-you-packet flag excluded to avoid leakage; coefficients read for sign sanity (bigger first gift → more return, gift-card → less, later cohorts → less). Decision layer: contact-everyone net matches 814,971 × ($6.30 − $25) by hand; the p* sensitivity table was checked against p* = cost/50 at each cost. Full chain reproduced in 1.4 min, outputs committed |
+
+### Modeling workstream (Rodolfo)
+
+- **Tool:** Claude (Anthropic), chat interface. Dates: Sep 16-17, 2026.
+- **What it produced:** src/model.py (P(return) classifier + log-amount regressor, expected-value
+  ranking, train-only dev loop with a 2015/2016 time split, bootstrap noise floor, gated --holdout
+  flag) and notebooks/03_model_development.ipynb (annotated run of the above).
+- **How it was checked before use:** the pipeline was executed end to end on the synthetic fixture
+  (evals/make_fixture.py) twice — once on donations-only features, where rank-by-gift-size
+  correctly remained the best ranking (the fixture's only planted signal is gift size), and once
+  with fabricated project columns carrying a planted state x gift-size interaction, which the
+  model recovered (dev-val $/contact ~4.9x the bootstrap SE above the gift-size baseline) while
+  the baseline could not. No real-data number in the repo was produced by the AI session; all
+  fixture outputs were discarded per the fixture's own warning.
+- **Human responsibility:** Rodolfo runs it on the real cohorts_with_projects.parquet, reviews the
+  dev-val table with the team, and scores the holdout once after sign-off.
