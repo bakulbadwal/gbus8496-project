@@ -90,6 +90,17 @@ MAX_CARDINALITY = 200   # HistGB native-categorical bin limit is 255; anything w
 RANDOM_STATE = 8496     # the course number, same convention as Reid's sample seed
 
 
+def _cat_clean(s):
+    """Categorical column ready for sklearn's OrdinalEncoder.
+
+    The projects join stores text as pandas 'string' dtype, whose missing marker is pd.NA —
+    which sklearn's encoders reject ("Got ['NAType', 'str']"). Convert to plain objects with
+    np.nan for missing; the encoder maps np.nan to encoded_missing_value and HistGB treats it
+    natively. Found on the real ICPSR file (unmatched projects, blank subcategories)."""
+    s = s.astype("string")
+    return s.astype(object).where(s.notna(), np.nan)
+
+
 def month_str_to_index(s):
     """'2016-12' → months since 2000-01, the unit cohort_month is stored in (labels.py)."""
     y, m = s.split("-")
@@ -129,7 +140,7 @@ def design_matrix(df):
             col = df[c].astype("string")
             if col.nunique(dropna=True) > MAX_CARDINALITY:               # safety, not expected
                 col = pd.Series(pd.NA, index=df.index, dtype="string")
-            X[c] = col
+            X[c] = _cat_clean(col)
             cat.append(True)
         if "project_record_missing" in df.columns:
             X["project_record_missing"] = df["project_record_missing"].astype(float)
@@ -170,8 +181,10 @@ def fit_models(train, cat_mask_from=None):
 
     # Defaults deliberately conservative; the one knob raised is max_iter with early stopping on an
     # internal 10% validation slice, so "tuning" is bounded and reproducible.
+    # max_iter raised 500 -> 1200 after the first real run used all 500 iterations without
+    # early stopping firing (undertrained); early stopping still governs the actual count.
     clf = HistGradientBoostingClassifier(
-        max_iter=500, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200,
+        max_iter=1200, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200,
         l2_regularization=1.0, early_stopping=True, validation_fraction=0.10,
         categorical_features=cat_mask if cat_cols else None, random_state=RANDOM_STATE)
     clf.fit(Xv, y)
@@ -187,7 +200,7 @@ def fit_models(train, cat_mask_from=None):
         Xp, _, _ = design_matrix(frame)
         Xp = Xp.reindex(columns=X.columns)
         if cat_cols:
-            Xp[cat_cols] = enc.transform(Xp[cat_cols].astype("string"))
+            Xp[cat_cols] = enc.transform(Xp[cat_cols].apply(_cat_clean))
         Xp = Xp.astype(float).values
         p = clf.predict_proba(Xp)[:, 1]
         ev = p * np.expm1(reg.predict(Xp))          # rank score, monotone in expected dollars
@@ -196,19 +209,32 @@ def fit_models(train, cat_mask_from=None):
     return clf, reg, predict, have_projects, X.columns
 
 
-def bootstrap_noise_floor(frame, score_dict, capacity, n_boot=30, seed=RANDOM_STATE):
+def bootstrap_noise_floor(frame, score_dict, capacity, n_boot=30, seed=RANDOM_STATE,
+                          pair=("model_expected_value", "gift_amount")):
     """Std. error of value_per_contact per ranking, by resampling donors (AGENTS: report the
-    noise floor next to any leaderboard-style number)."""
+    noise floor next to any leaderboard-style number).
+
+    Also returns the PAIRED difference pair[0] - pair[1], computed inside each bootstrap draw.
+    Both rankings score the same resampled donors, so their errors are correlated and the SE of
+    the difference is the honest test of "does the model beat the baseline" — combining the two
+    marginal SEs overstates the uncertainty of the gap."""
     rng = np.random.default_rng(seed)
     n = len(frame)
     stats = {name: [] for name in score_dict}
+    deltas = []
     for _ in range(n_boot):
         idx = rng.integers(0, n, n)
         boot = frame.iloc[idx].reset_index(drop=True)
+        draw = {}
         for name, s in score_dict.items():
             r = scorer.evaluate_at_capacity(boot, np.asarray(s)[idx], capacity)
             stats[name].append(r["value_per_contact"])
-    return {name: (float(np.mean(v)), float(np.std(v, ddof=1))) for name, v in stats.items()}
+            draw[name] = r["value_per_contact"]
+        if pair[0] in draw and pair[1] in draw:
+            deltas.append(draw[pair[0]] - draw[pair[1]])
+    out = {name: (float(np.mean(v)), float(np.std(v, ddof=1))) for name, v in stats.items()}
+    paired = ((float(np.mean(deltas)), float(np.std(deltas, ddof=1))) if deltas else None)
+    return out, paired
 
 
 def run(cohorts_path, holdout=False, out_path=None):
@@ -256,21 +282,29 @@ def run(cohorts_path, holdout=False, out_path=None):
     print(at[["ranking", "precision", "recall", "value_capture_rate", "value_per_contact"]]
           .to_string(index=False, float_format=lambda v: f"{v:,.4f}"))
 
-    floor = bootstrap_noise_floor(
+    floor, paired = bootstrap_noise_floor(
         eval_frame, {k: rankings[k] for k in ("model_expected_value", "model_p_return", "gift_amount")},
         config.STEWARDSHIP_CAPACITY)
     print("\nNoise floor (bootstrap over donors, value per contact ± 1 SE):")
     for name, (m, se) in floor.items():
         print(f"  {name:22s} ${m:8,.2f} ± {se:,.2f}")
+    if paired:
+        dm, dse = paired
+        print(f"  PAIRED Δ (model_expected_value − gift_amount): ${dm:+,.2f} ± {dse:,.2f}  "
+              f"(same donors in both rankings each draw)")
 
     best = at.iloc[0]
     amt = at[at.ranking == "gift_amount"].iloc[0]
     mev = at[at.ranking == "model_expected_value"].iloc[0]
     diff = mev["value_per_contact"] - amt["value_per_contact"]
-    se = float(np.hypot(floor["model_expected_value"][1], floor["gift_amount"][1]))
-    print(f"\nVerdict on {eval_name}: model_expected_value vs gift_amount = "
-          f"${mev['value_per_contact']:,.0f} vs ${amt['value_per_contact']:,.0f} "
-          f"(Δ ${diff:+,.0f}, ~{abs(diff)/se:.1f}× the combined SE). Best ranking: {best['ranking']}.")
+    if paired:
+        dm, dse = paired
+        ratio = abs(dm) / dse if dse else float("inf")
+        print(f"\nVerdict on {eval_name}: model_expected_value vs gift_amount = "
+              f"${mev['value_per_contact']:,.0f} vs ${amt['value_per_contact']:,.0f}; paired Δ "
+              f"${dm:+,.2f} ± {dse:,.2f} (~{ratio:.1f}× its SE). Best ranking: {best['ranking']}.")
+    else:
+        print(f"\nVerdict on {eval_name}: Δ ${diff:+,.0f}. Best ranking: {best['ranking']}.")
     if not holdout:
         print("Nothing here touched the holdout. When the team signs off, run once with --holdout.")
 
