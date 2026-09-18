@@ -12,12 +12,15 @@ It runs, in order, and stops at the first failure:
   2. src/labels.py             donations → data/processed/cohorts.parquet
   3. evals/profile_cohorts.py  who is in the table, where the dollars sit
   4. evals/score.py            measurement 1 on citizen donors, then pooled for contrast
+  5. (pooled contrast)         same scorer, all donors — shows the organizations artefact
+  6. src/reference_model.py    logistic floor on donations-file features, holdout scored once
+  7. src/decision.py           break-even threshold, capacity vs threshold policies, Monday list
+  8. src/features.py           Reid's projects join → cohorts_with_projects.parquet
+     src/model.py              Rodolfo's gradient-boosted model, train-split dev loop only
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
-presentation are traceable to a file, not to memory. Total runtime on a laptop is about a minute; measured 1.1 min on Sep 11.
-
-When the modelling workstream lands, add its scoring step here as step 5 so the model and the
-baselines are always produced by the same command.
+presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
+laptop; step 8 adds about 8 minutes (6 for the join, 2 for the model), measured Sep 17.
 """
 
 import subprocess
@@ -31,6 +34,8 @@ COHORTS = REPO / "data" / "processed" / "cohorts.parquet"
 RESULTS = REPO / "evals" / "results"
 
 REF_SCORES = REPO / "data" / "processed" / "reference_scores.parquet"
+PROJECTS = REPO / "data" / "raw" / "ICPSR_37898" / "DS0003" / "37898-0003-Data.tsv"
+COHORTS_PROJ = REPO / "data" / "processed" / "cohorts_with_projects.parquet"
 
 STEPS = [
     ("01_check_donor_id",  [sys.executable, "src/check_donor_id.py", str(DONATIONS)]),
@@ -40,8 +45,11 @@ STEPS = [
     ("05_score_pooled",    [sys.executable, "evals/score.py", str(COHORTS), "holdout", "--all-donors"]),
     ("06_reference_model", [sys.executable, "src/reference_model.py", str(COHORTS), str(REF_SCORES)]),
     ("07_decision_layer",  [sys.executable, "src/decision.py", str(COHORTS), str(REF_SCORES)]),
-    # When the modelling workstream lands: write its holdout scores to a parquet with columns
-    # (donor_id, p_return) and add a step here that points decision.py at it.
+    ("08_features",        [sys.executable, "src/features.py", str(COHORTS), str(PROJECTS), str(COHORTS_PROJ)]),
+    ("08_model_dev",       [sys.executable, "src/model.py", str(COHORTS_PROJ)]),
+    # Step 08 stops at the train-split development loop by design. The holdout run is
+    # `python src/model.py <cohorts_with_projects.parquet> --holdout`, once, after team sign-off;
+    # then add a step pointing decision.py at data/processed/model_scores.parquet.
 ]
 
 

@@ -1,0 +1,22 @@
+Population: citizen donor · fit 1,766,703 · evaluate on dev-val (last pre-holdout year) 390,081 · base rate 0.1299
+Features (19): log_amount, first_month_gifts, first_matched, first_teacher_referred, first_gift_card, month_of_year, cohort_year, COST_OF_REQUESTED_RESOURCES, TOTAL_PRICE_EXCLUDING_OPTIONAL_1, SCHOOL_PERCENTAGE_FREE_AND_RED_1, STUDENTS_REACHED, log_project_cost, project_age_months, GRADE_LEVEL, SUBJECT_CATEGORY, SUBJECT_SUBCATEGORY, CATEGORY, SCHOOL_STATE, project_record_missing
+Boosting iterations used: clf 1196, amount-reg 177 (early stopping)
+
+dev-val (last pre-holdout year) ROC-AUC 0.5902 · PR-AUC 0.1980   (reference logistic on holdout was 0.578)
+
+At 10% capacity, on dev-val (last pre-holdout year):
+               ranking  precision  recall  value_capture_rate  value_per_contact
+  model_expected_value     0.2241  0.1726              0.5658           119.8150
+           gift_amount     0.2059  0.1586              0.5528           117.0507
+        model_p_return     0.2325  0.1791              0.4767           100.9505
+first_month_gift_count     0.2075  0.1598              0.3648            77.2358
+                random     0.1287  0.0991              0.1093            23.1508
+
+Noise floor (bootstrap over donors, value per contact ± 1 SE):
+  model_expected_value   $  117.61 ± 5.85
+  model_p_return         $   99.18 ± 6.05
+  gift_amount            $  115.56 ± 5.82
+  PAIRED Δ (model_expected_value − gift_amount): $+2.05 ± 0.67  (same donors in both rankings each draw)
+
+Verdict on dev-val (last pre-holdout year): model_expected_value vs gift_amount = $120 vs $117; paired Δ $+2.05 ± 0.67 (~3.1× its SE). Best ranking: model_expected_value.
+Nothing here touched the holdout. When the team signs off, run once with --holdout.

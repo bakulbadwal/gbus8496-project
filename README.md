@@ -33,7 +33,7 @@ membership list. This table is.
 |---|---|---|---|
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
-| Baseline + model | Rodolfo | ⏳ not started — **reference model in place** (`src/reference_model.py`) | Beat the reference: ROC-AUC 0.578, **$119/contact at 10%**. Read the note below first — the signal is not in the donations file |
+| **Baseline + model** | Rodolfo | ✅ **MODEL PUSHED Sep 17** (`src/model.py`, notebook 03), **run on real data Sep 17** — dev-val result below | Team signs off in chat → run `--holdout` once → `model_scores.parquet` feeds Malorie and Thadeus. Execute notebook 03 so outputs are saved |
 | Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
 | Outreach economics + recommendation | Malorie | ⏳ not started — **decision layer built** (`src/decision.py`), inputs are placeholders | Replace `COST_PER_CONTACT_USD`, `CONTACT_MINUTES`, `MONTHLY_OUTREACH_HOURS` in `src/config.py`. Your cost number decides the recommendation — see below |
 | Slides · exec summary · AI-use note · zip | all | ⏳ **deck template built Sep 11** | [`docs/slides/Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — house style, 10 slides. Slides 1–4 and 6 carry real content; 5, 7–10 are styled frames with each owner's brief and a drop zone. Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). Rebuild with `node docs/slides/build_deck.js <out.pptx> docs/slides/assets`. Outline with owners: [`OUTLINE.md`](docs/slides/OUTLINE.md). [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md): problem + approach written, findings + recommendation blank. Presentations **Sep 28–29**; zip Oct 2 |
@@ -129,6 +129,32 @@ These contrast cells are descriptive comparisons, not causal effects. They show 
 **Interaction exploration:** project-only combinations showed meaningful spread before gift size was added. The largest observed project-only contrast was `Other subject × Trips` at **29.2%** repeat versus a **14.0%** comparison rate (**+15.2 percentage points**). State × category also varied from `Connecticut × Trips` at **7.9%** to `Indiana × Trips` at **20.6%**. When gift size was added, `Books × gift decile 8` reached **28.5%** repeat versus **13.8%** outside the cell, with approximately **+$158 per donor** in expected value.
 
 These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
+
+### What Rodolfo's model found — first real-data run, Sep 17 (`evals/results/08_model_dev.txt`)
+
+`src/model.py`: a gradient-boosted classifier for P(return) and a gradient-boosted regressor for
+log(second-gift amount) on returners, ranked by P × E[amount]. Features are the reference model's
+plus Reid's projects join. Developed entirely inside the train split (fit ≤2015, evaluate on 2016
+cohorts); **the holdout has not been touched.** The join is reproduced by `src/features.py`.
+
+| Ranking, 2016 dev-val, 10% capacity | Precision | Value identified | $ per contact |
+|---|---|---|---|
+| **Model, expected value** | 22.4% | 56.6% | **$120** |
+| First gift size | 20.6% | 55.3% | $117 |
+| Model, P(return) only | 23.3% | 47.7% | $101 |
+| Random | 12.9% | 10.9% | $23 |
+
+Paired bootstrap: the model beats gift size by **$2.05 ± 0.67 per contact** — real (3× its standard
+error) and small (under 2%). ROC-AUC 0.590 against the reference logistic's 0.578. Three readings:
+
+1. **The projects join adds a little, not a lot.** Reid's interactions are real, but gift size
+   already carries most of what predicts *dollars*. That is a finding, not a failure — Albert wrote
+   that a well-supported negative result earns a high grade.
+2. **Probability and dollars pull apart.** Ranking by P(return) alone finds the most *people*
+   (precision 23.3%) and the fewest *dollars* ($101). Which list she works depends on whether her
+   goal is retained donors or retained revenue. That is a slide.
+3. **The classifier used 1,196 of 1,200 boosting iterations without early stopping firing** — it is
+   still undertrained or the learning rate is too low. Worth one more pass before the holdout run.
 
 ## Setup — takes about five minutes, most of it the download
 
