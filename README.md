@@ -34,7 +34,7 @@ membership list. This table is.
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
 | **Baseline + model** | Rodolfo | ✅ **MODEL PUSHED Sep 17** (`src/model.py`, notebook 03), **run on real data Sep 17** — dev-val result below | Team signs off in chat → run `--holdout` once → `model_scores.parquet` feeds Malorie and Thadeus. Execute notebook 03 so outputs are saved |
-| Evaluation + error analysis | Thadeus | ⏳ not started | Albert's measurement 2: calibration curve + error analysis by cohort year. Measurement 1 already runs |
+| Evaluation + error analysis | Thadeus | ⏳ not started — **measurement 2 floor built Sep 19** (`evals/calibration.py`, runs on any scores file; findings below) | Extend it: re-run on `model_scores.parquet` after the holdout run, write the slide-7 sentences, own the "what we are not claiming" slide |
 | Outreach economics + recommendation | Malorie | ⏳ not started — **decision layer built** (`src/decision.py`), inputs are placeholders | Replace `COST_PER_CONTACT_USD`, `CONTACT_MINUTES`, `MONTHLY_OUTREACH_HOURS` in `src/config.py`. Your cost number decides the recommendation — see below |
 | Slides · exec summary · AI-use note · zip | all | ⏳ **deck template built Sep 11** | [`docs/slides/Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — house style, 10 slides. Slides 1–4 and 6 carry real content; 5, 7–10 are styled frames with each owner's brief and a drop zone. Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). Rebuild with `node docs/slides/build_deck.js <out.pptx> docs/slides/assets`. Outline with owners: [`OUTLINE.md`](docs/slides/OUTLINE.md). [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md): problem + approach written, findings + recommendation blank. Presentations **Sep 28–29**; zip Oct 2 |
 
@@ -155,6 +155,28 @@ error) and small (under 2%). ROC-AUC 0.590 against the reference logistic's 0.57
    goal is retained donors or retained revenue. That is a slide.
 3. **The classifier used 1,196 of 1,200 boosting iterations without early stopping firing** — it is
    still undertrained or the learning rate is too low. Worth one more pass before the holdout run.
+
+### Measurement 2 on the reference model — Sep 19 (`evals/results/09_calibration.txt`)
+
+`evals/calibration.py` answers Albert's "how do you know it works, and where does it not?" for
+any scores file. Run on the reference logistic's holdout predictions (it will be re-run on
+`model_scores.parquet` after the holdout run). Figure for slide 7: `docs/slides/assets/slide7_calibration.png`.
+
+1. **It under-promises.** Every decile returns *more* than predicted: the top decile says 18%
+   and gets 22%; bottom says 6.5%, gets 8.2%. Expected calibration error 0.016, Brier 0.109 vs
+   0.110 for predicting the base rate (1.2% skill — the ranking works, the probabilities barely
+   beat a constant). The direction matters for `src/decision.py`: a threshold rule built on these
+   probabilities calls *too few* people. The likely cause is the cohort-year drift term
+   extrapolating 2017–18 lower than they turned out. **Thadeus:** confirm with a train-only refit.
+2. **It holds up across years, but the dollars don't.** Precision 23.6% in 2017 → 21.3% in 2018,
+   almost exactly tracking the base rate (14.0% → 11.5%), so lift over base is stable at ~1.8×.
+   Value per contact falls $139 → $102: the 2018 list finds returners as well, but they give less.
+3. **The list is the big-gift list.** Donors giving under $50 are 52% of the holdout and **1.9%
+   of the 10% list**; $100+ donors are 15% of the holdout and 82% of the list. Precision on the few
+   small donors it does pick is high (38%), which says the model can find small returners — it just
+   almost never has room for them at capacity. That is the honest sentence for slide 7: *this
+   ranks the donors she already knew about; it does not yet find the small donors she needs help
+   with.* Reid's features and Rodolfo's model are where that would change.
 
 ## Setup — takes about five minutes, most of it the download
 

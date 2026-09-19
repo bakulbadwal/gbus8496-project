@@ -84,6 +84,11 @@ Calibration curve on the holdout. Error analysis by cohort year: does 2018 behav
 by first-gift size band: the model is probably weakest on small first gifts, which is where most
 of her donors are. That sentence is the honest one and the room will respect it. Answers Albert's
 "how do you know it works" directly.
+**Floor built Sep 19:** `evals/calibration.py` produces the numbers and the figure
+(`assets/slide7_calibration.png`, dark variant beside it). On the reference model: under-promises in
+every decile (says 18%, gets 22%), lift stable across 2017→2018, and the 10% list is 82% donors who
+gave $100+ — donors under $50 are half the holdout and 2% of the list. Re-run on `model_scores.parquet`
+after the holdout run; the sentences may change, the figure will not need to.
 
 ### 8 · What she does on Monday — Malorie, 60 seconds
 The decision layer (`src/decision.py`). Her capacity in hours → contacts per month. Cost per

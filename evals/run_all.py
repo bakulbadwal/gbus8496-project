@@ -17,6 +17,8 @@ It runs, in order, and stops at the first failure:
   7. src/decision.py           break-even threshold, capacity vs threshold policies, Monday list
   8. src/features.py           Reid's projects join → cohorts_with_projects.parquet
      src/model.py              Rodolfo's gradient-boosted model, train-split dev loop only
+  9. evals/calibration.py      measurement 2: calibration, error analysis by cohort year and
+                               by first-gift size band, on whichever scores file exists
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
 presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
@@ -47,6 +49,9 @@ STEPS = [
     ("07_decision_layer",  [sys.executable, "src/decision.py", str(COHORTS), str(REF_SCORES)]),
     ("08_features",        [sys.executable, "src/features.py", str(COHORTS), str(PROJECTS), str(COHORTS_PROJ)]),
     ("08_model_dev",       [sys.executable, "src/model.py", str(COHORTS_PROJ)]),
+    ("09_calibration",     [sys.executable, "evals/calibration.py", str(COHORTS), str(REF_SCORES),
+                            "--out", "docs/slides/assets/slide7_calibration"]),
+    # After the holdout run, point 09 at data/processed/model_scores.parquet instead.
     # Step 08 stops at the train-split development loop by design. The holdout run is
     # `python src/model.py <cohorts_with_projects.parquet> --holdout`, once, after team sign-off;
     # then add a step pointing decision.py at data/processed/model_scores.parquet.

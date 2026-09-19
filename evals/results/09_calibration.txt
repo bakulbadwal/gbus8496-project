@@ -1,0 +1,38 @@
+Holdout citizen donor: 814,971 donors · scored 814,971
+
+1 · CALIBRATION (holdout, 814,971 donors, base rate 0.1260)
+     donors  predicted  observed  p_low  p_high  gap_pp
+bin                                                    
+0     81545     0.0652    0.0820 0.0301  0.0771  1.6775
+1     83589     0.0828    0.1056 0.0771  0.0877  2.2828
+2     81925     0.0906    0.1134 0.0877  0.0940  2.2712
+3     85966     0.0975    0.1110 0.0940  0.1003  1.3569
+4     76146     0.1028    0.1090 0.1003  0.1056  0.6162
+5     80125     0.1085    0.1212 0.1056  0.1110  1.2652
+6     81639     0.1153    0.1170 0.1110  0.1186  0.1644
+7     81557     0.1232    0.1314 0.1186  0.1269  0.8241
+8     81698     0.1346    0.1505 0.1269  0.1439  1.5926
+9     80781     0.1799    0.2204 0.1439  1.0000  4.0563
+
+Expected calibration error (ECE): 0.0162   Brier: 0.1088 vs 0.1102 predicting the base rate for everyone (+1.22% skill)
+Top decile says 18.0%, gets 22.0%; bottom decile says 6.5%, gets 8.2%.
+
+2 · ERROR ANALYSIS BY COHORT YEAR (10% list built within cohort month)
+             donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  precision  value_per_contact
+cohort_year                                                                                                           
+2017         371886           0.4563     0.1395  0.1163 0.5718      37194         0.4563     0.2358           139.4789
+2018         443085           0.5437     0.1148  0.1045 0.5737      44315         0.5437     0.2128           101.8963
+Precision 2017 → 2018: -2.31 pp; base rate moved -2.47 pp.
+
+3 · BY FIRST-GIFT SIZE BAND — share of donors vs share of the list, and how each does
+          donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  precision  value_per_contact
+band                                                                                                               
+<$10       13830           0.0170     0.1020  0.0714 0.5051         50         0.0006     0.2600            17.6420
+$10–24    146431           0.1797     0.0893  0.0841 0.5856        209         0.0026     0.5215            50.2344
+$25–49    267112           0.3278     0.1092  0.0996 0.5432       1259         0.0154     0.3638            39.5866
+$50–99    265054           0.3252     0.1391  0.1153 0.5079      12814         0.1572     0.2397            37.1731
+$100–249   98774           0.1212     0.1677  0.1424 0.5797      43796         0.5373     0.2048            56.2410
+$250+      23770           0.0292     0.2377  0.2118 0.6371      23381         0.2869     0.2386           286.6696
+Donors giving under $50 are 52.4% of the holdout and 1.9% of the list; their precision on the list is 38.2% vs 22.2% for $100+.
+figure → docs/slides/assets/slide7_calibration.png
+figure → docs/slides/assets/slide7_calibration_dark.png
