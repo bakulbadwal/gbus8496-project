@@ -1,61 +1,55 @@
 # Predicting the Second Gift — executive summary
 
-*Deliverable 5 of 6. One page, for an executive who missed the presentation. Problem, approach,
-findings, recommendation. The first two sections are written; the last two fill in when the
-numbers exist. Keep it to one page when rendered.*
-
 **Group 11 · GBUS 8496 · Malorie Black, Reid Jacobson, Thadeus Knospe, Rodolfo Perez-Cortes
-Manrique, Bakul Badwal · [date]**
+Manrique, Bakul Badwal · October 2026**
 
 ## Problem
 
-Most nonprofits acquire a donor once and never hear from them again. On DonorsChoose, the
-classroom crowdfunding platform, 71% of all donors across seventeen years gave exactly once. The
-second gift is where retention is won or lost, and the organizations least equipped to work it are
-small ones: a development lead at a nonprofit with a $500K budget and no data staff can personally
-follow up with only a fraction of the people who gave for the first time last month. Today she
-builds that list by hand from recency and gift size.
-
-The decision this project supports: given a fixed monthly outreach capacity, which first-time
-donors should receive a personal follow-up, and where should the cutoff sit?
-
-One of us founded GoGood Technologies, a donor-engagement platform whose customers are this
-stakeholder. That is why we chose the problem, and the reader should weigh our conclusions with
-that in mind.
+On DonorsChoose, the classroom crowdfunding platform, 71% of donors across seventeen years gave
+exactly once. The second gift is where retention is won or lost. A development lead at a $500K
+nonprofit with no data staff can personally follow up with only a fraction of last month's
+first-time donors, and today she picks them by hand from gift size. Our question: at a fixed
+monthly capacity, which first-time donors should get the call? One of us founded GoGood
+Technologies, whose customers are this stakeholder; weigh our conclusions with that in mind.
 
 ## Approach
 
 We used DonorsChoose Open Data 2002–2019 (ICPSR 37898): 11.4 million donations from 3.5 million
-donors, with a donor identifier that we confirmed links gifts across projects. For each donor we
-built one label — did they give again within twelve months of their first gift — and held out the
-2017 and 2018 first-gift cohorts as a test set the model never saw, because the stakeholder's
-question is about next year's donors and a random split would let the model see the future.
+donors. Each donor gets one label, whether they gave again within twelve months of their first
+gift. The 2017–18 cohorts were held out and scored once, because her question is about next year's
+donors. Every rule is scored at her capacity, the top 10% of each month's new donors, in dollars of
+subsequent giving identified per contact. The baseline is her own rule, rank by first-gift size.
 
-We scored every ranking rule at her capacity, the top 10% of each month's new donors, and measured
-dollars of subsequent giving identified per contact. The baseline is the rule she uses by hand:
-rank by first-gift size. On a cohort of first-time donors that is the strongest simple rule
-available, since frequency and recency are identical for everyone in it.
-
-One finding shaped everything after it. The file holds three populations, not one: citizen donors
-(86% of people, 23% of repeat dollars), organizations (0.1% of people, 62% of dollars, the largest a
-corporate matching program making tens of thousands of gifts a year), and teachers seeding their
-own classrooms. Pooled, any ranking rule looks brilliant by finding the corporations. We scored
-citizen donors only, the people a development lead actually calls.
+One finding shaped everything after it: the file holds three populations. Organizations are 0.1%
+of donors but 62% of repeat dollars, mostly corporate matching programs. Teachers seed their own
+classrooms. Pooled, any rule looks brilliant by finding the corporations. We scored citizen donors,
+86% of people, the ones she actually calls.
 
 ## Findings
 
-*[Fill in from slides 6 and 7. The headline: model vs gift-size rule vs contact-everyone at 10%
-capacity, in dollars per contact. Then calibration, and where the model is weakest. If the model
-does not beat the gift-size rule, say so here in the first sentence; Albert grades the rigor, not
-the direction of the result.]*
+**A model beats her rule by a small, reliable margin.** On the holdout, ranking by predicted
+second-gift value identifies **$120 per contact**, against **$116** for gift size and **$21** for
+calling everyone. On the same donors the gap is +$3.80 ± 0.51, about seven standard errors. One call
+in ten reaches 58% of all subsequent giving. The model is two gradient-boosted estimators, for the
+chance of a second gift and its size, using first-gift attributes plus the project and school
+first funded. Gift size already carries most of the signal; project context adds modest lift.
 
-Baseline established: ranking by first-gift size identifies 56% of subsequent citizen giving at
-10% capacity, $116 per contact against $21 for contacting everyone, but with 20% precision — it
-finds dollars, not people.
+**The probabilities can be trusted.** Predicted and observed return rates agree within about a point
+across most of the range; the top decile predicts 27% and observes 24%. Lift is stable from 2017
+to 2018 as the base rate falls. Unlike her rule, whose list is entirely $100-plus donors, the
+model gives 14% of its calls to donors whose first gift was under $50.
 
 ## Recommendation
 
-*[Fill in from slide 8 and 10. Her capacity in hours, the list she works, what it costs to run
-(nothing — a monthly batch job), and what it is expected to reach. One paragraph. Then the three
-things we are not claiming: no causal effect of outreach, thank-you-packet question dropped, and
-the transfer caveat to relational small-nonprofit donors.]*
+Each month, rank new first-time donors by predicted second-gift value and call the top one in ten.
+On the holdout that nets **$7.75M** over two years at $25 per contact, **$312K more** than her rule
+on the same number of calls; calling everyone **loses $3.6M**. Cost per contact sets how deep to go:
+at $5 about half of new donors clear break-even, at $25 only 6.5%. It runs as one monthly batch job
+on a laptop, about ten minutes, no API calls.
+
+**What we are not claiming.** No causal effect: nobody was randomly assigned a call, so these are
+dollars *identified*, not *caused*; a small randomized pilot is the next step. The thank-you-packet
+question was dropped because the data gives no timing. Transfer from a marketplace to a relational
+small nonprofit is a hypothesis. The $25 cost is a placeholder for a figure from real practice.
+
+*Every number reproduces with `python evals/run_all.py`; sources in `evals/results/`.*

@@ -1,6 +1,5 @@
 // Group 11 deck — house style (deep navy, brass, warm paper ink), 16:9.
-// Slides 1, 3, 4, 6 carry real content; 2 has the real chart; 5, 7, 8, 9, 10 are styled frames
-// with each owner's one-sentence brief and a marked drop zone.
+// Slides 1-4, 6, 8, 10 carry real content (holdout numbers, Sep 22); 5 and 7 are owner frames (Reid, Thadeus); 9 has its three limits.
 const pptxgen = require("pptxgenjs");
 const OUT = process.argv[2];
 const ASSETS = process.argv[3]; // docs/slides/assets, absolute
@@ -161,16 +160,16 @@ const chartFrame = {
   const cell = (t, o = {}) => ({ text: t, options: { color: o.color ?? MUTED, fontFace: B, fontSize: 11, bold: !!o.bold, fill: { color: o.fill ?? NAVY }, align: o.align ?? "right", valign: "middle" } });
   const rows = [
     [hdr("RANKING"), hdr("PRECISION"), hdr("RECALL"), hdr("VALUE FOUND"), hdr("$ / CONTACT")],
-    [cell("Our model", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("[  ]", { fill: S1, color: BRASS }), cell("[  ]", { fill: S1, color: BRASS }), cell("[  ]", { fill: S1, color: BRASS }), cell("$[   ]", { fill: S1, color: BRASS, bold: true })],
+    [cell("Our model — P(return) × E[amount]", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("22.2%", { fill: S1, color: "FFFFFF" }), cell("17.6%", { fill: S1, color: "FFFFFF" }), cell("58.3%", { fill: S1, color: "FFFFFF" }), cell("$120", { fill: S1, color: BRASS, bold: true })],
     [cell("First gift size — the honest baseline", { align: "left", color: INK }), cell("19.7%"), cell("15.7%"), cell("56.4%"), cell("$116", { bold: true, color: INK })],
     [cell("First-month gift count", { align: "left" }), cell("20.4%"), cell("16.2%"), cell("41.4%"), cell("$85")],
     [cell("Random", { align: "left" }), cell("12.7%"), cell("10.1%"), cell("9.1%"), cell("$19")],
     [cell("Contact everyone", { align: "left" }), cell("12.6%"), cell("100%"), cell("100%"), cell("$21")],
   ];
   s.addTable(rows, { x: MX, y: 1.8, w: W - 2 * MX, colW: [3.5, 1.35, 1.35, 1.55, 1.15], rowH: 0.42, border: { type: "solid", color: S2, pt: 0.5 }, margin: 0.08 });
-  body(s, "The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and gift size is what she does by hand. If the model does not beat $116, say so and go to slide 9.",
+  body(s, "Paired bootstrap on the same donors: +$3.80 ± 0.51 per contact over gift size, about 7 standard errors. Real, and small — gift size already carries most of what predicts dollars. The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and it is what she does by hand.",
     MX, 4.5, 8.9, 0.6, { size: 10.5, color: SUBTLE, italic: true });
-  s.addNotes("60 seconds. Headline metric is dollars per contact, not AUC — Albert said the ranking at capacity is the decision. Baseline rows are real (evals/results/04_score_citizen.txt); the model row is the owner's.");
+  s.addNotes("60 seconds. Headline metric is dollars per contact, not AUC — Albert said the ranking at capacity is the decision. Every row is real: baselines in evals/results/04_score_citizen.txt, model in evals/results/10_model_holdout.txt (holdout scored once, Sep 22). Gradient-boosted classifier + log-amount regressor on donation-file and projects-join features. If asked: ranking by probability alone finds more returners (24.0% precision) but fewer dollars ($107).");
 }
 
 // ── 7 · How we know it works (Thadeus) ──────────────────────────────────────────────────────
@@ -191,16 +190,18 @@ const chartFrame = {
   const s = pres.addSlide();
   base(s, "The decision", "Malorie", 8);
   title(s, "What she does on Monday", { size: 30, h: 0.7 });
-  const cols = [["[N] hrs", "monthly capacity"], ["[N] calls", "at [ ] min each"], ["$[  ]", "per contact"], ["$0", "to run, monthly"]];
+  const cols = [["3,013", "calls · Dec 2018"], ["$25", "per call · placeholder"], ["+$7.75M", "net · 2017–18"], ["$0", "to run monthly"]];
   cols.forEach(([b, sm], i) => {
     const x = MX + i * 2.25; card(s, x, 1.5, 2.05, 1.45, S1);
     s.addText(b, { x: x + 0.2, y: 1.66, w: 1.75, h: 0.6, fontFace: T, fontSize: 28, bold: true, color: "FFFFFF", isTextBox: true, margin: 0 });
     s.addText(sm.toUpperCase(), { x: x + 0.2, y: 2.36, w: 1.75, h: 0.4, fontFace: M, fontSize: 8, color: TERT, charSpacing: 1.5, isTextBox: true, margin: 0 });
   });
-  body(s, "Given her hours, work this list and expect roughly $[Y] in subsequent giving that the old list would have missed. Amount model: cohort median to start (Albert: fine). This answers 'what would it cost at scale' in one line.",
+  body(s, "Calling everyone loses $3.6M at $25 a contact. Calling the model's top 10% nets $7.75M over the two holdout years — $312K more than her gift-size rule on the same number of calls. Her cost per contact sets how deep to go: at $5, half of new donors clear break-even; at $25, 6.5%.",
     MX, 3.15, 8.9, 0.8, { size: 12 });
-  dropzone(s, MX, 4.05, W - 2 * MX, 1.05, "The recommendation sentence a development lead repeats to her board");
-  s.addNotes("60 seconds. Cost per contact from real practice — a number GoGood can defend. Production cost is effectively zero and should be said as such.");
+  card(s, MX, 4.05, W - 2 * MX, 1.05, S1);
+  label(s, "Cost at production scale", MX + 0.25, 4.2, 4);
+  body(s, "One monthly batch job on a laptop: about ten minutes, no API calls, no vendor. The only real cost is her time on the phone.", MX + 0.25, 4.45, W - 2 * MX - 0.5, 0.55, { size: 12, color: "FFFFFF" });
+  s.addNotes("60 seconds. $25 is a PLACEHOLDER — replace with a cost per contact GoGood can defend, then re-run src/decision.py. Source: evals/results/11_decision_model.txt. Production cost is effectively zero; say so.");
 }
 
 // ── 9 · What we are not claiming (Thadeus) ──────────────────────────────────────────────────
@@ -226,12 +227,11 @@ const chartFrame = {
 {
   const s = pres.addSlide();
   base(s, "Recommendation", "Malorie", 10);
-  s.addText("Rank this month's first-time donors by [model / gift size], call the top [N], and expect to reach [X] percent of next year's repeat giving with [Y] hours.",
+  s.addText("Rank each month's first-time donors by predicted second-gift value, call the top one in ten, and expect to reach 58 percent of next year's repeat giving.",
     { x: MX + 0.3, y: 1.35, w: W - 2 * MX - 0.6, h: 2.3, fontFace: T, fontSize: 28, color: "FFFFFF", isTextBox: true, margin: 0, valign: "middle", lineSpacingMultiple: 1.15 });
-  body(s, "One sentence. Then stop.", MX + 0.3, 3.85, 4, 0.35, { size: 12, italic: true, color: BRASS });
   body(s, "github.com/bakulbadwal/gbus8496-project  ·  every number reproduces with  python evals/run_all.py",
     MX + 0.3, 4.65, 8.6, 0.3, { size: 9.5, color: TERT });
-  s.addNotes("20 seconds. The exact words come from slides 6 and 8.");
+  s.addNotes("20 seconds. One sentence, then stop. 58% = value identified at 10% capacity, evals/results/10_model_holdout.txt.");
 }
 
 pres.writeFile({ fileName: OUT }).then(() => console.log("wrote", OUT));

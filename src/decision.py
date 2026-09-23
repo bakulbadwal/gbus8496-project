@@ -73,6 +73,15 @@ def main(cohorts_path, scores_path):
     med_by_year, med_all = expected_amount_by_cohort_year(train)
     hold["exp_amount"] = (hold["cohort_month"] // 12).map(med_by_year).fillna(med_all)
     hold["ev_contact"] = hold["p_return"] * hold["exp_amount"]
+    if "expected_value" in hold.columns:
+        # Rodolfo's model (src/model.py) ships its own P × E[amount | return], with E[amount] from a
+        # gradient-boosted regression on log amount. Use it: a flat $50 median would turn "rank by
+        # expected value" back into "rank by probability" and throw the amount model away.
+        # expm1 of a log-scale prediction is closer to a median than a mean — conservative, and
+        # consistent with the cohort-median default it replaces.
+        hold["ev_contact"] = hold["expected_value"]
+        hold["exp_amount"] = hold["expected_value"] / hold["p_return"].clip(lower=1e-9)
+        print("Scores file carries the model's own expected_value — using it (per-donor E[amount]).")
     p_star = cost / med_all
     print(f"E[second gift | return], train median: ${med_all:,.2f}  (by cohort year: "
           + ", ".join(f"{int(y)+2000}: ${v:,.0f}" for y, v in med_by_year.tail(4).items()) + ")")
@@ -97,7 +106,9 @@ def main(cohorts_path, scores_path):
         return mask
 
     policies = {
-        f"threshold  p > p* ({p_star:.3f})":        hold["p_return"].values > p_star,
+        # The rule is EV > cost. With a flat E[amount] that is exactly p > p*; with a per-donor
+        # amount model it is the same rule applied donor by donor.
+        f"threshold  EV > cost (${cost:.0f})":       hold["ev_contact"].values > cost,
         f"capacity {capacity:.0%} by expected value": top_share_within_month("ev_contact", capacity),
         f"capacity {capacity:.0%} by gift size (her rule)": top_share_within_month("first_gift_amount", capacity),
         "contact everyone":                          np.ones(len(hold), dtype=bool),
@@ -108,10 +119,11 @@ def main(cohorts_path, scores_path):
     print(table.to_string(index=False, float_format=lambda v: f"{v:,.2f}"))
 
     # ── 3. Sensitivity to the placeholder cost — so Malorie can see what her number changes ──
-    print("\nBreak-even p* and threshold-policy net, as cost per contact varies:")
+    print("\nThreshold policy (contact if EV > cost) as cost per contact varies; p* shown for a flat $"
+          f"{med_all:.0f} amount:")
     for c in [5, 10, 25, 50, 100]:
         ps = c / med_all
-        m = hold["p_return"].values > ps
+        m = hold["ev_contact"].values > c
         r = score_policy(hold, m, c)
         print(f"  cost ${c:>3}: p* = {ps:.3f} · contacts {r['contacts']:>8,} ({m.mean():5.1%}) · "
               f"net ${r['net']:>12,.0f} · net/contact ${r['net_per_contact']:>7,.2f}")

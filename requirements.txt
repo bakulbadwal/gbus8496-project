@@ -13,3 +13,6 @@ pypdf
 openpyxl
 pyarrow
 python-dotenv
+scipy
+patsy
+seaborn

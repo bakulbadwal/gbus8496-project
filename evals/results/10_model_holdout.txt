@@ -1,0 +1,24 @@
+🔴 HOLDOUT RUN. This is meant to happen once, after the team signed off in chat.
+Population: citizen donor · fit 2,156,784 · evaluate on HOLDOUT 814,971 · base rate 0.1260
+Features (19): log_amount, first_month_gifts, first_matched, first_teacher_referred, first_gift_card, month_of_year, cohort_year, COST_OF_REQUESTED_RESOURCES, TOTAL_PRICE_EXCLUDING_OPTIONAL_1, SCHOOL_PERCENTAGE_FREE_AND_RED_1, STUDENTS_REACHED, log_project_cost, project_age_months, GRADE_LEVEL, SUBJECT_CATEGORY, SUBJECT_SUBCATEGORY, CATEGORY, SCHOOL_STATE, project_record_missing
+Boosting iterations used: clf 863, amount-reg 171 (early stopping)
+
+HOLDOUT ROC-AUC 0.6041 · PR-AUC 0.1998   (reference logistic on holdout was 0.578)
+
+At 10% capacity, on HOLDOUT:
+               ranking  precision  recall  value_capture_rate  value_per_contact
+  model_expected_value     0.2215  0.1757              0.5829           120.0906
+           gift_amount     0.1973  0.1566              0.5643           116.2577
+        model_p_return     0.2399  0.1903              0.5212           107.3695
+first_month_gift_count     0.2037  0.1616              0.4141            85.3044
+                random     0.1267  0.1005              0.0906            18.6648
+
+Noise floor (bootstrap over donors, value per contact ± 1 SE):
+  model_expected_value   $  118.84 ± 12.24
+  model_p_return         $  106.31 ± 12.30
+  gift_amount            $  115.04 ± 12.26
+  PAIRED Δ (model_expected_value − gift_amount): $+3.80 ± 0.51  (same donors in both rankings each draw)
+
+Verdict on HOLDOUT: model_expected_value vs gift_amount = $120 vs $116; paired Δ $+3.80 ± 0.51 (~7.4× its SE). Best ranking: model_expected_value.
+
+Holdout scores written to data/processed/model_scores.parquet — replaces reference_scores.parquet for src/decision.py (Malorie) and calibration (Thadeus).

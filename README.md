@@ -21,11 +21,11 @@ membership list. This table is.
 
 | Member | GitHub | Workstream | Status |
 |---|---|---|---|
-| Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | ready to start |
+| Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | plain-language talk in progress; cost number owed |
 | Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ✅ feature exploration pushed |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | ready to start |
-| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ready to start |
-| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ skeleton pushed Sep 9 |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | slides 7 + 9 to write and present |
+| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ✅ model pushed Sep 17, holdout scored Sep 22 |
+| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ done Sep 11; integration + deck + exec summary Sep 22 |
 
 ## Status by workstream — what is done, what is pending, what is left
 
@@ -33,10 +33,10 @@ membership list. This table is.
 |---|---|---|---|
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
-| **Baseline + model** | Rodolfo | ✅ **MODEL PUSHED Sep 17** (`src/model.py`, notebook 03), **run on real data Sep 17** — dev-val result below | Team signs off in chat → run `--holdout` once → `model_scores.parquet` feeds Malorie and Thadeus. Execute notebook 03 so outputs are saved |
-| Evaluation + error analysis | Thadeus | ⏳ not started — **measurement 2 floor built Sep 19** (`evals/calibration.py`, runs on any scores file; findings below) | Extend it: re-run on `model_scores.parquet` after the holdout run, write the slide-7 sentences, own the "what we are not claiming" slide |
-| Outreach economics + recommendation | Malorie | ⏳ not started — **decision layer built** (`src/decision.py`), inputs are placeholders | Replace `COST_PER_CONTACT_USD`, `CONTACT_MINUTES`, `MONTHLY_OUTREACH_HOURS` in `src/config.py`. Your cost number decides the recommendation — see below |
-| Slides · exec summary · AI-use note · zip | all | ⏳ **deck template built Sep 11** | [`docs/slides/Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — house style, 10 slides. Slides 1–4 and 6 carry real content; 5, 7–10 are styled frames with each owner's brief and a drop zone. Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). Rebuild with `node docs/slides/build_deck.js <out.pptx> docs/slides/assets`. Outline with owners: [`OUTLINE.md`](docs/slides/OUTLINE.md). [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md): problem + approach written, findings + recommendation blank. Presentations **Sep 28–29**; zip Oct 2 |
+| **Baseline + model** | Rodolfo | ✅ **DONE — holdout scored Sep 22** (`evals/results/10_model_holdout.txt`): $120/contact vs $116, paired +$3.80 ± 0.51. Notebook 03 executed | Present slide 6 |
+| **Evaluation + error analysis** | Thadeus | ✅ **measurement 2 run on the model Sep 22** (`evals/calibration.py` → `evals/results/12_calibration_model.txt`, figure `assets/slide7_calibration_model*.png`) | **Write and present slide 7** (calibration + where it is weakest) **and slide 9** (what we are not claiming). Extend the analysis if you want — the script takes any scores file |
+| **Outreach economics + recommendation** | Malorie | ✅ **decision layer run on the model Sep 22** (`evals/results/11_decision_model.txt`); slides 8 + 10 filled; building a plain-language version of the talk | **One number still owed: real cost per contact** (placeholder $25 in `src/config.py`). Post it in the chat; re-run `src/decision.py` |
+| **Slides · exec summary · AI-use note · zip** | all | ✅ **deck + exec summary filled with holdout numbers Sep 22** | [`Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — slides 1–4, 6, 8–10 real; **5 (Reid) and 7 (Thadeus) are owner frames**, assets ready (`assets/slide7_calibration_model*.png`). Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). [`EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf): one page, complete. Run-throughs **Thu 9/24 1:15** and **Tue 9/29 first coffee**; present 9/29; zip Oct 2 |
 
 ### What Bakul's workstream delivered
 
@@ -129,6 +129,29 @@ These contrast cells are descriptive comparisons, not causal effects. They show 
 **Interaction exploration:** project-only combinations showed meaningful spread before gift size was added. The largest observed project-only contrast was `Other subject × Trips` at **29.2%** repeat versus a **14.0%** comparison rate (**+15.2 percentage points**). State × category also varied from `Connecticut × Trips` at **7.9%** to `Indiana × Trips` at **20.6%**. When gift size was added, `Books × gift decile 8` reached **28.5%** repeat versus **13.8%** outside the cell, with approximately **+$158 per donor** in expected value.
 
 These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
+
+### 🔴 THE RESULT — holdout, scored once, Sep 22 (`evals/results/10–12_*.txt`)
+
+Model frozen on dev-val first (iteration cap raised 1,200 → 3,000 with learning rate 0.06 → 0.10 so
+early stopping actually fires; dev-val moved $119.82 → $119.51, i.e. the cap was not binding), then
+the 2017–18 holdout was scored once.
+
+| Citizen donors, holdout, 10% capacity | Precision | Recall | Value identified | $ per contact |
+|---|---|---|---|---|
+| **Model, P(return) × E[amount]** | **22.2%** | 17.6% | **58.3%** | **$120** |
+| First gift size (her rule) | 19.7% | 15.7% | 56.4% | $116 |
+| Model, P(return) only | 24.0% | 19.0% | 52.1% | $107 |
+| Random | 12.7% | 10.1% | 9.1% | $19 |
+
+- **Paired bootstrap: +$3.80 ± 0.51 per contact** (~7 SE) — stronger than on dev-val (+$1.77 ± 0.76). ROC-AUC 0.604.
+- **Decision layer** (`src/decision.py`, now using the model's own per-donor E[amount]): capacity-10%
+  by the model nets **$7.75M** at $25/contact vs **$7.44M** for her rule (+$312K); contacting everyone
+  loses $3.6M. Threshold "EV > cost": 52.6% of donors at $5, 23% at $10, 6.5% at $25.
+- **Calibration** (`evals/calibration.py` on model scores): ECE 0.007 (reference 0.016), Brier skill
+  2.3% (reference 1.2%). Top decile over-promises slightly (says 27%, gets 24%). Lift stable 2017→2018.
+  **14% of the model's list is donors who gave under $50** — her gift-size rule's list is 100% $100+.
+  That is the "finds people the size rule misses" answer. **Thadeus:** slide 7 is yours; the figure
+  is `docs/slides/assets/slide7_calibration_model_dark.png`.
 
 ### What Rodolfo's model found — first real-data run, Sep 17 (`evals/results/08_model_dev.txt`)
 

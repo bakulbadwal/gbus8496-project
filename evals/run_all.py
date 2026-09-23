@@ -18,7 +18,10 @@ It runs, in order, and stops at the first failure:
   8. src/features.py           Reid's projects join → cohorts_with_projects.parquet
      src/model.py              Rodolfo's gradient-boosted model, train-split dev loop only
   9. evals/calibration.py      measurement 2: calibration, error analysis by cohort year and
-                               by first-gift size band, on whichever scores file exists
+                               by first-gift size band, on the reference model's scores
+ 10. src/model.py --holdout    the final model scored on the 2017–18 holdout
+ 11. src/decision.py           decision layer on the model's own expected values
+ 12. evals/calibration.py      measurement 2 on the model's scores
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
 presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
@@ -38,6 +41,7 @@ RESULTS = REPO / "evals" / "results"
 REF_SCORES = REPO / "data" / "processed" / "reference_scores.parquet"
 PROJECTS = REPO / "data" / "raw" / "ICPSR_37898" / "DS0003" / "37898-0003-Data.tsv"
 COHORTS_PROJ = REPO / "data" / "processed" / "cohorts_with_projects.parquet"
+MODEL_SCORES = REPO / "data" / "processed" / "model_scores.parquet"
 
 STEPS = [
     ("01_check_donor_id",  [sys.executable, "src/check_donor_id.py", str(DONATIONS)]),
@@ -51,10 +55,12 @@ STEPS = [
     ("08_model_dev",       [sys.executable, "src/model.py", str(COHORTS_PROJ)]),
     ("09_calibration",     [sys.executable, "evals/calibration.py", str(COHORTS), str(REF_SCORES),
                             "--out", "docs/slides/assets/slide7_calibration"]),
-    # After the holdout run, point 09 at data/processed/model_scores.parquet instead.
-    # Step 08 stops at the train-split development loop by design. The holdout run is
-    # `python src/model.py <cohorts_with_projects.parquet> --holdout`, once, after team sign-off;
-    # then add a step pointing decision.py at data/processed/model_scores.parquet.
+    # Holdout — first scored Sep 22, after the model was frozen on dev-val. The model is
+    # deterministic (fixed seed), so re-running reproduces the same scores; it does not re-peek.
+    ("10_model_holdout",   [sys.executable, "src/model.py", str(COHORTS_PROJ), "--holdout"]),
+    ("11_decision_model",  [sys.executable, "src/decision.py", str(COHORTS), str(MODEL_SCORES)]),
+    ("12_calibration_model", [sys.executable, "evals/calibration.py", str(COHORTS), str(MODEL_SCORES),
+                              "--out", "docs/slides/assets/slide7_calibration_model"]),
 ]
 
 

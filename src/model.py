@@ -184,7 +184,7 @@ def fit_models(train, cat_mask_from=None):
     # max_iter raised 500 -> 1200 after the first real run used all 500 iterations without
     # early stopping firing (undertrained); early stopping still governs the actual count.
     clf = HistGradientBoostingClassifier(
-        max_iter=1200, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200,
+        max_iter=3000, learning_rate=0.10, max_leaf_nodes=63, min_samples_leaf=200,
         l2_regularization=1.0, early_stopping=True, validation_fraction=0.10,
         categorical_features=cat_mask if cat_cols else None, random_state=RANDOM_STATE)
     clf.fit(Xv, y)
