@@ -1,8 +1,9 @@
 """
 decision.py — from a probability to a Monday-morning list. The part nobody owned.
 
-The proposal's decision layer, in one line: contact a donor when the expected value of contacting
-them exceeds the cost of doing so.
+Illustrative policy arithmetic: compare the predicted future-giving score with contact cost.
+The data does not identify the incremental value of contacting someone, so this is not a
+validated profit-maximizing rule. The log-amount score is not a calibrated mean-dollar forecast.
 
     expected value per contact  =  P(return) × E[second-gift amount | return]
     contact if                     expected value  >  cost per contact
@@ -85,7 +86,7 @@ def main(cohorts_path, scores_path):
     p_star = cost / med_all
     print(f"E[second gift | return], train median: ${med_all:,.2f}  (by cohort year: "
           + ", ".join(f"{int(y)+2000}: ${v:,.0f}" for y, v in med_by_year.tail(4).items()) + ")")
-    print(f"Break-even probability p* = cost / E[amount] = {cost:.2f} / {med_all:.2f} = {p_star:.3f}  (PLACEHOLDER cost)")
+    print(f"Illustrative threshold p* = cost / amount proxy = {cost:.2f} / {med_all:.2f} = {p_star:.3f}  (PLACEHOLDER cost)")
     print(f"Holdout donors with p > p*: {(hold['p_return'] > p_star).mean():.1%}\n")
 
     # ── 2. Policies ──
@@ -116,7 +117,10 @@ def main(cohorts_path, scores_path):
     rows = [{"policy": k, **score_policy(hold, v, cost)} for k, v in policies.items()]
     table = pd.DataFrame(rows)
     print("Policies on the holdout (value identified, not caused; cost is a PLACEHOLDER):")
-    print(table.to_string(index=False, float_format=lambda v: f"{v:,.2f}"))
+    print("Value less hypothetical contact cost is NOT outreach profit. Incremental giving is unknown.")
+    print(table.rename(columns={"net": "value_less_contact_cost",
+                                "net_per_contact": "value_less_cost_per_contact"})
+          .to_string(index=False, float_format=lambda v: f"{v:,.2f}"))
 
     # ── 3. Sensitivity to the placeholder cost — so Malorie can see what her number changes ──
     print("\nThreshold policy (contact if EV > cost) as cost per contact varies; p* shown for a flat $"
@@ -126,7 +130,7 @@ def main(cohorts_path, scores_path):
         m = hold["ev_contact"].values > c
         r = score_policy(hold, m, c)
         print(f"  cost ${c:>3}: p* = {ps:.3f} · contacts {r['contacts']:>8,} ({m.mean():5.1%}) · "
-              f"net ${r['net']:>12,.0f} · net/contact ${r['net_per_contact']:>7,.2f}")
+              f"value less cost ${r['net']:>12,.0f} · per contact ${r['net_per_contact']:>7,.2f}")
 
     # ── 4. The Monday list: one real month, ranked, top of the list only ──
     last = hold["cohort_month"].max()

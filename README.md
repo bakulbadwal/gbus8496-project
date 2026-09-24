@@ -23,7 +23,7 @@ membership list. This table is.
 |---|---|---|---|
 | Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | plain-language talk in progress; cost number owed |
 | Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ✅ feature exploration pushed |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | slides 7 + 9 to write and present |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | ✅ evaluation verified; slides 7 + 9 drafted with speaker notes; review and present |
 | Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ✅ model pushed Sep 17, holdout scored Sep 22 |
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ done Sep 11; integration + deck + exec summary Sep 22 |
 
@@ -34,9 +34,9 @@ membership list. This table is.
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
 | **Baseline + model** | Rodolfo | ✅ **DONE — holdout scored Sep 22** (`evals/results/10_model_holdout.txt`): $120/contact vs $116, paired +$3.80 ± 0.51. Notebook 03 executed | Present slide 6 |
-| **Evaluation + error analysis** | Thadeus | ✅ **measurement 2 run on the model Sep 22** (`evals/calibration.py` → `evals/results/12_calibration_model.txt`, figure `assets/slide7_calibration_model*.png`) | **Write and present slide 7** (calibration + where it is weakest) **and slide 9** (what we are not claiming). Extend the analysis if you want — the script takes any scores file |
+| **Evaluation + error analysis** | Thadeus | ✅ **verified and corrected Sep 24**: full reproduction, calibration, dollar-ranked cohort/size analysis, regression tests, executed [notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb); slides 7 + 9 and speaker notes drafted | Review the findings and speaking notes; share branch for teammate review; rehearse and present. Carry the corrected findings into Malorie’s final deck |
 | **Outreach economics + recommendation** | Malorie | ✅ **decision layer run on the model Sep 22** (`evals/results/11_decision_model.txt`); slides 8 + 10 filled; building a plain-language version of the talk | **One number still owed: real cost per contact** (placeholder $25 in `src/config.py`). Post it in the chat; re-run `src/decision.py` |
-| **Slides · exec summary · AI-use note · zip** | all | ✅ **deck + exec summary filled with holdout numbers Sep 22** | [`Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — slides 1–4, 6, 8–10 real; **5 (Reid) and 7 (Thadeus) are owner frames**, assets ready (`assets/slide7_calibration_model*.png`). Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). [`EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf): one page, complete. Run-throughs **Thu 9/24 1:15** and **Tue 9/29 first coffee**; present 9/29; zip Oct 2 |
+| **Slides · exec summary · AI-use note · zip** | all | ✅ **deck + exec summary filled with holdout numbers Sep 22** | [`Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — slides 1–4, 6, 8–10 real; **7 and 9 completed Sep 24; 5 (Reid) remains an owner frame**, assets ready (`assets/slide7_calibration_model*.png`). Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). [`EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf): one page, complete. Run-throughs **Thu 9/24 1:15** and **Tue 9/29 first coffee**; present 9/29; zip Oct 2 |
 
 ### What Bakul's workstream delivered
 
@@ -59,18 +59,18 @@ Both ran on the real holdout on Sep 12 (`evals/results/06_*.txt`, `07_*.txt`). F
    (coefficient −0.21: someone gifted the money is not a self-motivated donor). And the repeat rate
    **falls by cohort year** (−0.21): behaviour is drifting. **Thadeus:** that drift is your error
    analysis by cohort.
-3. **Contacting everyone loses money at any realistic cost.** A random citizen donor is worth
-   12.6% × $50 ≈ $6 in expected subsequent giving. At a $25 placeholder cost, contact-everyone nets
-   **−$3.6M** on the holdout; the 10% capacity policy nets **+$7.7M**. That is the business case for
-   ranking at all, and it is the sentence for slide 8.
-4. **The break-even probability is hostage to the cost number.** p* = cost / E[amount]. At $5 per
+3. **The policy arithmetic is illustrative.** At a $25 placeholder contact cost, historical
+   giving less hypothetical contact costs is **−$3.6M** for selecting everyone and **+$7.7M**
+   for the reference model’s 10% list. Neither is outreach profit: the data does not establish
+   how much giving contact causes. The train returner median of $50 is also not a mean-dollar forecast.
+4. **The illustrative threshold is sensitive to the cost assumption.** p* = cost / amount proxy. At $5 per
    contact you call 61% of donors; at $10, 1.5%; at $25, 0.1%. **Malorie:** your cost per contact is
    the single most consequential input in the project. The sensitivity table in
    `evals/results/07_decision_layer.txt` shows exactly what each value implies.
 
-E[second gift | return] is the train-set cohort-year median, $50 in every year — DonorsChoose's
-default gift amount. Fine to start, per Albert; a regression on log amount is the upgrade if anyone
-wants it.
+The reference amount proxy is the train-set cohort-year median, $50 in every year. A median is
+not an expected mean; the later log-amount regressor also supplies a ranking score rather than a
+calibrated forecast of dollar returns.
 
 ### 🔴 One decision the team must confirm
 
@@ -138,20 +138,39 @@ the 2017–18 holdout was scored once.
 
 | Citizen donors, holdout, 10% capacity | Precision | Recall | Value identified | $ per contact |
 |---|---|---|---|---|
-| **Model, P(return) × E[amount]** | **22.2%** | 17.6% | **58.3%** | **$120** |
+| **Model, probability × amount score** | **22.1%** | 17.6% | **58.3%** | **$120** |
 | First gift size (her rule) | 19.7% | 15.7% | 56.4% | $116 |
 | Model, P(return) only | 24.0% | 19.0% | 52.1% | $107 |
 | Random | 12.7% | 10.1% | 9.1% | $19 |
 
 - **Paired bootstrap: +$3.80 ± 0.51 per contact** (~7 SE) — stronger than on dev-val (+$1.77 ± 0.76). ROC-AUC 0.604.
 - **Decision layer** (`src/decision.py`, now using the model's own per-donor E[amount]): capacity-10%
-  by the model nets **$7.75M** at $25/contact vs **$7.44M** for her rule (+$312K); contacting everyone
-  loses $3.6M. Threshold "EV > cost": 52.6% of donors at $5, 23% at $10, 6.5% at $25.
-- **Calibration** (`evals/calibration.py` on model scores): ECE 0.007 (reference 0.016), Brier skill
-  2.3% (reference 1.2%). Top decile over-promises slightly (says 27%, gets 24%). Lift stable 2017→2018.
-  **14% of the model's list is donors who gave under $50** — her gift-size rule's list is 100% $100+.
-  That is the "finds people the size rule misses" answer. **Thadeus:** slide 7 is yours; the figure
-  is `docs/slides/assets/slide7_calibration_model_dark.png`.
+  by the model identifies **$9.79M**; subtracting hypothetical $25/contact costs leaves **$7.75M**
+  vs **$7.44M** for her rule (+$312K). These balances are not outreach profit estimates. Threshold "EV > cost": 52.6% of donors at $5, 23% at $10, 6.5% at $25.
+- **Calibration and error analysis, corrected Sep 24** (`evals/results/12_calibration_model.txt`):
+  ECE 0.0073; Brier skill 2.3%. The highest probability tenth predicts 26.6% returning and observes
+  24.2%. Calibration uses probabilities; the contact-list analysis uses the headline dollar score.
+  On that list, precision is **23.6% in 2017 → 20.9% in 2018**, and value/contact is **$140 → $103**;
+  gift-size ranking is lower in both years ($137 → $99).
+- **Correction to the small-donor claim:** under-$50 first-month donors are 52.4% of the holdout
+  but only **0.55% of the dollar-ranked list** (449 of 81,509 selected). The earlier **14.4%**
+  figure belongs to the **probability-only list**, which identifies $107/contact. The dollar policy
+  still concentrates on large gifts; the small donors it does select have 42.3% repeat precision.
+- **Robustness:** excluding 17 accounts with 200+ subsequent gifts leaves **$104.52 vs $100.81**
+  per selected donor, a $3.71 advantage. The main full-sample gain is $3.83 (3.3%); the bootstrap
+  mean is $3.80 ± $0.51, with ± denoting one standard error from 30 paired donor resamples.
+- **Economic limits:** the mean dollar score is $10.97 against $20.61 observed per donor. The
+  log-amount prediction is a ranking score, not a calibrated mean-dollar forecast. Cost thresholds
+  remain illustrative, and historical future giving does not identify the extra giving caused by a call.
+
+**Reproduce this review:** `python evals/run_all.py` rebuilds the model and all reported evaluations.
+Then open [notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb) for the annotated evaluation;
+it reads frozen scores without refitting. For measurement 2 alone:
+
+```bash
+python evals/calibration.py data/processed/cohorts.parquet data/processed/model_scores.parquet --ranking expected_value --out docs/slides/assets/slide7_calibration_model
+python -m pytest tests/ -q
+```
 
 ### What Rodolfo's model found — first real-data run, Sep 17 (`evals/results/08_model_dev.txt`)
 
@@ -190,7 +209,7 @@ any scores file. Run on the reference logistic's holdout predictions (it will be
    0.110 for predicting the base rate (1.2% skill — the ranking works, the probabilities barely
    beat a constant). The direction matters for `src/decision.py`: a threshold rule built on these
    probabilities calls *too few* people. The likely cause is the cohort-year drift term
-   extrapolating 2017–18 lower than they turned out. **Thadeus:** confirm with a train-only refit.
+   extrapolating 2017–18 lower than they turned out. This explanation was not tested; the final boosted model is evaluated separately in notebook 04.
 2. **It holds up across years, but the dollars don't.** Precision 23.6% in 2017 → 21.3% in 2018,
    almost exactly tracking the base rate (14.0% → 11.5%), so lift over base is stable at ~1.8×.
    Value per contact falls $139 → $102: the 2018 list finds returners as well, but they give less.
@@ -249,8 +268,8 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Data on disk + labels built | ✅ **Sep 11** — ICPSR files in `data/raw/` (gitignored), codebooks in `docs/codebook/`. `cohorts.parquet`: **3,277,153 labelled donors, 15.8% gave again within 12 months**; train 2.33M / holdout 943K; 189K unlabelable 2019 cohorts dropped; 151 refund rows excluded |
 | Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
 | 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
-| Measurements 2–3 (Albert's order) | ⏳ calibration + error analysis by cohort (Thadeus); thank-you-packet question — codebook has no timing, **recommend dropping as a feature** (Albert pre-approved) |
-| Slides, exec summary, AI-use note, zip | deck template built (10 slides, house style, 5 with real content); send Bakul your slide's content and he drops it in |
+| Measurements 2–3 (Albert's order) | ✅ calibration + dollar-ranked error analysis verified Sep 24 (Thadeus), notebook 04 and slides 7 + 9 ready for review; thank-you-packet flag excluded because timing is unknown |
+| Slides, exec summary, AI-use note, zip | Evaluation slides 7 + 9 and exec-summary correction prepared Sep 24 in existing files. Team review, final deck integration, rehearsal/delivery and final zip remain; recorded backup needed if using a live demo |
 
 ## Read these first
 

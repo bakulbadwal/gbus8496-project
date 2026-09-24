@@ -29,26 +29,29 @@ classrooms. Pooled, any rule looks brilliant by finding the corporations. We sco
 
 **A model beats her rule by a small, reliable margin.** On the holdout, ranking by predicted
 second-gift value identifies **$120 per contact**, against **$116** for gift size and **$21** for
-calling everyone. On the same donors the gap is +$3.80 ± 0.51, about seven standard errors. One call
+selecting everyone. The paired bootstrap gap is +$3.80 ± 0.51 (one standard error, 30 resamples). One call
 in ten reaches 58% of all subsequent giving. The model is two gradient-boosted estimators, for the
 chance of a second gift and its size, using first-gift attributes plus the project and school
-first funded. Gift size already carries most of the signal; project context adds modest lift.
+first funded. Gift size carries much of the signal; the full model adds a modest gain.
 
-**The probabilities can be trusted.** Predicted and observed return rates agree within about a point
-across most of the range; the top decile predicts 27% and observes 24%. Lift is stable from 2017
-to 2018 as the base rate falls. Unlike her rule, whose list is entirely $100-plus donors, the
-model gives 14% of its calls to donors whose first gift was under $50.
+**Calibration and coverage limit the result.** The highest probability tenth predicts 26.6%
+returning and observes 24.2%. The dollar-ranked list identifies $140 per donor in 2017 and $103
+in 2018, beating gift size in both years. Under-$50 donors are 52.4% of the population but only
+**0.55% of this list**. The 14.4% figure applies to probability-only ranking, which identifies
+fewer dollars ($107/contact). The two lists serve different objectives.
 
 ## Recommendation
 
-Each month, rank new first-time donors by predicted second-gift value and call the top one in ten.
-On the holdout that nets **$7.75M** over two years at $25 per contact, **$312K more** than her rule
-on the same number of calls; calling everyone **loses $3.6M**. Cost per contact sets how deep to go:
-at $5 about half of new donors clear break-even, at $25 only 6.5%. It runs as one monthly batch job
-on a laptop, about ten minutes, no API calls.
+Pilot the model-ranked list against gift-size ranking, measuring additional donations caused
+by outreach before scaling. The historical model list contains $9.79M of subsequent giving;
+subtracting contact costs at an assumed $25 leaves $7.75M, versus $7.44M for the gift-size list.
+These are **values identified less hypothetical costs, not profit estimates**. The log-amount
+model is a useful ranking score but is not calibrated as a mean-dollar forecast, so cost
+thresholds remain illustrative. Scoring runs locally without model API fees; outreach, setup
+and maintenance still require resources.
 
 **What we are not claiming.** No causal effect: nobody was randomly assigned a call, so these are
-dollars *identified*, not *caused*; a small randomized pilot is the next step. The thank-you-packet
+dollars *identified*, not *caused*; outreach impact remains unknown. The thank-you-packet
 question was dropped because the data gives no timing. Transfer from a marketplace to a relational
 small nonprofit is a hypothesis. The $25 cost is a placeholder for a figure from real practice.
 

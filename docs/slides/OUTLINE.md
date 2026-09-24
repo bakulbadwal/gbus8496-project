@@ -1,7 +1,7 @@
 # Presentation outline — ten minutes, ten slides, five voices
 
 **Sessions 13–14, Sep 28–29. Order drawn at random, so we are ready on the 28th.** All five present.
-Live demo welcome, recorded backup required. Aim the talk at the class, not at Albert: they grade half
+If the team uses a live demo, bring a recorded backup of that demo. Aim the talk at the class, not at Albert: they grade half
 of it, and they are told exactly three questions to grade on. Every slide below names which of
 those questions it serves. Technical detail goes in the notebook unless it explains *why* something
 works or fails.
@@ -26,7 +26,7 @@ Budget: about 55 seconds a slide. If you are over, cut words, not slides.
 | 4 | **The finding that almost fooled us** | Bakul | "Our first result found 80% of all repeat dollars with the dumbest possible rule. It was measuring corporate matching programs. Three populations, not one." | Q2 insight |
 | 5 | **What predicts a return** | Reid | "Gift size finds dollars; [feature] finds people. Here is what moved and what did not." | Q2 insight |
 | 6 | **The model against the honest baseline** | Rodolfo | "At her capacity, the model identifies $[X] per contact against $116 for ranking by gift size and $21 for calling everyone." | Q3 evidence · headline |
-| 7 | **How we know it works, and where it does not** | Thadeus | "It is calibrated here, it is not calibrated there, and it is weakest on exactly the donors she cares about most." | Albert Q1 · Q3 evidence |
+| 7 | **How we know it works, and where it does not** | Thadeus | "The modest gain reproduces, but the dollar-ranked list still concentrates on large first gifts." | Albert Q1 · Q3 evidence |
 | 8 | **What she does on Monday** | Malorie | "Given [N] hours a month, work this list, expect roughly $[Y] in subsequent giving that the old list would have missed. It costs nothing to run." | Albert Q2 cost at scale · recommendation |
 | 9 | **What we did not find, and what we are not claiming** | Thadeus | "We cannot say outreach causes the second gift, we dropped the thank-you-packet question because the data cannot answer it, and here is the honest case that this does not transfer." | Q2 insight · limitations |
 | 10 | **The recommendation, in one line** | Malorie | The sentence a development lead repeats to her board. | Q1 · Q3 |
@@ -80,38 +80,53 @@ join moved it. If the model does not beat $116, say so and go to slide 9; Albert
 well-supported negative finding earns a high grade.
 
 ### 7 · How we know it works, and where it does not — Thadeus, 60 seconds
-Calibration curve on the holdout. Error analysis by cohort year: does 2018 behave like 2015? Cut
-by first-gift size band: the model is probably weakest on small first gifts, which is where most
-of her donors are. That sentence is the honest one and the room will respect it. Answers Albert's
-"how do you know it works" directly.
-**Floor built Sep 19:** `evals/calibration.py` produces the numbers and the figure
-(`assets/slide7_calibration.png`, dark variant beside it). On the reference model: under-promises in
-every decile (says 18%, gets 22%), lift stable across 2017→2018, and the 10% list is 82% donors who
-gave $100+ — donors under $50 are half the holdout and 2% of the list. Re-run on `model_scores.parquet`
-after the holdout run; the sentences may change, the figure will not need to.
+**Completed Sep 24:** `evals/calibration.py`, notebook `04_evaluation_and_error_analysis.ipynb`,
+and slide 7 in the existing deck. Asset: `assets/slide7_calibration_model_dark.png`.
+Calibration always uses return probabilities; the year and size-band analysis now uses
+`expected_value`, the same ranking as the $120 headline. Probability-only results remain a
+separate comparison. Small-group precision is pooled by donor count.
+
+**Speaker notes (about 60 seconds):** “We reproduced the headline from the raw data. On the
+left, the highest probability tenth says 26.6% will return, and 24.2% do. On the right, the
+actual dollar-ranked list has 23.6% returning in 2017 and 20.9% in 2018, alongside a falling
+base rate. Giving per selected donor falls from $140 to $103; the model still beats gift size
+in both years. The limitation is coverage: under-$50 donors are 52.4% of the population, but
+only 0.55% of this list. The earlier 14.4% figure belongs to probability-only ranking, which
+finds more returners but fewer dollars.”
+
+**For Q&A:** 81,509 donors selected across 24 months; exact gain $3.83/contact (3.3%). The paired
+bootstrap mean is $3.80 ± $0.51 (one standard error, 30 samples, each the full test-set size
+with replacement). This quantifies donor resampling uncertainty, not future drift. Excluding
+the 17 accounts with 200+ repeat gifts leaves a $3.71/contact gain. Small-donor precision is
+42.3% among just 449 selected donors: the issue is low coverage, not evidence they cannot be ranked.
 
 ### 8 · What she does on Monday — Malorie, 60 seconds
-The decision layer (`src/decision.py`). Her capacity in hours → contacts per month. Cost per
-contact from real practice (a number GoGood can defend) — **this number decides the
-recommendation**: break-even p* = cost / $50, and the sensitivity table in
-`evals/results/07_decision_layer.txt` shows it swings from "call 61%" at $5 to "call 0.1%" at $25.
-The line to land: **contacting everyone loses money** (−$3.6M on the holdout at $25) while the
-ranked 10% nets +$7.7M. Production cost: a batch job on one laptop, no API, once a month —
-effectively zero. Answers Albert's "cost at scale" in one line and turns the model into a
-Monday-morning list (a real one for Dec 2018 is in `evals/results/`).
+The decision layer (`src/decision.py`) applies the model's dollar score at monthly capacity.
+The selected list contains $9.79M of historical subsequent giving; subtracting $2.04M of
+hypothetical contact costs leaves $7.75M, compared with $7.44M for gift-size ranking. This is
+**value identified less assumed cost, not outreach profit**. Additional giving caused by contact
+is unknown. Malorie still supplies the real contact-cost figure; $25 is a placeholder.
+The threshold sensitivity table is illustrative because the log-amount score is not calibrated
+as mean dollars. Batch scoring needs no model API, but staff, setup and maintenance have costs.
 
 ### 9 · What we did not find, and what we are not claiming — Thadeus, 50 seconds
-Three things, plainly. (1) No causal claim: nobody was randomly assigned to be contacted, so we
-rank by predicted future value and say "identified", never "caused". (2) The thank-you-packet
-question is dropped: the codebook gives no timing, so the flag might record something that
-happened *after* the second gift. Albert pre-approved dropping it. (3) Transfer: DonorsChoose
-donors are marketplace donors; small-nonprofit donors are relational. Which features are
-behavioural (likely transfer) and which are platform-specific (likely not).
+**Completed Sep 24:** slide 9 and its speaking notes are in the existing deck.
+
+**Speaker notes (about 50 seconds):** “Three limits matter. First, we identify future giving,
+but cannot say a call created it; donors might have given anyway. Subtracting hypothetical
+contact costs does not establish profit. Second, we dropped the thank-you-packet flag because
+its timing is unknown, so it could contain information from after the outcome. Third, this
+is a test of 2017–18 DonorsChoose donors; performance today or at another nonprofit is untested.
+Before scaling, measure actual staff costs and run a randomized outreach pilot to estimate
+additional giving caused by contact.”
+
+The dollar score also requires mean-dollar calibration before using it as a literal cost
+threshold. No model refitting or tuning was done on the holdout during this evaluation review.
 
 ### 10 · The recommendation, in one line — Malorie, 20 seconds
 One sentence, then stop. Something like: "Rank this month's first-time donors by [model / gift
 size], call the top [N], and expect to reach [X]% of next year's repeat giving with [Y] hours."
-The exact words come from slides 6 and 8.
+The recommendation is a randomized pilot of the model-ranked list against gift-size ranking, with incremental donations measured before scaling.
 
 ---
 
@@ -119,7 +134,5 @@ The exact words come from slides 6 and 8.
 
 - ~~Second-gift amount model~~ — **done as the default** (`src/decision.py`): cohort-year median
   from train, $50 every year. Upgrade to a regression on log amount if someone wants it.
-- **Recorded backup of the talk.** Albert requires it. Record on the 26th or 27th once slides exist.
-- **The deck file itself.** This outline is markdown so five agents can read it. The actual deck
-  gets built once, in the final week, from the sections each owner writes. Google Slides or
-  PowerPoint, whichever the team uses.
+- **Recorded backup if using a live demo.** Albert asks for a backup in case the demo has technical problems; he does not separately require a recording of the entire talk. The team still needs to choose a demo and owner.
+- **Final deck integration.** `Group11_deck.pptx` and its existing builder contain slides 7 and 9. Malorie is also preparing a plain-language deck; carry these findings into that final version. Rehearsal, live delivery, and teammate review remain human tasks.

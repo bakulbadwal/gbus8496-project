@@ -1,8 +1,10 @@
 Holdout citizen donor: 814,971 donors · scored 814,971
+List ranking: expected_value. Calibration and AUC always use p_return.
+First-gift size = total first-month giving; outcome dollars = all giving in months M+1..M+12.
 
 1 · CALIBRATION (holdout, 814,971 donors, base rate 0.1260)
      donors  predicted  observed  p_low  p_high  gap_pp
-bin                                                    
+bin
 0     81500     0.0641    0.0755 0.0073  0.0768  1.1333
 1     81495     0.0834    0.0878 0.0768  0.0892  0.4327
 2     81498     0.0941    0.0985 0.0892  0.0988  0.4341
@@ -17,22 +19,45 @@ bin
 Expected calibration error (ECE): 0.0073   Brier: 0.1077 vs 0.1102 predicting the base rate for everyone (+2.27% skill)
 Top decile says 26.6%, gets 24.2%; bottom decile says 6.4%, gets 7.5%.
 
-2 · ERROR ANALYSIS BY COHORT YEAR (10% list built within cohort month)
-             donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  precision  value_per_contact
-cohort_year                                                                                                           
-2017         371886           0.4563     0.1395  0.1326 0.5978      37194         0.4563     0.2551           128.1502
-2018         443085           0.5437     0.1148  0.1257 0.6062      44315         0.5437     0.2271            89.9280
-Precision 2017 → 2018: -2.80 pp; base rate moved -2.47 pp.
+2 · ERROR ANALYSIS BY COHORT YEAR (10% list within cohort month; ranking = expected_value)
+             donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
+cohort_year
+2017         371886           0.4563     0.1395  0.1326 0.5978      37194         0.4563                 8770     0.2358           140.2355
+2018         443085           0.5437     0.1148  0.1257 0.6062      44315         0.5437                 9281     0.2094           103.1828
+Precision 2017 → 2018: -2.64 pp; base rate moved -2.47 pp.
 
 3 · BY FIRST-GIFT SIZE BAND — share of donors vs share of the list, and how each does
-          donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  precision  value_per_contact
-band                                                                                                               
-<$10       13830           0.0170     0.1020  0.0916 0.5583        334         0.0041     0.2126            11.9336
-$10–24    146431           0.1797     0.0893  0.0978 0.5875       2956         0.0363     0.2371            14.3862
-$25–49    267112           0.3278     0.1092  0.1124 0.5632       8460         0.1038     0.2137            18.2395
-$50–99    265054           0.3252     0.1391  0.1360 0.5729      26001         0.3190     0.2290            27.4816
-$100–249   98774           0.1212     0.1677  0.1745 0.5945      29316         0.3597     0.2309            64.5161
-$250+      23770           0.0292     0.2377  0.2578 0.6625      14442         0.1772     0.2940           411.6369
-Donors giving under $50 are 52.4% of the holdout and 14.4% of the list; their precision on the list is 22.1% vs 26.2% for $100+.
+          donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
+band
+<$10       13830           0.0170     0.1020  0.0916 0.5583          0         0.0000                    0        NaN                NaN
+$10–24    146431           0.1797     0.0893  0.0978 0.5875         25         0.0003                   16     0.6400            63.8060
+$25–49    267112           0.3278     0.1092  0.1124 0.5632        424         0.0052                  174     0.4104            56.3617
+$50–99    265054           0.3252     0.1391  0.1360 0.5729      11021         0.1352                 2697     0.2447            43.3816
+$100–249   98774           0.1212     0.1677  0.1745 0.5945      46640         0.5722                 9547     0.2047            54.9659
+$250+      23770           0.0292     0.2377  0.2578 0.6625      23399         0.2871                 5617     0.2401           287.2454
+Donors giving under $50 are 52.4% of the holdout and 0.55% of the list; their precision on the list is 42.3% vs 21.7% for $100+.
+
+4 · SAME CAPACITY, DIFFERENT LISTS (value identified, not caused)
+                   capacity  donors_contacted  repeat_donors_found  precision  recall  value_identified  value_capture_rate  value_per_contact  under_50_share_of_list
+ranking
+expected_value       0.1000             81509                18051     0.2215  0.1757    9,788,464.7400              0.5829           120.0906                  0.0055
+p_return             0.1000             81509                19551     0.2399  0.1903    8,751,578.7100              0.5212           107.3695                  0.1442
+first_gift_amount    0.1000             81509                16085     0.1973  0.1566    9,476,045.4100              0.5643           116.2577                  0.0000
+
+Gift-size baseline by year:
+             donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
+cohort_year
+2017         371886           0.4563     0.1395  0.1326 0.5978      37194         0.4563                 7850     0.2111           136.6568
+2018         443085           0.5437     0.1148  0.1257 0.6062      44315         0.5437                 8235     0.1858            99.1364
+
+5 · ROBUSTNESS: excluding 17 accounts with 200+ subsequent gifts
+                   capacity  donors_contacted  repeat_donors_found  precision  recall  value_identified  value_capture_rate  value_per_contact  under_50_share_of_list
+ranking
+expected_value       0.1000             81508                18040     0.2213  0.1756    8,519,596.2200              0.5514           104.5247                  0.0055
+p_return             0.1000             81508                19540     0.2397  0.1902    7,450,837.0800              0.4822            91.4123                  0.1441
+first_gift_amount    0.1000             81508                16077     0.1972  0.1565    8,217,053.8300              0.5318           100.8129                  0.0000
+
+Dollar-score check: mean predicted $10.97 vs observed $20.61 per donor.
+The log-amount model gives a ranking score, not a calibrated mean-dollar forecast. Cost thresholds are illustrative; no outreach profit or causal uplift is established.
 figure → docs/slides/assets/slide7_calibration_model.png
 figure → docs/slides/assets/slide7_calibration_model_dark.png

@@ -1,5 +1,5 @@
 // Group 11 deck — house style (deep navy, brass, warm paper ink), 16:9.
-// Slides 1-4, 6, 8, 10 carry real content (holdout numbers, Sep 22); 5 and 7 are owner frames (Reid, Thadeus); 9 has its three limits.
+// Holdout content verified Sep 24; Thadeus completed slides 7 and 9. Slide 5 remains Reid's owner frame.
 const pptxgen = require("pptxgenjs");
 const OUT = process.argv[2];
 const ASSETS = process.argv[3]; // docs/slides/assets, absolute
@@ -160,14 +160,14 @@ const chartFrame = {
   const cell = (t, o = {}) => ({ text: t, options: { color: o.color ?? MUTED, fontFace: B, fontSize: 11, bold: !!o.bold, fill: { color: o.fill ?? NAVY }, align: o.align ?? "right", valign: "middle" } });
   const rows = [
     [hdr("RANKING"), hdr("PRECISION"), hdr("RECALL"), hdr("VALUE FOUND"), hdr("$ / CONTACT")],
-    [cell("Our model — P(return) × E[amount]", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("22.2%", { fill: S1, color: "FFFFFF" }), cell("17.6%", { fill: S1, color: "FFFFFF" }), cell("58.3%", { fill: S1, color: "FFFFFF" }), cell("$120", { fill: S1, color: BRASS, bold: true })],
+    [cell("Our model — probability × amount score", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("22.1%", { fill: S1, color: "FFFFFF" }), cell("17.6%", { fill: S1, color: "FFFFFF" }), cell("58.3%", { fill: S1, color: "FFFFFF" }), cell("$120", { fill: S1, color: BRASS, bold: true })],
     [cell("First gift size — the honest baseline", { align: "left", color: INK }), cell("19.7%"), cell("15.7%"), cell("56.4%"), cell("$116", { bold: true, color: INK })],
     [cell("First-month gift count", { align: "left" }), cell("20.4%"), cell("16.2%"), cell("41.4%"), cell("$85")],
     [cell("Random", { align: "left" }), cell("12.7%"), cell("10.1%"), cell("9.1%"), cell("$19")],
     [cell("Contact everyone", { align: "left" }), cell("12.6%"), cell("100%"), cell("100%"), cell("$21")],
   ];
   s.addTable(rows, { x: MX, y: 1.8, w: W - 2 * MX, colW: [3.5, 1.35, 1.35, 1.55, 1.15], rowH: 0.42, border: { type: "solid", color: S2, pt: 0.5 }, margin: 0.08 });
-  body(s, "Paired bootstrap on the same donors: +$3.80 ± 0.51 per contact over gift size, about 7 standard errors. Real, and small — gift size already carries most of what predicts dollars. The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and it is what she does by hand.",
+  body(s, "30 paired donor bootstrap samples: +$3.80 ± 0.51 per contact over gift size (±1 standard error). The 3.3% gain is modest; gift size already carries most of the dollar signal. The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and it is what she does by hand.",
     MX, 4.5, 8.9, 0.6, { size: 10.5, color: SUBTLE, italic: true });
   s.addNotes("60 seconds. Headline metric is dollars per contact, not AUC — Albert said the ranking at capacity is the decision. Every row is real: baselines in evals/results/04_score_citizen.txt, model in evals/results/10_model_holdout.txt (holdout scored once, Sep 22). Gradient-boosted classifier + log-amount regressor on donation-file and projects-join features. If asked: ranking by probability alone finds more returners (24.0% precision) but fewer dollars ($107).");
 }
@@ -176,13 +176,11 @@ const chartFrame = {
 {
   const s = pres.addSlide();
   base(s, "Evaluation", "Thadeus", 7);
-  title(s, "How we know it works — and where it does not", { size: 28, h: 0.7 });
-  body(s, "It is calibrated here, it is not calibrated there, and it is weakest on exactly the donors she cares about most.", MX, 1.4, 4, 0.8, { size: 13, italic: true, color: BRASS });
-  body(s, "Calibration curve on the holdout. Error analysis by cohort year — does 2018 behave like 2015? — and by first-gift size band, where most of her donors live.",
-    MX, 2.3, 3.6, 1.3, { size: 11 });
-  dropzone(s, 4.55, 1.3, 2.35, 3.85, "Calibration curve");
-  dropzone(s, 7.1, 1.3, 2.35, 3.85, "Error by cohort year / gift band");
-  s.addNotes("60 seconds. Answers Albert's 'how do you know it works' directly. The honest sentence about where it is weakest is the one the room respects.");
+  title(s, "The gain holds, but the dollar list favors large gifts", { size: 26, h: 0.6 });
+  s.addImage({ path: ASSETS + "/slide7_calibration_model_dark.png", x: MX, y: 1.35, w: 8.9, h: 3.56 });
+  body(s, "Under-$50 donors: 52.4% of the holdout, only 0.55% of the dollar-ranked list (14.4% if ranked by probability).",
+    MX, 4.99, 8.9, 0.42, { size: 10.5, color: BRASS });
+  s.addNotes("60 seconds. We rebuilt the evaluation from the raw files and reproduced the headline. The left chart asks whether predicted return chances match reality. In the highest probability tenth, the model says 26.6 percent return and 24.2 percent do. The right chart follows the same dollar-ranked list as the headline: 23.6 percent return in 2017 and 20.9 percent in 2018, while the overall rate also falls. Dollars per selected donor fall from 140 to 103, but the model beats gift size in both years. Its limitation is coverage: donors giving under 50 dollars are half the population but just 0.55 percent of this list. The 14.4 percent figure belongs to the probability-only list, which finds more returners but fewer dollars. Source: evals/results/12_calibration_model.txt; notebook 04. First gift means total first-month giving. These are observations about frozen predictions, not new tuning.");
 }
 
 // ── 8 · What she does on Monday (Malorie) ───────────────────────────────────────────────────
@@ -190,18 +188,18 @@ const chartFrame = {
   const s = pres.addSlide();
   base(s, "The decision", "Malorie", 8);
   title(s, "What she does on Monday", { size: 30, h: 0.7 });
-  const cols = [["3,013", "calls · Dec 2018"], ["$25", "per call · placeholder"], ["+$7.75M", "net · 2017–18"], ["$0", "to run monthly"]];
+  const cols = [["3,013", "selected · Dec 2018"], ["$25", "per call · placeholder"], ["$7.75M", "value less assumed cost"], ["No API", "external model calls"]];
   cols.forEach(([b, sm], i) => {
     const x = MX + i * 2.25; card(s, x, 1.5, 2.05, 1.45, S1);
     s.addText(b, { x: x + 0.2, y: 1.66, w: 1.75, h: 0.6, fontFace: T, fontSize: 28, bold: true, color: "FFFFFF", isTextBox: true, margin: 0 });
     s.addText(sm.toUpperCase(), { x: x + 0.2, y: 2.36, w: 1.75, h: 0.4, fontFace: M, fontSize: 8, color: TERT, charSpacing: 1.5, isTextBox: true, margin: 0 });
   });
-  body(s, "Calling everyone loses $3.6M at $25 a contact. Calling the model's top 10% nets $7.75M over the two holdout years — $312K more than her gift-size rule on the same number of calls. Her cost per contact sets how deep to go: at $5, half of new donors clear break-even; at $25, 6.5%.",
+  body(s, "The model's list contains $9.79M of subsequent giving. Subtracting $2.04M of hypothetical contact costs leaves $7.75M, versus $7.44M for gift-size ranking. Neither balance measures outreach profit: we do not know how much extra giving a call causes.",
     MX, 3.15, 8.9, 0.8, { size: 12 });
   card(s, MX, 4.05, W - 2 * MX, 1.05, S1);
   label(s, "Cost at production scale", MX + 0.25, 4.2, 4);
-  body(s, "One monthly batch job on a laptop: about ten minutes, no API calls, no vendor. The only real cost is her time on the phone.", MX + 0.25, 4.45, W - 2 * MX - 0.5, 0.55, { size: 12, color: "FFFFFF" });
-  s.addNotes("60 seconds. $25 is a PLACEHOLDER — replace with a cost per contact GoGood can defend, then re-run src/decision.py. Source: evals/results/11_decision_model.txt. Production cost is effectively zero; say so.");
+  body(s, "Scoring runs locally without API fees. Staff outreach, setup and maintenance still cost money. Replace the $25 contact-cost assumption with evidence from practice.", MX + 0.25, 4.45, W - 2 * MX - 0.5, 0.55, { size: 12, color: "FFFFFF" });
+  s.addNotes("60 seconds. The 312 thousand dollar difference is giving identified in two historical lists of equal size, not incremental revenue caused by calls. The 25 dollar contact cost is a placeholder; Malorie supplies the real cost. The model was trained on log amounts, so its score is not a calibrated mean-dollar forecast. EV greater than cost is only illustrative. Source: evals/results/11_decision_model.txt. Compute uses no external model API; staff, setup and maintenance costs are not zero.");
 }
 
 // ── 9 · What we are not claiming (Thadeus) ──────────────────────────────────────────────────
@@ -210,9 +208,9 @@ const chartFrame = {
   base(s, "Limits", "Thadeus", 9);
   title(s, "What we did not find, and what we are not claiming", { size: 26, h: 0.7 });
   const items = [
-    ["No causal claim", "Nobody was randomly assigned to be contacted. We rank by predicted future value and say “identified”, never “caused”."],
+    ["Outreach impact is unknown", "The records show who gave again, not what a call changed. Dollars identified minus assumed contact cost is not measured profit."],
     ["Thank-you packet: dropped", "The codebook gives no timing. The flag may record something that happened after the second gift. Albert pre-approved dropping it."],
-    ["Transfer is a hypothesis", "DonorsChoose donors are marketplace donors; small-nonprofit donors are relational. Behavioural features likely transfer; platform-specific ones likely do not."],
+    ["Transfer is untested", "We tested 2017–18 DonorsChoose cohorts. Performance for today’s donors or another nonprofit has not been established."],
   ];
   items.forEach(([h, t], i) => {
     const x = MX + i * 3.0; card(s, x, 1.5, 2.85, 3.2, S1);
@@ -220,14 +218,16 @@ const chartFrame = {
     body(s, h, x + 0.22, 2.3, 2.45, 0.5, { size: 13, bold: true, color: "FFFFFF" });
     body(s, t, x + 0.22, 2.85, 2.45, 1.7, { size: 10.5 });
   });
-  s.addNotes("50 seconds. Three things, plainly. Serves the insight question and the honesty Albert grades under 'technical contribution'.");
+  body(s, "Next: validate locally, measure real contact costs, and test randomized outreach before scaling.",
+    MX, 4.93, 8.9, 0.4, { size: 11, color: BRASS });
+  s.addNotes("50 seconds. Three limits matter for the recommendation. First, we can identify future giving, but we cannot say a call created it. Donors might have given anyway. The reported value less contact cost is therefore not a profit estimate. Second, we excluded the thank-you-packet flag because its timing is unknown; it might contain information recorded after the outcome. Third, we tested historical DonorsChoose donors, not today's donors at Malorie's customers. Transfer needs a local test. Before scaling, measure real staff costs and randomly assign outreach in a pilot so we can estimate additional giving caused by contact. The log-amount score also needs mean-dollar calibration before treating it as an absolute cost threshold. Sources: docs/ALBERT-FEEDBACK.md; src/model.py; src/decision.py; evals/results/12_calibration_model.txt.");
 }
 
 // ── 10 · The recommendation ─────────────────────────────────────────────────────────────────
 {
   const s = pres.addSlide();
   base(s, "Recommendation", "Malorie", 10);
-  s.addText("Rank each month's first-time donors by predicted second-gift value, call the top one in ten, and expect to reach 58 percent of next year's repeat giving.",
+  s.addText("Pilot the model-ranked list against gift-size ranking. The historical top 10% contained 58% of subsequent giving; test whether outreach adds donations before scaling.",
     { x: MX + 0.3, y: 1.35, w: W - 2 * MX - 0.6, h: 2.3, fontFace: T, fontSize: 28, color: "FFFFFF", isTextBox: true, margin: 0, valign: "middle", lineSpacingMultiple: 1.15 });
   body(s, "github.com/bakulbadwal/gbus8496-project  ·  every number reproduces with  python evals/run_all.py",
     MX + 0.3, 4.65, 8.6, 0.3, { size: 9.5, color: TERT });
