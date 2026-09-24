@@ -22,6 +22,7 @@ It runs, in order, and stops at the first failure:
  10. src/model.py --holdout    the final model scored on the 2017–18 holdout
  11. src/decision.py           decision layer on the model's own expected values
  12. evals/calibration.py      measurement 2 on the model's scores
+ 13. evals/qa_analyses.py      Q&A follow-ups: same teacher, who the model adds, capacity 5–30%, 2nd→3rd gift
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
 presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
@@ -61,6 +62,7 @@ STEPS = [
     ("11_decision_model",  [sys.executable, "src/decision.py", str(COHORTS), str(MODEL_SCORES)]),
     ("12_calibration_model", [sys.executable, "evals/calibration.py", str(COHORTS), str(MODEL_SCORES),
                               "--out", "docs/slides/assets/slide7_calibration_model"]),
+    ("13_qa_analyses",     [sys.executable, "evals/qa_analyses.py"]),
 ]
 
 

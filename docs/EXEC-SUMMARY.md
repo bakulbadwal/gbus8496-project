@@ -36,8 +36,9 @@ first funded. Gift size already carries most of the signal; project context adds
 
 **The probabilities can be trusted.** Predicted and observed return rates agree within about a point
 across most of the range; the top decile predicts 27% and observes 24%. Lift is stable from 2017
-to 2018 as the base rate falls. Unlike her rule, whose list is entirely $100-plus donors, the
-model gives 14% of its calls to donors whose first gift was under $50.
+to 2018 as the base rate falls. The gain comes from a swap: her rule is crowded with
+teacher-referred donors, friends and family recruited for one classroom, who return 13% of the
+time. The model replaces them with donors who funded several classrooms at once, who return 23%.
 
 ## Recommendation
 

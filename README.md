@@ -149,9 +149,29 @@ the 2017–18 holdout was scored once.
   loses $3.6M. Threshold "EV > cost": 52.6% of donors at $5, 23% at $10, 6.5% at $25.
 - **Calibration** (`evals/calibration.py` on model scores): ECE 0.007 (reference 0.016), Brier skill
   2.3% (reference 1.2%). Top decile over-promises slightly (says 27%, gets 24%). Lift stable 2017→2018.
-  **14% of the model's list is donors who gave under $50** — her gift-size rule's list is 100% $100+.
-  That is the "finds people the size rule misses" answer. **Thadeus:** slide 7 is yours; the figure
+  ⚠️ *Corrected Sep 24:* an earlier line here said 14% of the model's list gave under $50. That is
+  true of the **P(return)** ranking ($107/contact), not the expected-value model ($120/contact),
+  whose list is 0.6% under-$50. **Who the model actually adds** (`evals/results/13_qa_analyses.txt`, B):
+  it drops 20,525 gift-size picks that are 81% teacher-referred and return 13% of the time, and adds
+  20,525 donors who are 33% multi-classroom first-month givers and return 23%. **Thadeus:** slide 7 is yours; the figure
   is `docs/slides/assets/slide7_calibration_model_dark.png`.
+
+### Q&A analyses — Sep 24, from Malorie's list (`evals/qa_analyses.py` → `evals/results/13_qa_analyses.txt`)
+
+- **Same classroom?** Of citizen donors who gave again, **61% gave only to different teachers**;
+  32% gave only to the same teacher; 24% of repeat dollars went back to the first classroom. Most
+  "loyalty" here is to the platform, not the classroom — the honest answer to "DonorsChoose ≠ a small
+  nonprofit." (No school id exists in the Projects file, so "same school" cannot be tested.)
+- **Who the model adds** (holdout, 10%): swaps 20,525 gift-size picks (81% teacher-referred, return
+  13%, $25 next-year giving) for 20,525 donors who are 33% multi-classroom first-month givers, 24%
+  teacher-referred, higher-poverty schools (71% free lunch), return 23%, $40 next-year giving.
+- **Capacity 5%–30%:** the model beats gift size at every capacity — biggest at 5% (+$9/contact,
+  $202 vs $193), shrinking to about +$1 at 20–30%. Precision edge 1.4–3.7 points throughout.
+- **Second → third gift:** 13.6% of first-time citizen donors give again within a year; **36% of
+  second-time donors give a third time** — 2.7× — our own data's version of the FEP 19%-vs-59% slide.
+- Not run, with the one-line answer: *thank-you packet* — no mailing dates exist, Albert pre-approved
+  dropping it; *more model types* — two model classes against four baselines already, and gift size
+  carries most of the signal.
 
 ### What Rodolfo's model found — first real-data run, Sep 17 (`evals/results/08_model_dev.txt`)
 

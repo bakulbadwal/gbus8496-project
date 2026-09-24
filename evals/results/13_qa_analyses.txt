@@ -1,0 +1,70 @@
+
+==========================================================================================
+A · Did the second gift go to the same classroom (same teacher) as the first?
+==========================================================================================
+Citizen donors who gave again (teacher known): 402,578
+  any repeat gift to the SAME teacher:        39.0%
+  ONLY to the same teacher (a loyal donor):   32.4%
+  ONLY to different teachers (the platform):  61.0%
+  share of repeat dollars to the same teacher: 23.6%
+
+==========================================================================================
+B · Holdout, 10% capacity: who the model added vs who gift size would have called
+==========================================================================================
+group                    added by model  dropped by model  on both lists  all holdout donors
+donors                       20,525.000        20,525.000     60,984.000         814,971.000
+gave_again                        0.226             0.130          0.220               0.126
+$ next 12 mo / donor             39.977            24.755        147.054              20.605
+median first gift                99.000           100.000        200.000              40.000
+first gift < $50                  0.022             0.000          0.000               0.524
+2+ classrooms 1st month           0.330             0.063          0.271               0.056
+gift card                         0.052             0.079          0.041               0.082
+matched                           0.457             0.356          0.366               0.413
+teacher-referred                  0.235             0.807          0.478               0.627
+median project price            412.115           691.700        508.810             520.995
+free-lunch %                     71.462            60.595         67.993              64.406
+  SCHOOL_STATE: over-represented among added donors → SC (1.4× their share), PA (1.3× their share), NC (1.1× their share)
+  CATEGORY: over-represented among added donors → Books (1.3× their share), Supplies (1.1× their share), Educational Kits & Games (1.1× their share)
+  SUBJECT_CATEGORY: over-represented among added donors → Visual Arts (1.3× their share), Applied Sciences (1.2× their share), Environmental Science (1.2× their share)
+  GRADE_LEVEL: over-represented among added donors → Grades PreK-2 (1.1× their share), Grades 3-5 (1.0× their share), Grades 6-8 (0.9× their share)
+
+==========================================================================================
+C · Capacity 5%–30%, holdout: $ per contact, share of repeat dollars, precision
+==========================================================================================
+
+value_per_contact
+ranking    model  gift size  random  model − gift
+capacity                                         
+0.05     202.289    193.151  17.589         9.138
+0.10     120.091    116.258  18.665         3.833
+0.15      89.105     85.682  20.096         3.423
+0.20      71.716     70.663  19.791         1.052
+0.25      60.590     59.670  19.787         0.919
+0.30      52.792     51.600  19.698         1.192
+
+value_capture_rate
+ranking   model  gift size  random  model − gift
+capacity                                        
+0.05      0.491      0.469   0.043         0.022
+0.10      0.583      0.564   0.091         0.019
+0.15      0.649      0.624   0.146         0.025
+0.20      0.696      0.686   0.192         0.010
+0.25      0.735      0.724   0.240         0.011
+0.30      0.769      0.751   0.287         0.017
+
+precision
+ranking   model  gift size  random  model − gift
+capacity                                        
+0.05      0.257      0.220   0.126         0.037
+0.10      0.221      0.197   0.127         0.024
+0.15      0.203      0.181   0.126         0.022
+0.20      0.192      0.175   0.127         0.017
+0.25      0.184      0.169   0.127         0.015
+0.30      0.177      0.163   0.127         0.014
+
+==========================================================================================
+D · Second gift → third gift, citizen donors (months, 12-month windows)
+==========================================================================================
+First gift → second within 12 months:  13.6%  (n = 2,971,755)
+Second gift → third within 12 months:  36.0%  (n = 351,953 with a closed window)
+A second-time donor is 2.7× as likely to give again as a first-time donor.
