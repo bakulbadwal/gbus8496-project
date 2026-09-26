@@ -55,13 +55,13 @@ STEPS = [
     ("08_features",        [sys.executable, "src/features.py", str(COHORTS), str(PROJECTS), str(COHORTS_PROJ)]),
     ("08_model_dev",       [sys.executable, "src/model.py", str(COHORTS_PROJ)]),
     ("09_calibration",     [sys.executable, "evals/calibration.py", str(COHORTS), str(REF_SCORES),
-                            "--out", "docs/slides/assets/slide7_calibration"]),
+                            "--out", "docs/slides/assets/slide7_calibration", "--ranking", "p_return"]),
     # Holdout — first scored Sep 22, after the model was frozen on dev-val. The model is
     # deterministic (fixed seed), so re-running reproduces the same scores; it does not re-peek.
     ("10_model_holdout",   [sys.executable, "src/model.py", str(COHORTS_PROJ), "--holdout"]),
     ("11_decision_model",  [sys.executable, "src/decision.py", str(COHORTS), str(MODEL_SCORES)]),
     ("12_calibration_model", [sys.executable, "evals/calibration.py", str(COHORTS), str(MODEL_SCORES),
-                              "--out", "docs/slides/assets/slide7_calibration_model"]),
+                              "--out", "docs/slides/assets/slide7_calibration_model", "--ranking", "expected_value"]),
     ("13_qa_analyses",     [sys.executable, "evals/qa_analyses.py"]),
 ]
 
