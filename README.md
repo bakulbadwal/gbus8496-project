@@ -177,6 +177,27 @@ python evals/calibration.py data/processed/cohorts.parquet data/processed/model_
 python -m pytest tests/ -q
 ```
 
+### Thank-you packet — Sep 26, the Sep 24 meeting's action item (`evals/results/14_*`, `15_*`)
+
+Run under the team's assumption that the packet is mailed before any second gift (no mailing
+dates exist; this is an assumption, not a fact).
+
+- **As a model feature it adds nothing.** Dev-val with the packet: $119.27/contact, ROC-AUC 0.587;
+  without it: $119.51, 0.589 (`src/model.py --with-packet`). With no dev-val gain, the holdout was
+  **not** re-scored — the headline model is unchanged.
+- **Descriptively, packet recipients return more:** citizens 20.3% vs 12.8% (+12.5 pp holding
+  gift size fixed). Organizations +5 pp; teachers −2 pp.
+- **But the packet is mostly a "your project got funded" signal:** 12.3% of donors to funded
+  projects got one vs 0.6% for expired projects. Funding happens after the first gift, so the raw
+  gap mixes "thanked" with "saw the project succeed."
+- **The $50 cutoff exists but is fuzzy.** Among non-round whole amounts, packets go 5.5% → 20.8%
+  across $50 while repeat goes 16.0% → 17.9%: an implied packet effect of **+12% (95% CI +1% to
+  +23%)** — suggestive, small sample, and repeat rates rise with gift size anyway. Honest slide line:
+  *"There's a hint the packet helps, but our data can't separate it from the project succeeding.
+  That's exactly what the Darden pilot should randomize."*
+- Side finding: donors whose first project **expired** return more (19% vs 13%), likely because
+  DonorsChoose credits get redirected to other classrooms — a caveat on what counts as a "second gift."
+
 ### Q&A analyses — Sep 24, from Malorie's list (`evals/qa_analyses.py` → `evals/results/13_qa_analyses.txt`)
 
 - **Same classroom?** Of citizen donors who gave again, **61% gave only to different teachers**;

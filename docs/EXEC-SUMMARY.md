@@ -53,8 +53,9 @@ thresholds remain illustrative. Scoring runs locally without model API fees; out
 and maintenance still require resources.
 
 **What we are not claiming.** No causal effect: nobody was randomly assigned a call, so these are
-dollars *identified*, not *caused*; outreach impact remains unknown. The thank-you-packet
-question was dropped because the data gives no timing. Transfer from a marketplace to a relational
+dollars *identified*, not *caused*; outreach impact remains unknown. The thank-you packet
+adds nothing to prediction, and it goes mostly to donors whose project got funded, so its effect
+cannot be separated from the project succeeding. Transfer from a marketplace to a relational
 small nonprofit is a hypothesis. The $25 cost is a placeholder for a figure from real practice.
 
 *Every number reproduces with `python evals/run_all.py`; sources in `evals/results/`.*

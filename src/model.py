@@ -323,5 +323,15 @@ if __name__ == "__main__":
     ap.add_argument("--holdout", action="store_true",
                     help="score the real holdout ONCE, after team sign-off, and write model_scores.parquet")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--with-packet", action="store_true",
+                    help="SENSITIVITY ONLY (team decision, Sep 24 meeting): add the first-gift thank-you "
+                         "packet flag as a feature, ASSUMING the packet was mailed before any second gift. "
+                         "The codebook gives no mailing date, so this is an assumption, not a fact. "
+                         "Writes model_scores_with_packet.parquet; the headline model is unchanged.")
     a = ap.parse_args()
+    if a.with_packet:
+        FLAGS.append("first_thank_you_packet")
+        print("⚠️  SENSITIVITY RUN: thank-you packet included as a feature (timing ASSUMED pre-second-gift).")
+        if a.holdout and not a.out:
+            a.out = str(Path(a.cohorts).parent / "model_scores_with_packet.parquet")
     run(a.cohorts, holdout=a.holdout, out_path=a.out)

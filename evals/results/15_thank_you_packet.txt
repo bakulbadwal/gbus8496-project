@@ -1,0 +1,77 @@
+
+==========================================================================================
+A · Packet rate and repeat rate by donor type (all labelled donors)
+==========================================================================================
+                donors  packet_rate  repeat_with  repeat_without  gap_pp
+donor_type                                                              
+citizen donor  2971755        0.110        0.203           0.128   7.516
+organization      3229        0.492        0.705           0.650   5.445
+teacher         302169        0.021        0.347           0.369  -2.216
+
+==========================================================================================
+B · Citizen donors: repeat rate with vs without a packet, within first-gift bands
+==========================================================================================
+          size_none  size_packet  mean_none  mean_packet  packet_rate  gap_pp
+band                                                                         
+<$10         121668          226      0.122        0.336        0.002  21.433
+$10–24       747110         1411      0.091        0.410        0.002  31.866
+$25–49       887834        25800      0.125        0.168        0.028   4.302
+$50–99       575559       150863      0.147        0.175        0.208   2.806
+$100–249     266211       116131      0.181        0.205        0.304   2.338
+$250+         45330        33612      0.236        0.338        0.426  10.210
+Raw gap: 20.3% vs 12.8%. Gap after holding the gift-size mix fixed: +12.5 pp.
+
+==========================================================================================
+C · Around $50: is there a cutoff?
+==========================================================================================
+        donors  packet_rate  repeat
+dollar                             
+40       36423        0.038   0.154
+41        1513        0.106   0.186
+42        1581        0.111   0.163
+43        1448        0.115   0.175
+44        1543        0.128   0.170
+45        9539        0.031   0.195
+46        1642        0.124   0.176
+47        1649        0.133   0.193
+48        1862        0.128   0.192
+49        2724        0.134   0.166
+50      569377        0.204   0.144
+51        1740        0.257   0.182
+52        1575        0.270   0.171
+53        1447        0.280   0.162
+54        1714        0.257   0.194
+55        3574        0.184   0.229
+56        1556        0.281   0.191
+57        1655        0.267   0.197
+58        1504        0.279   0.207
+59        1327        0.280   0.197
+60       11702        0.156   0.206
+$45–49.99 vs $50–54.99 (incl. exactly $50): packet 7.6% → 20.5%; repeat 18.8% → 14.4%; implied effect of a packet = Δrepeat/Δpacket = -34.1%
+$45–49.99 vs $50.01–54.99 (excl. exactly $50): packet 7.6% → 27.0%; repeat 18.8% → 17.9%; implied effect of a packet = Δrepeat/Δpacket = -4.6%
+
+Non-round whole amounts, $41–49 (n=3,416) vs $51–59 (n=4,315): packet 5.5% → 20.8% (+15.3 pp), repeat 16.0% → 17.9% (+1.9 pp). Implied packet effect +12.2% (bootstrap 95% CI +1.4% to +23.1%). Suggestive only: small n, and repeat rates also rise with gift size across the window.
+
+==========================================================================================
+D · When is a packet sent? Packet rate by the first project's final status
+==========================================================================================
+                                  donors  packet_rate  repeat
+PROJECT_STATUS_AS_OF_12_31_2019                              
+funded                           2649674        0.123   0.129
+expired                           299851        0.006   0.190
+reallocated                        14579        0.017   0.326
+NaN                                 7651        0.103   0.130
+
+Packet rate by project-level THANKYOU_NOTE:
+                    size  mean
+THANKYOU_NOTE                 
+MASKED BY ICPSR  2646800 0.122
+                  317304 0.011
+missing             7651 0.103
+
+Packet rate by project-level IMPACT_LETTER:
+                    size  mean
+IMPACT_LETTER                 
+MASKED BY ICPSR  2330874 0.122
+                  633230 0.068
+missing             7651 0.103
