@@ -87,23 +87,23 @@ Calibration always uses return probabilities; the year and size-band analysis no
 separate comparison. Small-group precision is pooled by donor count.
 
 **Speaker notes (about 60 seconds):** “We reproduced the headline from the raw data. On the
-left, the highest probability tenth says 26.6% will return, and 24.2% do. On the right, the
-actual dollar-ranked list has 23.6% returning in 2017 and 20.9% in 2018, alongside a falling
-base rate. Giving per selected donor falls from $140 to $103; the model still beats gift size
+left, the highest probability tenth says 27.2% will return, and 24.5% do. On the right, the
+actual dollar-ranked list has 23.7% returning in 2017 and 21.1% in 2018, alongside a falling
+base rate. Giving per selected donor falls from $139 to $103; the model still beats gift size
 in both years. The limitation is coverage: under-$50 donors are 52.4% of the population, but
-only 0.55% of this list. The earlier 14.4% figure belongs to probability-only ranking, which
+only 0.51% of this list. The 14.1% figure belongs to probability-only ranking, which
 finds more returners but fewer dollars.”
 
-**For Q&A:** 81,509 donors selected across 24 months; exact gain $3.83/contact (3.3%). The paired
-bootstrap mean is $3.80 ± $0.51 (one standard error, 30 samples, each the full test-set size
+**For Q&A:** 81,509 donors selected across 24 months; exact gain $3.45/contact (3.0%). The paired
+bootstrap mean is $3.51 ± $0.51 (one standard error, 30 samples, each the full test-set size
 with replacement). This quantifies donor resampling uncertainty, not future drift. Excluding
-the 17 accounts with 200+ repeat gifts leaves a $3.71/contact gain. Small-donor precision is
-42.3% among just 449 selected donors: the issue is low coverage, not evidence they cannot be ranked.
+the 17 accounts with 200+ repeat gifts leaves a $3.30/contact gain. Small-donor precision is
+42.8% among just 416 selected donors: the issue is low coverage, not evidence they cannot be ranked.
 
 ### 8 · What she does on Monday — Malorie, 60 seconds
 The decision layer (`src/decision.py`) applies the model's dollar score at monthly capacity.
-The selected list contains $9.79M of historical subsequent giving; subtracting $2.04M of
-hypothetical contact costs leaves $7.75M, compared with $7.44M for gift-size ranking. This is
+The selected list contains $9.76M of historical subsequent giving; subtracting $2.04M of
+hypothetical contact costs leaves $7.72M, compared with $7.44M for gift-size ranking. This is
 **value identified less assumed cost, not outreach profit**. Additional giving caused by contact
 is unknown. Malorie still supplies the real contact-cost figure; $25 is a placeholder.
 The threshold sensitivity table is illustrative because the log-amount score is not calibrated

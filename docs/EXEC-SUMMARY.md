@@ -16,7 +16,7 @@ Technologies, whose customers are this stakeholder; weigh our conclusions with t
 
 We used DonorsChoose Open Data 2002–2019 (ICPSR 37898): 11.4 million donations from 3.5 million
 donors. Each donor gets one label, whether they gave again within twelve months of their first
-gift. The 2017–18 cohorts were held out and scored once, because her question is about next year's
+gift. The 2017–18 cohorts were held out during model selection, because her question is about next year's
 donors. Every rule is scored at her capacity, the top 10% of each month's new donors, in dollars of
 subsequent giving identified per contact. The baseline is her own rule, rank by first-gift size.
 
@@ -29,24 +29,24 @@ classrooms. Pooled, any rule looks brilliant by finding the corporations. We sco
 
 **A model beats her rule by a small, reliable margin.** On the holdout, ranking by predicted
 second-gift value identifies **$120 per contact**, against **$116** for gift size and **$21** for
-selecting everyone. The paired bootstrap gap is +$3.80 ± 0.51 (one standard error, 30 resamples). One call
+selecting everyone. The paired bootstrap gap is +$3.51 ± 0.51 (one standard error, 30 resamples). One call
 in ten reaches 58% of all subsequent giving. The model is two gradient-boosted estimators, for the
 chance of a second gift and its size, using first-gift attributes plus the project and school
 first funded. Gift size carries much of the signal; the full model adds a modest gain.
 
-**Calibration and coverage limit the result.** The highest probability tenth predicts 26.6%
-returning and observes 24.2%. The dollar-ranked list identifies $140 per donor in 2017 and $103
+**Calibration and coverage limit the result.** The highest probability tenth predicts 27.2%
+returning and observes 24.5%. The dollar-ranked list identifies $139 per donor in 2017 and $103
 in 2018, beating gift size in both years. Under-$50 donors are 52.4% of the population but only
-**0.55% of this list**. The 14.4% figure applies to probability-only ranking, which identifies
-fewer dollars ($107/contact). The two lists serve different objectives. What the model changes is who is on the list: it swaps out teacher-referred donors, friends and
+**0.51% of this list**. The 14.1% figure applies to probability-only ranking, which identifies
+fewer dollars ($108/contact). The two lists serve different objectives. What the model changes is who is on the list: it swaps out teacher-referred donors, friends and
 family recruited for one classroom who return 13% of the time, for donors who funded several
 classrooms at once, who return 23%.
 
 ## Recommendation
 
 Pilot the model-ranked list against gift-size ranking, measuring additional donations caused
-by outreach before scaling. The historical model list contains $9.79M of subsequent giving;
-subtracting contact costs at an assumed $25 leaves $7.75M, versus $7.44M for the gift-size list.
+by outreach before scaling. The historical model list contains $9.76M of subsequent giving;
+subtracting contact costs at an assumed $25 leaves $7.72M, versus $7.44M for the gift-size list.
 These are **values identified less hypothetical costs, not profit estimates**. The log-amount
 model is a useful ranking score but is not calibrated as a mean-dollar forecast, so cost
 thresholds remain illustrative. Scoring runs locally without model API fees; outreach, setup
@@ -54,7 +54,7 @@ and maintenance still require resources.
 
 **What we are not claiming.** No causal effect: nobody was randomly assigned a call, so these are
 dollars *identified*, not *caused*; outreach impact remains unknown. The thank-you packet
-adds nothing to prediction, and it goes mostly to donors whose project got funded, so its effect
+does not improve dollar ranking in our sensitivity run, and it goes mostly to donors whose project got funded, so its effect
 cannot be separated from the project succeeding. Transfer from a marketplace to a relational
 small nonprofit is a hypothesis. The $25 cost is a placeholder for a figure from real practice.
 

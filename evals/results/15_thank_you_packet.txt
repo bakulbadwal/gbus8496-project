@@ -3,7 +3,7 @@
 A · Packet rate and repeat rate by donor type (all labelled donors)
 ==========================================================================================
                 donors  packet_rate  repeat_with  repeat_without  gap_pp
-donor_type                                                              
+donor_type
 citizen donor  2971755        0.110        0.203           0.128   7.516
 organization      3229        0.492        0.705           0.650   5.445
 teacher         302169        0.021        0.347           0.369  -2.216
@@ -12,7 +12,7 @@ teacher         302169        0.021        0.347           0.369  -2.216
 B · Citizen donors: repeat rate with vs without a packet, within first-gift bands
 ==========================================================================================
           size_none  size_packet  mean_none  mean_packet  packet_rate  gap_pp
-band                                                                         
+band
 <$10         121668          226      0.122        0.336        0.002  21.433
 $10–24       747110         1411      0.091        0.410        0.002  31.866
 $25–49       887834        25800      0.125        0.168        0.028   4.302
@@ -25,7 +25,7 @@ Raw gap: 20.3% vs 12.8%. Gap after holding the gift-size mix fixed: +12.5 pp.
 C · Around $50: is there a cutoff?
 ==========================================================================================
         donors  packet_rate  repeat
-dollar                             
+dollar
 40       36423        0.038   0.154
 41        1513        0.106   0.186
 42        1581        0.111   0.163
@@ -56,22 +56,25 @@ Non-round whole amounts, $41–49 (n=3,416) vs $51–59 (n=4,315): packet 5.5% �
 D · When is a packet sent? Packet rate by the first project's final status
 ==========================================================================================
                                   donors  packet_rate  repeat
-PROJECT_STATUS_AS_OF_12_31_2019                              
-funded                           2649674        0.123   0.129
-expired                           299851        0.006   0.190
-reallocated                        14579        0.017   0.326
-NaN                                 7651        0.103   0.130
+PROJECT_STATUS_AS_OF_12_31_2019
+funded                           2656631        0.123   0.129
+expired                           300526        0.006   0.190
+reallocated                        14598        0.017   0.326
 
 Packet rate by project-level THANKYOU_NOTE:
                     size  mean
-THANKYOU_NOTE                 
-MASKED BY ICPSR  2646800 0.122
-                  317304 0.011
-missing             7651 0.103
+THANKYOU_NOTE
+MASKED BY ICPSR  2653745 0.122
+                  318010 0.011
 
 Packet rate by project-level IMPACT_LETTER:
                     size  mean
-IMPACT_LETTER                 
-MASKED BY ICPSR  2330874 0.122
-                  633230 0.068
-missing             7651 0.103
+IMPACT_LETTER
+MASKED BY ICPSR  2337148 0.122
+                  634607 0.068
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

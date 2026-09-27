@@ -1,0 +1,10 @@
+{
+  "python": "3.11.4",
+  "pandas": "2.3.3",
+  "numpy": "2.4.3",
+  "scikit_learn": "1.8.0",
+  "scipy": "1.17.1",
+  "OMP_NUM_THREADS": 4,
+  "OPENBLAS_NUM_THREADS": 4,
+  "base_commit": "0778343c94c4e672e70f356ec6aefd50b08f2620"
+}

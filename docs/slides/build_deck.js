@@ -160,16 +160,16 @@ const chartFrame = {
   const cell = (t, o = {}) => ({ text: t, options: { color: o.color ?? MUTED, fontFace: B, fontSize: 11, bold: !!o.bold, fill: { color: o.fill ?? NAVY }, align: o.align ?? "right", valign: "middle" } });
   const rows = [
     [hdr("RANKING"), hdr("PRECISION"), hdr("RECALL"), hdr("VALUE FOUND"), hdr("$ / CONTACT")],
-    [cell("Our model — probability × amount score", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("22.1%", { fill: S1, color: "FFFFFF" }), cell("17.6%", { fill: S1, color: "FFFFFF" }), cell("58.3%", { fill: S1, color: "FFFFFF" }), cell("$120", { fill: S1, color: BRASS, bold: true })],
+    [cell("Our model — probability × amount score", { align: "left", bold: true, color: "FFFFFF", fill: S1 }), cell("22.3%", { fill: S1, color: "FFFFFF" }), cell("17.7%", { fill: S1, color: "FFFFFF" }), cell("58.1%", { fill: S1, color: "FFFFFF" }), cell("$120", { fill: S1, color: BRASS, bold: true })],
     [cell("First gift size — the honest baseline", { align: "left", color: INK }), cell("19.7%"), cell("15.7%"), cell("56.4%"), cell("$116", { bold: true, color: INK })],
     [cell("First-month gift count", { align: "left" }), cell("20.4%"), cell("16.2%"), cell("41.4%"), cell("$85")],
     [cell("Random", { align: "left" }), cell("12.7%"), cell("10.1%"), cell("9.1%"), cell("$19")],
     [cell("Contact everyone", { align: "left" }), cell("12.6%"), cell("100%"), cell("100%"), cell("$21")],
   ];
   s.addTable(rows, { x: MX, y: 1.8, w: W - 2 * MX, colW: [3.5, 1.35, 1.35, 1.55, 1.15], rowH: 0.42, border: { type: "solid", color: S2, pt: 0.5 }, margin: 0.08 });
-  body(s, "30 paired donor bootstrap samples: +$3.80 ± 0.51 per contact over gift size (±1 standard error). The 3.3% gain is modest; gift size already carries most of the dollar signal. The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and it is what she does by hand.",
+  body(s, "30 paired donor bootstrap samples: +$3.51 ± 0.51 per contact over gift size (±1 standard error). The 3.0% gain is modest; gift size already carries most of the dollar signal. The baseline is fair: on a first-gift cohort, RFM collapses to gift size, and it is what she does by hand.",
     MX, 4.5, 8.9, 0.6, { size: 10.5, color: SUBTLE, italic: true });
-  s.addNotes("60 seconds. Headline metric is dollars per contact, not AUC — Albert said the ranking at capacity is the decision. Every row is real: baselines in evals/results/04_score_citizen.txt, model in evals/results/10_model_holdout.txt (holdout scored once, Sep 22). Gradient-boosted classifier + log-amount regressor on donation-file and projects-join features. If asked: ranking by probability alone finds more returners (24.0% precision) but fewer dollars ($107).");
+  s.addNotes("60 seconds. Headline metric is dollars per contact, not AUC — Albert said the ranking at capacity is the decision. Every row is real: baselines in evals/results/04_score_citizen.txt, model in evals/results/10_model_holdout.txt (model frozen Sep 22; parser correction rerun Sep 27). Gradient-boosted classifier + log-amount regressor on donation-file and projects-join features. If asked: ranking by probability alone finds more returners (24.3% precision) but fewer dollars ($108).");
 }
 
 // ── 7 · How we know it works (Thadeus) ──────────────────────────────────────────────────────
@@ -178,9 +178,9 @@ const chartFrame = {
   base(s, "Evaluation", "Thadeus", 7);
   title(s, "The gain holds, but the dollar list favors large gifts", { size: 26, h: 0.6 });
   s.addImage({ path: ASSETS + "/slide7_calibration_model_dark.png", x: MX, y: 1.35, w: 8.9, h: 3.56 });
-  body(s, "Under-$50 donors: 52.4% of the holdout, only 0.55% of the dollar-ranked list (14.4% if ranked by probability).",
+  body(s, "Under-$50 donors: 52.4% of the holdout, only 0.51% of the dollar-ranked list (14.1% if ranked by probability).",
     MX, 4.99, 8.9, 0.42, { size: 10.5, color: BRASS });
-  s.addNotes("60 seconds. We rebuilt the evaluation from the raw files and reproduced the headline. The left chart asks whether predicted return chances match reality. In the highest probability tenth, the model says 26.6 percent return and 24.2 percent do. The right chart follows the same dollar-ranked list as the headline: 23.6 percent return in 2017 and 20.9 percent in 2018, while the overall rate also falls. Dollars per selected donor fall from 140 to 103, but the model beats gift size in both years. Its limitation is coverage: donors giving under 50 dollars are half the population but just 0.55 percent of this list. The 14.4 percent figure belongs to the probability-only list, which finds more returners but fewer dollars. Source: evals/results/12_calibration_model.txt; notebook 04. First gift means total first-month giving. These are observations about frozen predictions, not new tuning.");
+  s.addNotes("60 seconds. We rebuilt the evaluation from the raw files and reproduced the headline. The left chart asks whether predicted return chances match reality. In the highest probability tenth, the model says 27.2 percent return and 24.5 percent do. The right chart follows the same dollar-ranked list as the headline: 23.7 percent return in 2017 and 21.1 percent in 2018, while the overall rate also falls. Dollars per selected donor fall from 139 to 103, but the model beats gift size in both years. Its limitation is coverage: donors giving under 50 dollars are half the population but just 0.51 percent of this list. The 14.1 percent figure belongs to the probability-only list, which finds more returners but fewer dollars. Source: evals/results/12_calibration_model.txt; notebook 04. First gift means total first-month giving. These are observations about frozen predictions, not new tuning.");
 }
 
 // ── 8 · What she does on Monday (Malorie) ───────────────────────────────────────────────────
@@ -188,18 +188,18 @@ const chartFrame = {
   const s = pres.addSlide();
   base(s, "The decision", "Malorie", 8);
   title(s, "What she does on Monday", { size: 30, h: 0.7 });
-  const cols = [["3,013", "selected · Dec 2018"], ["$25", "per call · placeholder"], ["$7.75M", "value less assumed cost"], ["No API", "external model calls"]];
+  const cols = [["3,013", "selected · Dec 2018"], ["$25", "per call · placeholder"], ["$7.72M", "value less assumed cost"], ["No API", "external model calls"]];
   cols.forEach(([b, sm], i) => {
     const x = MX + i * 2.25; card(s, x, 1.5, 2.05, 1.45, S1);
     s.addText(b, { x: x + 0.2, y: 1.66, w: 1.75, h: 0.6, fontFace: T, fontSize: 28, bold: true, color: "FFFFFF", isTextBox: true, margin: 0 });
     s.addText(sm.toUpperCase(), { x: x + 0.2, y: 2.36, w: 1.75, h: 0.4, fontFace: M, fontSize: 8, color: TERT, charSpacing: 1.5, isTextBox: true, margin: 0 });
   });
-  body(s, "The model's list contains $9.79M of subsequent giving. Subtracting $2.04M of hypothetical contact costs leaves $7.75M, versus $7.44M for gift-size ranking. Neither balance measures outreach profit: we do not know how much extra giving a call causes.",
+  body(s, "The model's list contains $9.76M of subsequent giving. Subtracting $2.04M of hypothetical contact costs leaves $7.72M, versus $7.44M for gift-size ranking. Neither balance measures outreach profit: we do not know how much extra giving a call causes.",
     MX, 3.15, 8.9, 0.8, { size: 12 });
   card(s, MX, 4.05, W - 2 * MX, 1.05, S1);
   label(s, "Cost at production scale", MX + 0.25, 4.2, 4);
   body(s, "Scoring runs locally without API fees. Staff outreach, setup and maintenance still cost money. Replace the $25 contact-cost assumption with evidence from practice.", MX + 0.25, 4.45, W - 2 * MX - 0.5, 0.55, { size: 12, color: "FFFFFF" });
-  s.addNotes("60 seconds. The 312 thousand dollar difference is giving identified in two historical lists of equal size, not incremental revenue caused by calls. The 25 dollar contact cost is a placeholder; Malorie supplies the real cost. The model was trained on log amounts, so its score is not a calibrated mean-dollar forecast. EV greater than cost is only illustrative. Source: evals/results/11_decision_model.txt. Compute uses no external model API; staff, setup and maintenance costs are not zero.");
+  s.addNotes("60 seconds. The 282 thousand dollar difference is giving identified in two historical lists of equal size, not incremental revenue caused by calls. The 25 dollar contact cost is a placeholder; Malorie supplies the real cost. The model was trained on log amounts, so its score is not a calibrated mean-dollar forecast. EV greater than cost is only illustrative. Source: evals/results/11_decision_model.txt. Compute uses no external model API; staff, setup and maintenance costs are not zero.");
 }
 
 // ── 9 · What we are not claiming (Thadeus) ──────────────────────────────────────────────────

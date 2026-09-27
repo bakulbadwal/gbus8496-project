@@ -20,4 +20,10 @@ first_month_gift_count     0.2037  0.1616              0.4141            85.3044
                 random     0.1267  0.1005              0.0906            18.6648
 
 Verdict: the reference logistic beats rank-by-gift-size on dollars per contact ($119 vs $116); precision 22.3% vs 19.7%.
-Holdout scores written to /Users/bakulbadwal/Documents/GitHub/gbus8496-project/data/processed/reference_scores.parquet — the decision layer reads these until a real model replaces them.
+Holdout scores written to /private/tmp/group11-parser-fix/data/processed/reference_scores.parquet — the decision layer reads these until a real model replaces them.
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

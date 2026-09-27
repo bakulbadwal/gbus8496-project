@@ -1,0 +1,39 @@
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+{
+  "project_file_md5": "37e7bd5ac4af5b71545fc6538c5be3dd",
+  "physical_row_width_counts": {
+    "28": 2149817
+  },
+  "old_project_rows": 2144304,
+  "corrected_project_rows": 2149817,
+  "recovered_project_ids": 5513,
+  "common_project_ids_with_changed_fields": 121,
+  "changed_project_fields": {
+    "GRADE_LEVEL": 58,
+    "SUBJECT_CATEGORY": 90,
+    "SUBJECT_SUBCATEGORY": 75,
+    "OPTIONAL_SUBJECT_CATEGORY": 102,
+    "OPTIONAL_SUBJECT_SUBCATEGORY": 87,
+    "CATEGORY": 83,
+    "COST_OF_REQUESTED_RESOURCES": 121,
+    "VENDOR_SHIPPING_CHARGES": 66,
+    "PAYMENT_PROCESSING_CHARGES": 117,
+    "SALES_TAX": 79,
+    "FULFILLMENT_AND_LABOR_MATERIALS": 26,
+    "OPTIONAL_SUPPORT": 121,
+    "TOTAL_PRICE_EXCLUDING_OPTIONAL_1": 121,
+    "SCHOOL_PERCENTAGE_FREE_AND_RED_1": 84,
+    "STUDENTS_REACHED": 108,
+    "POSTED_MONTH": 103,
+    "SCHOOL_STATE": 82,
+    "TEACHER_ID": 87
+  },
+  "old_missing_cohort_rows": 8432,
+  "new_missing_cohort_rows": 0,
+  "old_missing_citizen_rows": 7651,
+  "new_missing_citizen_rows": 0,
+  "cohort_rows_with_changed_existing_project_fields": 214
+}

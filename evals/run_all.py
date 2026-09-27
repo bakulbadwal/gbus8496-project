@@ -26,6 +26,9 @@ It runs, in order, and stops at the first failure:
  14. src/model.py --with-packet   sensitivity: thank-you packet as a feature (dev-val only)
  15. evals/thank_you_packet.py  packet by donor type, gift band, the $50 cutoff, project status
 
+ 16. evals/audit_project_parser.py  source checksum, row counts and repaired joins
+ 17. evals/refresh_feature_tables.py  recompute existing exploratory table comparisons
+
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
 presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
 laptop; step 8 adds about 8 minutes (6 for the join, 2 for the model), measured Sep 17.
@@ -67,6 +70,8 @@ STEPS = [
     ("13_qa_analyses",     [sys.executable, "evals/qa_analyses.py"]),
     ("14_packet_model_dev", [sys.executable, "src/model.py", str(COHORTS_PROJ), "--with-packet"]),
     ("15_thank_you_packet", [sys.executable, "evals/thank_you_packet.py"]),
+    ("16_project_parser_audit", [sys.executable, "evals/audit_project_parser.py"]),
+    ("17_refresh_feature_tables", [sys.executable, "evals/refresh_feature_tables.py"]),
 ]
 
 

@@ -1,7 +1,7 @@
 Separator            : TAB
 Using donor column   : DONOR_ID
 Using project column : PROJECT_ID
-Streaming /Users/bakulbadwal/Documents/GitHub/gbus8496-project/data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv in chunks of 1,000,000 rows...
+Streaming /private/tmp/group11-parser-fix/data/raw/ICPSR_37898/DS0001/37898-0001-Data.tsv in chunks of 1,000,000 rows...
 
   chunk 1: 1,000,000 rows so far, 509,195 distinct donors
   chunk 2: 2,000,000 rows so far, 910,432 distinct donors

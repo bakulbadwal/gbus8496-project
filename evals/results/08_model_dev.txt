@@ -1,22 +1,28 @@
 Population: citizen donor · fit 1,766,703 · evaluate on dev-val (last pre-holdout year) 390,081 · base rate 0.1299
 Features (19): log_amount, first_month_gifts, first_matched, first_teacher_referred, first_gift_card, month_of_year, cohort_year, COST_OF_REQUESTED_RESOURCES, TOTAL_PRICE_EXCLUDING_OPTIONAL_1, SCHOOL_PERCENTAGE_FREE_AND_RED_1, STUDENTS_REACHED, log_project_cost, project_age_months, GRADE_LEVEL, SUBJECT_CATEGORY, SUBJECT_SUBCATEGORY, CATEGORY, SCHOOL_STATE, project_record_missing
-Boosting iterations used: clf 782, amount-reg 177 (early stopping)
+Boosting iterations used: clf 1001, amount-reg 220 (early stopping)
 
-dev-val (last pre-holdout year) ROC-AUC 0.5890 · PR-AUC 0.1968   (reference logistic on holdout was 0.578)
+dev-val (last pre-holdout year) ROC-AUC 0.5862 · PR-AUC 0.1940   (reference logistic on holdout was 0.578)
 
 At 10% capacity, on dev-val (last pre-holdout year):
                ranking  precision  recall  value_capture_rate  value_per_contact
-  model_expected_value     0.2245  0.1729              0.5644           119.5133
+  model_expected_value     0.2240  0.1725              0.5649           119.6233
            gift_amount     0.2059  0.1586              0.5528           117.0507
-        model_p_return     0.2327  0.1792              0.4726           100.0694
+        model_p_return     0.2285  0.1759              0.4509            95.4769
 first_month_gift_count     0.2075  0.1598              0.3648            77.2358
                 random     0.1287  0.0991              0.1093            23.1508
 
 Noise floor (bootstrap over donors, value per contact ± 1 SE):
-  model_expected_value   $  117.33 ± 5.94
-  model_p_return         $   98.38 ± 6.11
+  model_expected_value   $  117.46 ± 5.86
+  model_p_return         $   95.28 ± 5.54
   gift_amount            $  115.56 ± 5.82
-  PAIRED Δ (model_expected_value − gift_amount): $+1.77 ± 0.76  (same donors in both rankings each draw)
+  PAIRED Δ (model_expected_value − gift_amount): $+1.90 ± 0.78  (same donors in both rankings each draw)
 
-Verdict on dev-val (last pre-holdout year): model_expected_value vs gift_amount = $120 vs $117; paired Δ $+1.77 ± 0.76 (~2.3× its SE). Best ranking: model_expected_value.
+Verdict on dev-val (last pre-holdout year): model_expected_value vs gift_amount = $120 vs $117; paired Δ $+1.90 ± 0.78 (~2.4× its SE). Best ranking: model_expected_value.
 Nothing here touched the holdout. When the team signs off, run once with --holdout.
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
