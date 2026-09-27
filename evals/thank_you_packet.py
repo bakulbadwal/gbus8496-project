@@ -108,6 +108,18 @@ def main():
         x = m.groupby(m[col].fillna("missing"))["packet"].agg(["size", "mean"]).sort_values("size", ascending=False).head(4)
         print(f"\nPacket rate by project-level {col}:\n{x.to_string(float_format=lambda v: f'{v:,.3f}')}")
 
+    section("E · Project-level thank-you note and impact letter (text masked; only whether one exists)")
+    # The Sep 24 meeting asked about these too. ICPSR masks the text, so a non-blank value means
+    # "the teacher wrote one." Compared within funded projects only, since expired projects have none
+    # and their donors behave differently (credit redirection).
+    funded = m[m["PROJECT_STATUS_AS_OF_12_31_2019"] == "funded"].copy()
+    for col in ["THANKYOU_NOTE", "IMPACT_LETTER"]:
+        has = funded[col].fillna("").str.strip().ne("")
+        print(f"{col}: funded-project citizen donors with one {pct(has.mean())}; repeat rate "
+              f"{pct(funded.loc[has, 'y'].mean())} with vs {pct(funded.loc[~has, 'y'].mean())} without "
+              f"(n = {int(has.sum()):,} / {int((~has).sum()):,})")
+    print("No dates exist for either, so these share the packet's limit: correlation, not effect.")
+
 
 if __name__ == "__main__":
     main()

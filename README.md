@@ -200,6 +200,9 @@ dates exist; this is an assumption, not a fact).
   +23%)** — suggestive, small sample, and repeat rates rise with gift size anyway. Honest slide line:
   *"There's a hint the packet helps, but our data can't separate it from the project succeeding.
   That's exactly what the Darden pilot should randomize."*
+- **Project-level note and impact letter** (the meeting's second thank-you type; text is masked, only
+  presence is known): 99.9% of funded projects have a thank-you note, so it can't be tested; donors
+  whose project sent an impact letter return 13.2% vs 10.7% without (funded projects only). Also undated.
 - Side finding: donors whose first project **expired** return more (19% vs 13%), likely because
   DonorsChoose credits get redirected to other classrooms — a caveat on what counts as a "second gift."
 
