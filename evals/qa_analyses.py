@@ -26,6 +26,7 @@ import pandas as pd
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "evals"))
+from projects import read_projects
 import config           # noqa: E402
 import labels           # noqa: E402
 import score as scorer  # noqa: E402
@@ -54,7 +55,7 @@ def main():
 
     # ── A. same teacher ──
     section("A · Did the second gift go to the same classroom (same teacher) as the first?")
-    teacher = pd.read_csv(PROJECTS, sep="\t", usecols=["PROJECT_ID", "TEACHER_ID"], dtype=str)
+    teacher = read_projects(PROJECTS, usecols=["PROJECT_ID", "TEACHER_ID"], dtype=str)
     teacher = teacher.drop_duplicates("PROJECT_ID").set_index("PROJECT_ID")["TEACHER_ID"]
     ret = cit[cit["gave_again"].astype(bool)].copy()
     ret["first_teacher"] = ret["first_project_id"].map(teacher)

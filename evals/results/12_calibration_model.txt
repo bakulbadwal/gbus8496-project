@@ -5,59 +5,65 @@ First-gift size = total first-month giving; outcome dollars = all giving in mont
 1 · CALIBRATION (holdout, 814,971 donors, base rate 0.1260)
      donors  predicted  observed  p_low  p_high  gap_pp
 bin
-0     81500     0.0641    0.0755 0.0073  0.0768  1.1333
-1     81495     0.0834    0.0878 0.0768  0.0892  0.4327
-2     81498     0.0941    0.0985 0.0892  0.0988  0.4341
-3     81497     0.1032    0.1057 0.0988  0.1076  0.2452
-4     81496     0.1119    0.1111 0.1076  0.1164 -0.0817
-5     81497     0.1211    0.1209 0.1164  0.1260 -0.0161
-6     81497     0.1316    0.1258 0.1260  0.1376 -0.5831
-7     81497     0.1452    0.1375 0.1376  0.1540 -0.7718
-8     81497     0.1676    0.1562 0.1540  0.1866 -1.1412
-9     81497     0.2662    0.2416 0.1866  0.9134 -2.4610
+0     81499     0.0671    0.0748 0.0045  0.0796  0.7767
+1     81496     0.0861    0.0894 0.0796  0.0918  0.3272
+2     81497     0.0966    0.0995 0.0918  0.1012  0.2839
+3     81498     0.1055    0.1034 0.1012  0.1097 -0.2076
+4     81496     0.1140    0.1130 0.1097  0.1183 -0.1005
+5     81497     0.1229    0.1179 0.1183  0.1277 -0.4968
+6     81497     0.1333    0.1256 0.1277  0.1393 -0.7713
+7     81497     0.1468    0.1381 0.1393  0.1555 -0.8612
+8     81497     0.1693    0.1542 0.1555  0.1888 -1.5145
+9     81497     0.2716    0.2446 0.1888  0.8854 -2.7044
 
-Expected calibration error (ECE): 0.0073   Brier: 0.1077 vs 0.1102 predicting the base rate for everyone (+2.27% skill)
-Top decile says 26.6%, gets 24.2%; bottom decile says 6.4%, gets 7.5%.
+Expected calibration error (ECE): 0.0080   Brier: 0.1076 vs 0.1102 predicting the base rate for everyone (+2.31% skill)
+Top decile says 27.2%, gets 24.5%; bottom decile says 6.7%, gets 7.5%.
 
 2 · ERROR ANALYSIS BY COHORT YEAR (10% list within cohort month; ranking = expected_value)
              donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
 cohort_year
-2017         371886           0.4563     0.1395  0.1326 0.5978      37194         0.4563                 8770     0.2358           140.2355
-2018         443085           0.5437     0.1148  0.1257 0.6062      44315         0.5437                 9281     0.2094           103.1828
-Precision 2017 → 2018: -2.64 pp; base rate moved -2.47 pp.
+2017         371886           0.4563     0.1395  0.1337 0.5994      37194         0.4563                 8809     0.2368           139.2387
+2018         443085           0.5437     0.1148  0.1293 0.6065      44315         0.5437                 9334     0.2106           103.3230
+Precision 2017 → 2018: -2.62 pp; base rate moved -2.47 pp.
 
 3 · BY FIRST-GIFT SIZE BAND — share of donors vs share of the list, and how each does
           donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
 band
-<$10       13830           0.0170     0.1020  0.0916 0.5583          0         0.0000                    0        NaN                NaN
-$10–24    146431           0.1797     0.0893  0.0978 0.5875         25         0.0003                   16     0.6400            63.8060
-$25–49    267112           0.3278     0.1092  0.1124 0.5632        424         0.0052                  174     0.4104            56.3617
-$50–99    265054           0.3252     0.1391  0.1360 0.5729      11021         0.1352                 2697     0.2447            43.3816
-$100–249   98774           0.1212     0.1677  0.1745 0.5945      46640         0.5722                 9547     0.2047            54.9659
-$250+      23770           0.0292     0.2377  0.2578 0.6625      23399         0.2871                 5617     0.2401           287.2454
-Donors giving under $50 are 52.4% of the holdout and 0.55% of the list; their precision on the list is 42.3% vs 21.7% for $100+.
+<$10       13830           0.0170     0.1020  0.0952 0.5513          0         0.0000                    0        NaN                NaN
+$10–24    146431           0.1797     0.0893  0.0998 0.5872         21         0.0003                   16     0.7619            80.3881
+$25–49    267112           0.3278     0.1092  0.1146 0.5660        395         0.0048                  162     0.4101            62.4393
+$50–99    265054           0.3252     0.1391  0.1383 0.5723      11357         0.1393                 2902     0.2555            42.2804
+$100–249   98774           0.1212     0.1677  0.1780 0.5937      46311         0.5682                 9449     0.2040            54.7028
+$250+      23770           0.0292     0.2377  0.2622 0.6627      23425         0.2874                 5614     0.2397           286.7761
+Donors giving under $50 are 52.4% of the holdout and 0.51% of the list; their precision on the list is 42.8% vs 21.6% for $100+.
 
 4 · SAME CAPACITY, DIFFERENT LISTS (value identified, not caused)
                    capacity  donors_contacted  repeat_donors_found  precision  recall  value_identified  value_capture_rate  value_per_contact  under_50_share_of_list
 ranking
-expected_value       0.1000             81509                18051     0.2215  0.1757    9,788,464.7400              0.5829           120.0906                  0.0055
-p_return             0.1000             81509                19551     0.2399  0.1903    8,751,578.7100              0.5212           107.3695                  0.1442
+expected_value       0.1000             81509                18143     0.2226  0.1766    9,757,602.0700              0.5811           119.7120                  0.0051
+p_return             0.1000             81509                19769     0.2425  0.1924    8,779,213.8500              0.5228           107.7085                  0.1412
 first_gift_amount    0.1000             81509                16085     0.1973  0.1566    9,476,045.4100              0.5643           116.2577                  0.0000
 
 Gift-size baseline by year:
              donors  share_of_donors  base_rate  mean_p    auc  contacted  share_of_list  repeat_donors_found  precision  value_per_contact
 cohort_year
-2017         371886           0.4563     0.1395  0.1326 0.5978      37194         0.4563                 7850     0.2111           136.6568
-2018         443085           0.5437     0.1148  0.1257 0.6062      44315         0.5437                 8235     0.1858            99.1364
+2017         371886           0.4563     0.1395  0.1337 0.5994      37194         0.4563                 7850     0.2111           136.6568
+2018         443085           0.5437     0.1148  0.1293 0.6065      44315         0.5437                 8235     0.1858            99.1364
 
 5 · ROBUSTNESS: excluding 17 accounts with 200+ subsequent gifts
                    capacity  donors_contacted  repeat_donors_found  precision  recall  value_identified  value_capture_rate  value_per_contact  under_50_share_of_list
 ranking
-expected_value       0.1000             81508                18040     0.2213  0.1756    8,519,596.2200              0.5514           104.5247                  0.0055
-p_return             0.1000             81508                19540     0.2397  0.1902    7,450,837.0800              0.4822            91.4123                  0.1441
+expected_value       0.1000             81508                18133     0.2225  0.1766    8,485,831.9800              0.5492           104.1104                  0.0051
+p_return             0.1000             81508                19754     0.2424  0.1923    7,478,281.3500              0.4840            91.7490                  0.1412
 first_gift_amount    0.1000             81508                16077     0.1972  0.1565    8,217,053.8300              0.5318           100.8129                  0.0000
 
-Dollar-score check: mean predicted $10.97 vs observed $20.61 per donor.
+Dollar-score check: mean predicted $11.17 vs observed $20.61 per donor.
 The log-amount model gives a ranking score, not a calibrated mean-dollar forecast. Cost thresholds are illustrative; no outreach profit or causal uplift is established.
 figure → docs/slides/assets/slide7_calibration_model.png
 figure → docs/slides/assets/slide7_calibration_model_dark.png
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

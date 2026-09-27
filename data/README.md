@@ -110,3 +110,11 @@ If Albert rejects the direction, the Amazon fallback's fetch recipe is in the gi
 (commit `2f90ab1`): per-category files under `raw/` on
 https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023, no login; exclude `rating_number`
 and `average_rating` from features (2023 outcome snapshots).
+
+## Projects TSV quoting (Sep 27 correction)
+
+Read DS0003 through `src/projects.py:read_projects`, which treats quotation marks as literal
+text (`csv.QUOTE_NONE`). Default CSV quoting silently loses records even with `usecols`.
+Expected: 2,149,817 unique Projects rows, 28 physical fields per row, MD5
+`37e7bd5ac4af5b71545fc6538c5be3dd`. `python evals/audit_project_parser.py` verifies the source
+and the repaired cohort joins; see `docs/PROJECT-PARSER-FIX.md`.

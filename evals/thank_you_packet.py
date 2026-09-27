@@ -23,6 +23,8 @@ import numpy as np
 import pandas as pd
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "src"))
+from projects import read_projects
 PROC = REPO / "data" / "processed"
 PROJECTS = REPO / "data" / "raw" / "ICPSR_37898" / "DS0003" / "37898-0003-Data.tsv"
 pct = lambda v: f"{v:.1%}"
@@ -95,7 +97,7 @@ def main():
           "Suggestive only: small n, and repeat rates also rise with gift size across the window.")
 
     section("D · When is a packet sent? Packet rate by the first project's final status")
-    proj = pd.read_csv(PROJECTS, sep="\t", dtype=str,
+    proj = read_projects(PROJECTS, dtype=str,
                        usecols=["PROJECT_ID", "PROJECT_STATUS_AS_OF_12_31_2019", "THANKYOU_NOTE", "IMPACT_LETTER"])
     proj = proj.drop_duplicates("PROJECT_ID").rename(columns={"PROJECT_ID": "first_project_id"})
     m = cit.merge(proj, on="first_project_id", how="left")

@@ -2,7 +2,7 @@ HOLDOUT: 943,137 donors, 16.1% gave again, $72,670,827 of subsequent giving
 
 === BY DONOR TYPE ===
                donors  donor_share  repeat_rate  median_first_gift  subsequent_value  value_share
-donor_type                                                                                       
+donor_type
 citizen donor  814971        0.864        0.126             40.000    16,792,616.780        0.231
 organization      708        0.001        0.698         11,988.195    45,405,467.210        0.625
 teacher        127458        0.135        0.382             65.000    10,472,742.800        0.144
@@ -35,3 +35,9 @@ citizen donor 2017-04         74,512.760               1424         883,799.890
   top  10.00% of donors (  81,497) →  97.8%
 
 config.STAKEHOLDER_POPULATION = 'citizen donor': 814,971 donors, 12.6% repeat, $16,792,617 subsequent giving
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

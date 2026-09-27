@@ -20,3 +20,9 @@ Threshold policy (contact if EV > cost) as cost per contact varies; p* shown for
   cost $100: p* = 2.000 · contacts        0 ( 0.0%) · value less cost $           0 · per contact $   0.00
 
 Monday list for cohort 2018-12: 30,129 new donors, capacity → 3,013 contacts; top 200 written to monday_list_2018-12_top200.csv (donor ids only, no PII in this file).
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

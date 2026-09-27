@@ -1,0 +1,13 @@
+cohorts 3,277,153 rows · unique first-project ids 928,917
+  chunk 0: 88,274 matched so far
+  chunk 5: 519,790 matched so far
+  chunk 10: 928,917 matched so far
+matched project rows 928,917
+match rate 100.00% · missing 0
+wrote /private/tmp/group11-parser-fix/data/processed/cohorts_with_projects.parquet
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

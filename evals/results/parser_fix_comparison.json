@@ -1,0 +1,120 @@
+{
+  "runs": {
+    "previous_saved_scores": [
+      {
+        "ranking": "expected_value",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 18051,
+        "precision": 0.2214602068483235,
+        "recall": 0.17572329737938555,
+        "value_identified": 9788464.74,
+        "value_capture_rate": 0.5829028833468085,
+        "value_per_contact": 120.09060030180717,
+        "under_50_share_of_list": 0.005508594142978076
+      },
+      {
+        "ranking": "p_return",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 19551,
+        "precision": 0.23986308260437497,
+        "recall": 0.19032553249484055,
+        "value_identified": 8751578.709999999,
+        "value_capture_rate": 0.5211563405902959,
+        "value_per_contact": 107.36947711295684,
+        "under_50_share_of_list": 0.14415586008906991
+      },
+      {
+        "ranking": "first_gift_amount",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 16085,
+        "precision": 0.19734017102405868,
+        "recall": 0.15658463455472918,
+        "value_identified": 9476045.41,
+        "value_capture_rate": 0.564298318370843,
+        "value_per_contact": 116.25765755928794,
+        "under_50_share_of_list": 0.0
+      }
+    ],
+    "old_parser_same_environment": [
+      {
+        "ranking": "expected_value",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 18154,
+        "precision": 0.22272387098357235,
+        "recall": 0.17672598419064678,
+        "value_identified": 9779361.530000001,
+        "value_capture_rate": 0.5823607873697931,
+        "value_per_contact": 119.97891680673301,
+        "under_50_share_of_list": 0.005582205646002282
+      },
+      {
+        "ranking": "p_return",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 19759,
+        "precision": 0.24241494804254746,
+        "recall": 0.19235037576418365,
+        "value_identified": 8763046.78,
+        "value_capture_rate": 0.5218392639339441,
+        "value_per_contact": 107.51017409120465,
+        "under_50_share_of_list": 0.1487933847795949
+      },
+      {
+        "ranking": "first_gift_amount",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 16085,
+        "precision": 0.19734017102405868,
+        "recall": 0.15658463455472918,
+        "value_identified": 9476045.41,
+        "value_capture_rate": 0.564298318370843,
+        "value_per_contact": 116.25765755928794,
+        "under_50_share_of_list": 0.0
+      }
+    ],
+    "corrected_parser": [
+      {
+        "ranking": "expected_value",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 18143,
+        "precision": 0.22258891656136132,
+        "recall": 0.17661890113313344,
+        "value_identified": 9757602.07,
+        "value_capture_rate": 0.5810650119534259,
+        "value_per_contact": 119.71195904746716,
+        "under_50_share_of_list": 0.0051037308763449436
+      },
+      {
+        "ranking": "p_return",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 19769,
+        "precision": 0.24253763388092112,
+        "recall": 0.19244772399828666,
+        "value_identified": 8779213.85,
+        "value_capture_rate": 0.5228020126354601,
+        "value_per_contact": 107.70852114490424,
+        "under_50_share_of_list": 0.14121139996810167
+      },
+      {
+        "ranking": "first_gift_amount",
+        "capacity": 0.1,
+        "donors_contacted": 81509,
+        "repeat_donors_found": 16085,
+        "precision": 0.19734017102405868,
+        "recall": 0.15658463455472918,
+        "value_identified": 9476045.41,
+        "value_capture_rate": 0.564298318370843,
+        "value_per_contact": 116.25765755928794,
+        "under_50_share_of_list": 0.0
+      }
+    ]
+  },
+  "list_members_replaced_same_environment": 7162,
+  "score_difference_same_environment": -0.26695775926584986
+}

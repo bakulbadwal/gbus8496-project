@@ -1,0 +1,15 @@
+September 27, 2026 — Projects parser correction
+
+27 tests passed (2.28 seconds).
+Full existing evaluation pipeline, steps 01–15 including both 08 steps: passed (21.4 minutes while additional verification jobs ran concurrently).
+Added step 16 project-parser audit: passed separately.
+Added step 17 fixed feature-table rebuild: passed separately and again in notebook 02.
+Notebook 02: 22 code cells executed, no errors (487 seconds).
+Notebook 03: 4 code cells executed, no errors (663 seconds).
+Notebook 04: 7 code cells executed, no errors (22 seconds).
+Rebuilt donation-label table exactly equals the previous table.
+Old-input feature-table reproduction: counts/rates exact, other statistics within 1e-7.
+PowerPoint: package, layout, import, ten-slide count and native headline table checks passed; rendered slides reviewed.
+Executive summary: one page; rendered PDF reviewed.
+Environment: parser_fix_environment.json. No model settings were retuned.
+Script and executed notebook 02 produce identical model input values for all 3,277,153 donors.

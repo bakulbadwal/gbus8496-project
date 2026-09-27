@@ -4,8 +4,8 @@ features.py — the projects join as a script, so `run_all.py` can reproduce it.
 This is the join from Reid's notebook 02 (`notebooks/02_feature_joining_and_effects.ipynb`),
 lifted verbatim in logic so the model (src/model.py) has a reproducible input. It reads
 `cohorts.parquet`, pulls the matching rows from the ICPSR Projects file (DS0003) in chunks, and
-writes `cohorts_with_projects.parquet` with a `project_record_missing` flag for the ~0.26% of
-first-project ids that are absent from the public-use Projects file.
+writes `cohorts_with_projects.parquet` with a `project_record_missing` flag for genuinely
+unmatched IDs. Literal TSV parsing recovers the records previously swallowed by CSV quote handling.
 
     python src/features.py data/processed/cohorts.parquet \
         data/raw/ICPSR_37898/DS0003/37898-0003-Data.tsv data/processed/cohorts_with_projects.parquet
@@ -19,6 +19,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+from projects import read_projects
 
 PROJECT_KEEP = [
     "PROJECT_ID", "GRADE_LEVEL", "SUBJECT_CATEGORY", "SUBJECT_SUBCATEGORY",
@@ -38,7 +39,7 @@ def build(cohorts_path, projects_path, out_path, chunksize=200_000):
     print(f"cohorts {len(cohorts):,} rows · unique first-project ids {len(wanted):,}")
 
     parts = []
-    for i, chunk in enumerate(pd.read_csv(projects_path, sep="\t", usecols=PROJECT_KEEP,
+    for i, chunk in enumerate(read_projects(projects_path, usecols=PROJECT_KEEP,
                                           dtype="string", chunksize=chunksize)):
         hit = chunk[chunk["PROJECT_ID"].isin(wanted)]
         if not hit.empty:

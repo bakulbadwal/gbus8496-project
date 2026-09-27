@@ -33,7 +33,7 @@ membership list. This table is.
 |---|---|---|---|
 | **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
 | **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
-| **Baseline + model** | Rodolfo | ✅ **DONE — holdout scored Sep 22** (`evals/results/10_model_holdout.txt`): $120/contact vs $116, paired +$3.80 ± 0.51. Notebook 03 executed | Present slide 6 |
+| **Baseline + model** | Rodolfo | ✅ **Parser corrected and rerun Sep 27** (`evals/results/10_model_holdout.txt`): $119.71/contact vs $116.26, paired +$3.51 ± 0.51. See `docs/PROJECT-PARSER-FIX.md` | Present slide 6 |
 | **Evaluation + error analysis** | Thadeus | ✅ **verified and corrected Sep 24**: full reproduction, calibration, dollar-ranked cohort/size analysis, regression tests, executed [notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb); slides 7 + 9 and speaker notes drafted | Review the findings and speaking notes; share branch for teammate review; rehearse and present. Carry the corrected findings into Malorie’s final deck |
 | **Outreach economics + recommendation** | Malorie | ✅ **decision layer run on the model Sep 22** (`evals/results/11_decision_model.txt`); slides 8 + 10 filled; building a plain-language version of the talk | **One number still owed: real cost per contact** (placeholder $25 in `src/config.py`). Post it in the chat; re-run `src/decision.py` |
 | **Slides · exec summary · AI-use note · zip** | all | ✅ **deck + exec summary filled with holdout numbers Sep 22** | [`Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — slides 1–4, 6, 8–10 real; **7 and 9 completed Sep 24; 5 (Reid) remains an owner frame**, assets ready (`assets/slide7_calibration_model*.png`). Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). [`EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf): one page, complete. Run-throughs **Thu 9/24 1:15** and **Tue 9/29 first coffee**; present 9/29; zip Oct 2 |
@@ -93,7 +93,7 @@ That is the bar. Gift size finds dollars but not people: four in five contacts o
 
 The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](notebooks/02_feature_joining_and_effects.ipynb). The detailed narrative is [`docs/REID-FEATURE-EXPLORATION.md`](docs/REID-FEATURE-EXPLORATION.md).
 
-- **Projects join:** `first_project_id` matched 99.74% of cohort rows. The remaining rows are retained with `project_record_missing`; they appear to be a small public-use Projects coverage gap, not malformed IDs.
+- **Projects join:** `first_project_id` now matches all 3,277,153 cohort rows (100%). The old CSV quote handling swallowed Projects records; this was a parsing bug, not a public-use coverage gap. `project_record_missing` is retained as a safeguard for future unmatched inputs. [Audit and impact](docs/PROJECT-PARSER-FIX.md).
 - **Features constructed:** grade, subject, optional subject, project category, state, resource and charge fields, school free/reduced-price lunch percentage, students reached, posted month, and missing-project status. Post-outcome fields and raw teacher IDs are excluded to avoid leakage or memorization.
 - **Two outcomes separated:** repeat likelihood, `P(gave_again)`, and conditional future size, `E(second_gift_amount | gave_again)`. First-gift size is weak-to-moderate for return likelihood but substantially stronger for the amount a returning donor gives.
 - **Interaction exploration:** project-only candidates include state × category, subject × category, and subject × grade. Gift-size interactions show that category, subject, grade, and state modify the relationship between first-gift size and repeat behavior.
@@ -109,9 +109,9 @@ The reproducible notebook is [`notebooks/02_feature_joining_and_effects.ipynb`](
 | Term | Repeat rate | Expected-value difference |
 |---|---:|---:|
 | Mississippi × gift decile 8 | 30.2% vs 14.0% | **+$199/donor** |
-| Music × gift decile 8 | 26.9% vs 13.9% | **+$188/donor** |
+| Music × gift decile 8 | 26.9% vs 13.9% | **+$187/donor** |
 | Books × gift decile 8 | 28.5% vs 13.8% | **+$158/donor** |
-| Grades 6–8 × gift decile 8 | 25.6% vs 13.8% | **+$143/donor** |
+| Grades 6–8 × gift decile 8 | 25.6% vs 13.8% | **+$144/donor** |
 | Top first-gift-size decile | 25.9% vs 13.0% | **+$142/donor** |
 
 Contrasting cells for the five highlighted effects were:
@@ -120,8 +120,8 @@ Contrasting cells for the five highlighted effects were:
 |---|---:|---:|---:|---:|
 | Mississippi × gift decile 1 | 9.0% vs 14.0% | $4.37 | $20.27 | **−$15.90/donor** |
 | Music × gift decile 1 | 6.5% vs 14.0% | $2.58 | $20.32 | **−$17.74/donor** |
-| Technology × gift decile 8 | 23.3% vs 13.7% | $129.20 | $17.50 | **+$111.70/donor** |
-| Grades 9–12 × gift decile 8 | 24.5% vs 13.8% | $152.59 | $18.77 | **+$133.82/donor** |
+| Technology × gift decile 8 | 23.3% vs 13.7% | $129.25 | $17.51 | **+$111.73/donor** |
+| Grades 9–12 × gift decile 8 | 24.5% vs 13.8% | $152.41 | $18.79 | **+$133.62/donor** |
 | Gift decile 1 | 5.5% vs 14.8% | $2.53 | $22.03 | **−$19.50/donor** |
 
 These contrast cells are descriptive comparisons, not causal effects. They show how the same broad gift-size pattern can look different across project context, state, subject, or grade.
@@ -130,41 +130,41 @@ These contrast cells are descriptive comparisons, not causal effects. They show 
 
 These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
 
-### 🔴 THE RESULT — holdout, scored once, Sep 22 (`evals/results/10–12_*.txt`)
+### 🔴 THE RESULT — holdout, corrected parser rerun Sep 27 (`evals/results/10–12_*.txt`)
 
 Model frozen on dev-val first (iteration cap raised 1,200 → 3,000 with learning rate 0.06 → 0.10 so
 early stopping actually fires; dev-val moved $119.82 → $119.51, i.e. the cap was not binding), then
-the 2017–18 holdout was scored once.
+the 2017–18 holdout was first scored. The Sep 27 rerun corrects the input parser; features, hyperparameters, splits and seeds are unchanged. See [the parser-fix audit](docs/PROJECT-PARSER-FIX.md).
 
 | Citizen donors, holdout, 10% capacity | Precision | Recall | Value identified | $ per contact |
 |---|---|---|---|---|
-| **Model, probability × amount score** | **22.1%** | 17.6% | **58.3%** | **$120** |
+| **Model, probability × amount score** | **22.3%** | 17.7% | **58.1%** | **$120** |
 | First gift size (her rule) | 19.7% | 15.7% | 56.4% | $116 |
-| Model, P(return) only | 24.0% | 19.0% | 52.1% | $107 |
+| Model, P(return) only | 24.3% | 19.2% | 52.3% | $108 |
 | Random | 12.7% | 10.1% | 9.1% | $19 |
 
-- **Paired bootstrap: +$3.80 ± 0.51 per contact** (~7 SE) — stronger than on dev-val (+$1.77 ± 0.76). ROC-AUC 0.604.
+- **Paired bootstrap: +$3.51 ± 0.51 per contact** (~7 SE) — stronger than on dev-val (+$1.90 ± 0.78). ROC-AUC 0.604.
 - **Decision layer** (`src/decision.py`, now using the model's own per-donor E[amount]): capacity-10%
-  by the model identifies **$9.79M**; subtracting hypothetical $25/contact costs leaves **$7.75M**
-  vs **$7.44M** for her rule (+$312K). These balances are not outreach profit estimates. Threshold "EV > cost": 52.6% of donors at $5, 23% at $10, 6.5% at $25.
-- **Calibration and error analysis, corrected Sep 24** (`evals/results/12_calibration_model.txt`):
-  ECE 0.0073; Brier skill 2.3%. The highest probability tenth predicts 26.6% returning and observes
-  24.2%. Calibration uses probabilities; the contact-list analysis uses the headline dollar score.
-  On that list, precision is **23.6% in 2017 → 20.9% in 2018**, and value/contact is **$140 → $103**;
+  by the model identifies **$9.76M**; subtracting hypothetical $25/contact costs leaves **$7.72M**
+  vs **$7.44M** for her rule (+$282K). These balances are not outreach profit estimates. Threshold "EV > cost": 53.7% of donors at $5, 23.4% at $10, 6.7% at $25.
+- **Calibration and error analysis, rerun Sep 27** (`evals/results/12_calibration_model.txt`):
+  ECE 0.0080; Brier skill 2.3%. The highest probability tenth predicts 27.2% returning and observes
+  24.5%. Calibration uses probabilities; the contact-list analysis uses the headline dollar score.
+  On that list, precision is **23.7% in 2017 → 21.1% in 2018**, and value/contact is **$139 → $103**;
   gift-size ranking is lower in both years ($137 → $99).
 - **Correction to the small-donor claim:** under-$50 first-month donors are 52.4% of the holdout
-  but only **0.55% of the dollar-ranked list** (449 of 81,509 selected). The earlier **14.4%**
-  figure belongs to the **probability-only list**, which identifies $107/contact. The dollar policy
-  still concentrates on large gifts; the small donors it does select have 42.3% repeat precision.
-- **Robustness:** excluding 17 accounts with 200+ subsequent gifts leaves **$104.52 vs $100.81**
-  per selected donor, a $3.71 advantage. The main full-sample gain is $3.83 (3.3%); the bootstrap
-  mean is $3.80 ± $0.51, with ± denoting one standard error from 30 paired donor resamples.
-- **Economic limits:** the mean dollar score is $10.97 against $20.61 observed per donor. The
+  but only **0.51% of the dollar-ranked list** (416 of 81,509 selected). For comparison, **14.1%**
+  belongs to the **probability-only list**, which identifies $108/contact. The dollar policy
+  still concentrates on large gifts; the small donors it does select have 42.8% repeat precision.
+- **Robustness:** excluding 17 accounts with 200+ subsequent gifts leaves **$104.11 vs $100.81**
+  per selected donor, a $3.30 advantage. The main full-sample gain is $3.45 (3.0%); the bootstrap
+  mean is $3.51 ± $0.51, with ± denoting one standard error from 30 paired donor resamples.
+- **Economic limits:** the mean dollar score is $11.17 against $20.61 observed per donor. The
   log-amount prediction is a ranking score, not a calibrated mean-dollar forecast. Cost thresholds
   remain illustrative, and historical future giving does not identify the extra giving caused by a call.
 
 - **Who the model adds** (`evals/results/13_qa_analyses.txt`, B): versus the gift-size list it drops
-  20,525 donors who are 81% teacher-referred and return 13% of the time, and adds 20,525 who are 33%
+  20,606 donors who are 81% teacher-referred and return 13% of the time, and adds 20,606 who are 32%
   multi-classroom first-month givers and return 23%. **Thadeus** owns slide 7; figure
   `docs/slides/assets/slide7_calibration_model_dark.png`.
 
@@ -177,14 +177,14 @@ python evals/calibration.py data/processed/cohorts.parquet data/processed/model_
 python -m pytest tests/ -q
 ```
 
-### Thank-you packet — Sep 26, the Sep 24 meeting's action item (`evals/results/14_*`, `15_*`)
+### Thank-you packet — corrected parser rerun Sep 27, the Sep 24 meeting's action item (`evals/results/14_*`, `15_*`)
 
 Run under the team's assumption that the packet is mailed before any second gift (no mailing
 dates exist; this is an assumption, not a fact).
 
-- **As a model feature it adds nothing.** Dev-val with the packet: $119.27/contact, ROC-AUC 0.587;
-  without it: $119.51, 0.589 (`src/model.py --with-packet`). With no dev-val gain, the holdout was
-  **not** re-scored — the headline model is unchanged.
+- **It does not improve dollar ranking in this sensitivity run.** Dev-val with the packet: $119.45/contact, ROC-AUC 0.590;
+  without it: $119.62, 0.586 (`src/model.py --with-packet`). No packet-augmented model was
+  scored on the holdout; the main model still excludes the flag.
 - **Descriptively, packet recipients return more:** citizens 20.3% vs 12.8% (+12.5 pp holding
   gift size fixed). Organizations +5 pp; teachers −2 pp.
 - **But the packet is mostly a "your project got funded" signal:** 12.3% of donors to funded
@@ -198,24 +198,26 @@ dates exist; this is an assumption, not a fact).
 - Side finding: donors whose first project **expired** return more (19% vs 13%), likely because
   DonorsChoose credits get redirected to other classrooms — a caveat on what counts as a "second gift."
 
-### Q&A analyses — Sep 24, from Malorie's list (`evals/qa_analyses.py` → `evals/results/13_qa_analyses.txt`)
+### Q&A analyses — rerun Sep 27, from Malorie's list (`evals/qa_analyses.py` → `evals/results/13_qa_analyses.txt`)
 
 - **Same classroom?** Of citizen donors who gave again, **61% gave only to different teachers**;
   32% gave only to the same teacher; 24% of repeat dollars went back to the first classroom. Most
   "loyalty" here is to the platform, not the classroom — the honest answer to "DonorsChoose ≠ a small
   nonprofit." (No school id exists in the Projects file, so "same school" cannot be tested.)
-- **Who the model adds** (holdout, 10%): swaps 20,525 gift-size picks (81% teacher-referred, return
-  13%, $25 next-year giving) for 20,525 donors who are 33% multi-classroom first-month givers, 24%
-  teacher-referred, higher-poverty schools (71% free lunch), return 23%, $40 next-year giving.
-- **Capacity 5%–30%:** the model beats gift size at every capacity — biggest at 5% (+$9/contact,
-  $202 vs $193), shrinking to about +$1 at 20–30%. Precision edge 1.4–3.7 points throughout.
+- **Who the model adds** (holdout, 10%): swaps 20,606 gift-size picks (81% teacher-referred, return
+  13%, $25 next-year giving) for 20,606 donors who are 32% multi-classroom first-month givers, 21%
+  teacher-referred, higher-poverty schools (72% free lunch), return 23%, $39 next-year giving.
+- **Capacity 5%–30%:** the model beats gift size at every capacity — biggest at 5% (+$7/contact,
+  $200 vs $193), shrinking to about +$1 at 20–30%. Precision edge 1.4–3.7 points throughout.
 - **Second → third gift:** 13.6% of first-time citizen donors give again within a year; **36% of
   second-time donors give a third time** — 2.7× — our own data's version of the FEP 19%-vs-59% slide.
 - Not run, with the one-line answer: *thank-you packet* — no mailing dates exist, Albert pre-approved
   dropping it; *more model types* — two model classes against four baselines already, and gift size
   carries most of the signal.
 
-### What Rodolfo's model found — first real-data run, Sep 17 (`evals/results/08_model_dev.txt`)
+### Historical development notes — first real-data run, Sep 17
+
+These dated notes describe the earlier model. Current corrected results are in `evals/results/08_model_dev.txt` and the headline section above.
 
 `src/model.py`: a gradient-boosted classifier for P(return) and a gradient-boosted regressor for
 log(second-gift amount) on returners, ranked by P × E[amount]. Features are the reference model's
@@ -241,7 +243,9 @@ error) and small (under 2%). ROC-AUC 0.590 against the reference logistic's 0.57
 3. **The classifier used 1,196 of 1,200 boosting iterations without early stopping firing** — it is
    still undertrained or the learning rate is too low. Worth one more pass before the holdout run.
 
-### Measurement 2 on the reference model — Sep 19 (`evals/results/09_calibration.txt`)
+### Historical reference-model review — Sep 19
+
+These dated notes retain the original review. The latest rerun is in `evals/results/09_calibration.txt`; the final boosted model is evaluated above.
 
 `evals/calibration.py` answers Albert's "how do you know it works, and where does it not?" for
 any scores file. Run on the reference logistic's holdout predictions (it will be re-run on
@@ -311,6 +315,7 @@ Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in
 | Data on disk + labels built | ✅ **Sep 11** — ICPSR files in `data/raw/` (gitignored), codebooks in `docs/codebook/`. `cohorts.parquet`: **3,277,153 labelled donors, 15.8% gave again within 12 months**; train 2.33M / holdout 943K; 189K unlabelable 2019 cohorts dropped; 151 refund rows excluded |
 | Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
 | 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
+| Projects parser correction | ✅ Sep 27: all 3,277,153 project joins match; frozen model and dependent results rebuilt. $119.71 vs $116.26/contact. Branch pending teammate review; [audit and deliverable impact](docs/PROJECT-PARSER-FIX.md) |
 | Measurements 2–3 (Albert's order) | ✅ calibration + dollar-ranked error analysis verified Sep 24 (Thadeus), notebook 04 and slides 7 + 9 ready for review; thank-you-packet flag excluded because timing is unknown |
 | Slides, exec summary, AI-use note, zip | Evaluation slides 7 + 9 and exec-summary correction prepared Sep 24 in existing files. Team review, final deck integration, rehearsal/delivery and final zip remain; recorded backup needed if using a live demo |
 

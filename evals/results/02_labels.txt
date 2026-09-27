@@ -34,8 +34,8 @@ Label construction:
 
 By split:
           donors  positive_rate
-split                          
+split
 holdout   943137       0.161034
 train    2334016       0.156635
 
-Wrote 3,277,153 labelled donors to /Users/bakulbadwal/Documents/GitHub/gbus8496-project/data/processed/cohorts.parquet
+Wrote 3,277,153 labelled donors to /private/tmp/group11-parser-fix/data/processed/cohorts.parquet
