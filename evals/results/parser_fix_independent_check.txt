@@ -1,0 +1,24 @@
+Independent check of PR #2 (Sep 27), run by Bakul's session on a different machine/environment:
+python 3.14.7 · sklearn 1.9.1 · numpy 2.5.3 · pandas 3.0.5 · arm64
+
+27 passed in 2.10s
+cohorts 3,277,153 rows · unique first-project ids 928,917
+matched project rows 928,917
+match rate 100.00% · missing 0
+wrote data/processed/cohorts_with_projects.parquet
+At 10% capacity, on HOLDOUT:
+               ranking  precision  recall  value_capture_rate  value_per_contact
+  model_expected_value     0.2219  0.1761              0.5832           120.1435
+           gift_amount     0.1973  0.1566              0.5643           116.2577
+        model_p_return     0.2399  0.1903              0.5170           106.5109
+first_month_gift_count     0.2037  0.1616              0.4141            85.3044
+                random     0.1267  0.1005              0.0906            18.6648
+
+Noise floor (bootstrap over donors, value per contact ± 1 SE):
+  model_expected_value   $  118.92 ± 12.15
+  model_p_return         $  105.54 ± 12.23
+  gift_amount            $  115.04 ± 12.26
+  PAIRED Δ (model_expected_value − gift_amount): $+3.89 ± 0.53  (same donors in both rankings each draw)
+
+Verdict on HOLDOUT: model_expected_value vs gift_amount = $120 vs $116; paired Δ $+3.89 ± 0.53 (~7.3× its SE). Best ranking: model_expected_value.
+

@@ -62,7 +62,8 @@ STEPS = [
     ("09_calibration",     [sys.executable, "evals/calibration.py", str(COHORTS), str(REF_SCORES),
                             "--out", "docs/slides/assets/slide7_calibration", "--ranking", "p_return"]),
     # Holdout — first scored Sep 22, after the model was frozen on dev-val. The model is
-    # deterministic (fixed seed), so re-running reproduces the same scores; it does not re-peek.
+    # seeded, and re-running it does not re-peek — but it is NOT bit-identical across machines:
+    # sklearn/numpy versions move $/contact by a few tenths (see parser_fix_independent_check.txt).
     ("10_model_holdout",   [sys.executable, "src/model.py", str(COHORTS_PROJ), "--holdout"]),
     ("11_decision_model",  [sys.executable, "src/decision.py", str(COHORTS), str(MODEL_SCORES)]),
     ("12_calibration_model", [sys.executable, "evals/calibration.py", str(COHORTS), str(MODEL_SCORES),

@@ -143,6 +143,11 @@ the 2017–18 holdout was first scored. The Sep 27 rerun corrects the input pars
 | Model, P(return) only | 24.3% | 19.2% | 52.3% | $108 |
 | Random | 12.7% | 10.1% | 9.1% | $19 |
 
+- **Reproducibility across machines (checked Sep 27):** re-running the identical code and data on a
+  second machine (Python 3.14 / scikit-learn 1.9.1 vs 3.11 / 1.8.0) gives $120.14 and **+$3.89 ± 0.53**;
+  before the parser fix the two machines gave +$3.80 and +$3.62. The edge is **+$3.5 to +$3.9 per contact,
+  ~7 SE, in every run** — robust in direction and size, not identical to the cent
+  (`evals/results/parser_fix_independent_check.txt`).
 - **Paired bootstrap: +$3.51 ± 0.51 per contact** (~7 SE) — stronger than on dev-val (+$1.90 ± 0.78). ROC-AUC 0.604.
 - **Decision layer** (`src/decision.py`, now using the model's own per-donor E[amount]): capacity-10%
   by the model identifies **$9.76M**; subtracting hypothetical $25/contact costs leaves **$7.72M**
