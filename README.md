@@ -18,7 +18,7 @@ One business problem, one artifact we built, one evaluation we can defend.
 | # | Deliverable | Where it is in this repo |
 |---|---|---|
 | 1 | Slides used in the presentation | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) (presented Tue Sep 29; hidden slides are the appendix) |
-| 2 | Annotated pipeline | [`notebooks/`](notebooks/) 01 labels & baseline · 02 feature join & effects · 03 model · 04 evaluation; code in [`src/`](src/) |
+| 2 | Annotated pipeline | [`notebooks/`](notebooks/) 01 labels & baseline · 02 feature join & effects · 03 model · 04 evaluation · 05 thank-you research; code in [`src/`](src/) |
 | 3 | Evaluation: test data, ground truth, code that reproduces the numbers | `python evals/run_all.py` rebuilds every number from the raw files; outputs in [`evals/results/`](evals/results/); label tests in [`tests/`](tests/) |
 | 4 | Dataset access | [`data/README.md`](data/README.md): ICPSR study 37898 download recipe (the data itself is not redistributed) |
 | 5 | One-page executive summary | [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf) |
@@ -32,7 +32,7 @@ Build the zip from a clean, committed tree: `python evals/check_submission.py --
 |---|---|---|---|
 | Malorie Black | [@blackm33](https://github.com/blackm33) | Problem framing, stakeholder, recommendation | Proposed the topic; stakeholder and GoGood/Darden framing; decision-layer framing; built and led the final presentation deck |
 | Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and features | Projects join and feature exploration ([notebook 02](notebooks/02_feature_joining_and_effects.ipynb), [write-up](docs/REID-FEATURE-EXPLORATION.md)) |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | Calibration and dollar-ranked error analysis ([notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb)), regression tests, the Projects parser fix ([audit](docs/PROJECT-PARSER-FIX.md)) |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | Calibration and dollar-ranked error analysis ([notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb)), regression tests, the Projects parser fix ([audit](docs/PROJECT-PARSER-FIX.md)), and thank-you timing/cutoff research ([notebook 05](notebooks/05_thank_you_research.ipynb)) |
 | Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Model development | Gradient-boosted return and amount models ([`src/model.py`](src/model.py), [notebook 03](notebooks/03_model_development.ipynb)), team model explainer |
 | Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data, labels, integration | Donor-ID check, label construction and tests ([notebook 01](notebooks/01_labels_and_baseline.ipynb)), baseline ladder and scorer, decision layer, one-command reproduction, holdout scoring, exec summary, submission packaging |
 
@@ -184,29 +184,33 @@ python evals/calibration.py data/processed/cohorts.parquet data/processed/model_
 python -m pytest tests/ -q
 ```
 
-### Thank-you packet — corrected parser rerun Sep 27, the Sep 24 meeting's action item (`evals/results/14_*`, `15_*`)
+### Thank-you research — descriptive evidence and identification limits
 
-Run under the team's assumption that the packet is mailed before any second gift (no mailing
-dates exist; this is an assumption, not a fact).
+The [research memo](docs/THANK-YOU-RESEARCH.md), [notebook 05](notebooks/05_thank_you_research.ipynb),
+and `python evals/thank_you_audit.py` extend the packet exploration to digital notes,
+single-donation cutoff checks and conservative timing bounds. All comparisons are descriptive.
+The audit runs as step 18 of the full evaluation, after the existing parser and feature-table checks.
 
 - **It does not improve dollar ranking in this sensitivity run.** Dev-val with the packet: $119.45/contact, ROC-AUC 0.590;
   without it: $119.62, 0.586 (`src/model.py --with-packet`). No packet-augmented model was
   scored on the holdout; the main model still excludes the flag.
-- **Descriptively, packet recipients return more:** citizens 20.3% vs 12.8% (+12.5 pp holding
-  gift size fixed). Organizations +5 pp; teachers −2 pp.
-- **But the packet is mostly a "your project got funded" signal:** 12.3% of donors to funded
-  projects got one vs 0.6% for expired projects. Funding happens after the first gift, so the raw
-  gap mixes "thanked" with "saw the project succeed."
-- **The $50 cutoff exists but is fuzzy.** Among non-round whole amounts, packets go 5.5% → 20.8%
-  across $50 while repeat goes 16.0% → 17.9%: an implied packet effect of **+12% (95% CI +1% to
-  +23%)** — suggestive, small sample, and repeat rates rise with gift size anyway. Honest slide line:
-  *"There's a hint the packet helps, but our data can't separate it from the project succeeding.
-  That's exactly what the Darden pilot should randomize."*
-- **Project-level note and impact letter** (the meeting's second thank-you type; text is masked, only
-  presence is known): 99.9% of funded projects have a thank-you note, so it can't be tested; donors
-  whose project sent an impact letter return 13.2% vs 10.7% without (funded projects only). Also undated.
-- Side finding: donors whose first project **expired** return more (19% vs 13%), likely because
-  DonorsChoose credits get redirected to other classrooms — a caveat on what counts as a "second gift."
+- **Packets are positively associated with return:** citizens 20.3% vs 12.8%. Within single-row,
+  funded, $50+ first-gift donors, standardization by year, gift band, referral, matching and gift
+  card gives 17.52% vs 13.86% (+3.65 pp), covering 98.0% of that narrower population. Selection
+  and timing remain unresolved. The earlier +12.5-point reweighted estimate has weak overlap
+  among very small gifts; it is not an intervention effect.
+- **Digital-note presence is nearly universal after funding:** 99.90% of single-first-month-row
+  citizen donors to funded projects have a note recorded. There is little comparable no-note
+  data; content is masked and send/receipt dates are unavailable.
+- **The cutoff result is unstable.** With a single first-month donation, the observed repeat-rate
+  difference above versus below $50 is −2.45 pp including exactly $50, −0.91 pp excluding it, and
+  +1.97 pp selecting non-round whole-dollar amounts. The earlier +12% ratio is **not an identified
+  causal effect**; its bootstrap interval cannot repair sample selection or missing timing.
+- **Timing ambiguity is demonstrated:** 653 packet-recorded repeaters definitely gave again
+  before their associated project was funded. This is a conservative lower bound, not the total
+  share returning before receipt. Keep snapshot flags out of the baseline prediction model.
+- **Projects parsing is fixed:** PR #2 corrected the shared loader and rebuilt the frozen
+  evaluation on Sep 27. This audit uses that same loader. See [the parser-fix audit](docs/PROJECT-PARSER-FIX.md).
 
 ### Q&A analyses — rerun Sep 27, from Malorie's list (`evals/qa_analyses.py` → `evals/results/13_qa_analyses.txt`)
 

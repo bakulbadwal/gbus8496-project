@@ -1,0 +1,200 @@
+
+01_packet_by_population
+   donor_type  packet  donors  repeat_rate  mean_future_dollars  packet_rate
+citizen donor   False 2643712      0.12765             14.50695      0.00000
+citizen donor    True  328043      0.20281             67.52439      1.00000
+ organization   False    1641      0.65021         55,926.73601      0.00000
+ organization    True    1588      0.70466         46,432.92578      1.00000
+      teacher   False  295795      0.36872             76.47334      0.00000
+      teacher    True    6374      0.34656            107.52207      1.00000
+  donation chunks checked: 5
+  donation chunks checked: 10
+  donation chunks checked: 15
+  donation chunks checked: 20
+
+02_packet_by_split
+  split  packet  donors  repeat_rate  mean_future_dollars  packet_rate
+holdout   False  708852      0.11708             16.17913      0.00000
+holdout    True  106119      0.18594             50.17020      1.00000
+  train   False 1934860      0.13152             13.89433      0.00000
+  train    True  221924      0.21088             75.82278      1.00000
+
+03_packet_by_year
+ year  packet  donors  repeat_rate  mean_future_dollars  packet_rate
+ 2003   False     506      0.11858             34.83751      0.00000
+ 2003    True    1163      0.23130            279.69123      1.00000
+ 2004   False     944      0.15996             30.36819      0.00000
+ 2004    True    1349      0.28762            279.13787      1.00000
+ 2005   False    1247      0.19326             36.41614      0.00000
+ 2005    True    2041      0.30475            296.06834      1.00000
+ 2006   False    7429      0.15265             24.04424      0.00000
+ 2006    True    5003      0.20308            135.18786      1.00000
+ 2007   False   22539      0.33023             31.43435      0.00000
+ 2007    True   13110      0.23066            121.80838      1.00000
+ 2008   False   36836      0.30207             21.28671      0.00000
+ 2008    True   13402      0.25742             86.29666      1.00000
+ 2009   False   62498      0.21234             17.23599      0.00000
+ 2009    True   11118      0.33081            121.48100      1.00000
+ 2010   False  183562      0.13131             10.85044      0.00000
+ 2010    True    8994      0.29119            118.56305      1.00000
+ 2011   False  288739      0.10258              8.98470      0.00000
+ 2011    True   11994      0.22586             83.12729      1.00000
+ 2012   False  259302      0.09128              8.98587      0.00000
+ 2012    True   18691      0.19309             57.69314      1.00000
+ 2013   False  218871      0.14215             13.76497      0.00000
+ 2013    True   26222      0.19815             51.15148      1.00000
+ 2014   False  234220      0.14722             16.03002      0.00000
+ 2014    True   30093      0.20702             56.32961      1.00000
+ 2015   False  272724      0.12924             16.73719      0.00000
+ 2015    True   34106      0.18014             61.47726      1.00000
+ 2016   False  345443      0.12396             16.77691      0.00000
+ 2016    True   44638      0.17575             55.23236      1.00000
+ 2017   False  322949      0.13034             19.62230      0.00000
+ 2017    True   48937      0.19995             52.47072      1.00000
+ 2018   False  385903      0.10598             13.29765      0.00000
+ 2018    True   57182      0.17395             48.20138      1.00000
+
+04_packet_by_band
+      band  packet  donors  repeat_rate  mean_future_dollars  packet_rate
+       <10   False  121668      0.12195              5.37890      0.00000
+       <10    True     226      0.33628             18.34482      1.00000
+  10–24.99   False  747110      0.09098              3.98186      0.00000
+  10–24.99    True    1411      0.40964             22.96805      1.00000
+  25–49.99   False  887834      0.12515              7.16964      0.00000
+  25–49.99    True   25800      0.16818             10.69307      1.00000
+  50–99.99   False  575559      0.14692             14.47964      0.00000
+  50–99.99    True  150863      0.17499             19.11592      1.00000
+100–249.99   False  266211      0.18142             36.05398      0.00000
+100–249.99    True  116131      0.20479             51.13904      1.00000
+250–999.99   False   41632      0.22850            146.37830      0.00000
+250–999.99    True   29230      0.32145            237.76953      1.00000
+     1000+   False    3698      0.31747          1,171.31777      0.00000
+     1000+    True    4382      0.44728          1,384.24342      1.00000
+
+05_project_note_coverage
+PROJECT_STATUS_AS_OF_12_31_2019   THANKYOU_NOTE   IMPACT_LETTER  projects
+                        expired                                    685840
+                         funded                                      3301
+                         funded                 MASKED BY ICPSR       148
+                         funded MASKED BY ICPSR                    185281
+                         funded MASKED BY ICPSR MASKED BY ICPSR   1261575
+                           live                                         4
+                           live MASKED BY ICPSR MASKED BY ICPSR         2
+                    reallocated                                     13665
+                    reallocated MASKED BY ICPSR                         1
+
+06_note_and_funding
+     status  note  donors  repeat_rate  mean_future_dollars  packet_rate
+    expired False  278330      0.18027             13.57746      0.00000
+     funded False    2557      0.15800             67.17503      0.42511
+     funded  True 2449289      0.11801             13.27830      0.11668
+reallocated False   12899      0.31258             29.35785      0.00000
+reallocated  True       1      1.00000             25.00000      0.00000
+
+07_packet_note_combinations
+ packet  note  donors  repeat_rate  mean_future_dollars  packet_rate
+  False False  292699      0.18582             14.31383      0.00000
+  False  True 2163503      0.11030             10.41722      0.00000
+   True False    1087      0.20331            128.63316      1.00000
+   True  True  285787      0.17636             34.93769      1.00000
+
+08_funded_packet_note_combinations
+ packet  note  donors  repeat_rate  mean_future_dollars  packet_rate
+  False False    1470      0.12449             21.72946      0.00000
+  False  True 2163502      0.11030             10.41722      0.00000
+   True False    1087      0.20331            128.63316      1.00000
+   True  True  285787      0.17636             34.93769      1.00000
+
+09_impact_and_funding
+     status  impact  donors  repeat_rate  mean_future_dollars  packet_rate
+    expired   False  278330      0.18027             13.57746      0.00000
+     funded   False  292981      0.09264             16.06563      0.11440
+     funded    True 2158865      0.12150             12.96387      0.11736
+reallocated   False   12900      0.31264             29.35751      0.00000
+
+10_standardized_associations
+                                       analysis  source_donors  supported_donors  coverage  cells  repeat_no  repeat_yes   gap_pp
+                           All citizens: packet        2971755           1934305   0.65090    194    0.15077     0.19704  4.62693
+Single first-month row, matched project: packet        2743076           1511556   0.55104    160    0.14755     0.17954  3.19920
+                     Single row, funded: packet        2451846           1365768   0.55704    159    0.13170     0.17898  4.72791
+        Single row, funded, amount >=50: packet         938049            919340   0.98006    129    0.13862     0.17517  3.65477
+              Single row, matched project: note        2743076           2676403   0.97569    233    0.17074     0.11637 -5.43696
+                       Single row, funded: note        2451846             72488   0.02956      3    0.04217     0.05940  1.72325
+
+11_cutoff_sensitivity_NOT_CAUSAL
+  split                                     comparison  n_below  n_above  packet_below  packet_above  repeat_below  repeat_above  packet_gap_pp  repeat_gap_pp  descriptive_ratio
+    all                               45–<50 vs 50–<55    12323   545032       0.08569       0.21326       0.16489       0.14036       12.75675       -2.45399           -0.19237
+    all                              45–<50 vs >50–<55    12323     6470       0.08569       0.28609       0.16489       0.15580       20.03962       -0.90989           -0.04540
+    all Non-multiple-of-5 whole dollars 41–49 vs 51–59     2888     3644       0.05609       0.22777       0.13262       0.15231       17.16775        1.96874            0.11468
+  train                               45–<50 vs 50–<55     9000   335912       0.06478       0.20427       0.17000       0.14600       13.94900       -2.39975           -0.17204
+  train                              45–<50 vs >50–<55     9000     4087       0.06478       0.28432       0.17000       0.16516       21.95383       -0.48422           -0.02206
+  train Non-multiple-of-5 whole dollars 41–49 vs 51–59     1956     2449       0.05317       0.20416       0.14571       0.16047       15.09952        1.47681            0.09781
+holdout                               45–<50 vs 50–<55     3323   209120       0.14234       0.22771       0.15107       0.13128        8.53653       -1.97848           -0.23177
+holdout                              45–<50 vs >50–<55     3323     2383       0.14234       0.28913       0.15107       0.13974       14.67901       -1.13285           -0.07717
+holdout Non-multiple-of-5 whole dollars 41–49 vs 51–59      932     1195       0.06223       0.27615       0.10515       0.13556       21.39189        3.04146            0.14218
+
+12_cutoff_dollar_bins
+ dollar_bin  donors  repeat_rate  mean_future_dollars  packet_rate
+         40   28868      0.12820              9.82249      0.04635
+         41    1356      0.16593             18.88968      0.10472
+         42    1386      0.14214             16.41911      0.11472
+         43    1270      0.15512             15.44213      0.11417
+         44    1386      0.15079             21.22317      0.12410
+         45    5718      0.16544             16.55594      0.03410
+         46    1461      0.15880             17.02626      0.12457
+         47    1465      0.17611             23.21111      0.12901
+         48    1617      0.17502             24.60932      0.12801
+         49    2062      0.15179             17.11538      0.13725
+         50  539483      0.14021             12.28753      0.21256
+         51    1482      0.15317             24.49814      0.27598
+         52    1357      0.15328             20.62660      0.27929
+         53    1206      0.13267             14.11293      0.30597
+         54    1504      0.17354             20.02610      0.26995
+         55    2162      0.17160             24.51156      0.25532
+         56    1305      0.17165             25.58015      0.29502
+         57    1435      0.17352             21.02401      0.28362
+         58    1312      0.18598             24.23774      0.28887
+         59    1158      0.17358             28.46472      0.29706
+         60    7052      0.16052             19.68932      0.19938
+
+13_cutoff_composition
+       side  donors  teacher_referred  matched  gift_card   mean_year
+at_or_above  545032           0.55911  0.35742    0.10860 2,015.22612
+      below   12323           0.33945  0.25197    0.13235 2,013.43950
+
+14_return_timing
+ packet  donors  repeats  repeat_month_1  repeat_by_month_3  any_repeat_months_4_12
+  False 2643712   337473           71872             143733                 0.09019
+   True  328043    66531           13034              27217                 0.15717
+
+15_before_funding_lower_bound
+                       group  donors  valid_duration  repeaters_with_valid_duration  definitely_repeated_before_funding  share_of_repeaters
+All funded single-row donors 2451846         2451846                         289445                                4854             0.01677
+         Packet recorded yes  286874          286874                          50622                                 653             0.01290
+       Digital note recorded 2449289         2449289                         289041                                4834             0.01672
+
+Checks: {
+  "verified_single_first_month_rows": 2743076,
+  "flag_mismatches": 0,
+  "amount_mismatches": 0,
+  "project_mismatches": 0,
+  "all_citizen_repeat_labels_match": true,
+  "projects_md5": "37e7bd5ac4af5b71545fc6538c5be3dd",
+  "project_rows": 2149817,
+  "citizen_donors": 2971755,
+  "multirow_first_month_donors": 228679,
+  "unmatched_citizen_donors": 0,
+  "exactly_50_single_donors": 538562,
+  "single_donors_45_to_under55": 557355,
+  "funded_single_row_donors": 2451846,
+  "funded_invalid_or_negative_duration": 0,
+  "single_row_matched_donors": 2743076
+}
+
+All comparisons are retrospective associations; no treatment effect identified.
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

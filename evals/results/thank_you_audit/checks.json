@@ -1,0 +1,17 @@
+{
+  "verified_single_first_month_rows": 2743076,
+  "flag_mismatches": 0,
+  "amount_mismatches": 0,
+  "project_mismatches": 0,
+  "all_citizen_repeat_labels_match": true,
+  "projects_md5": "37e7bd5ac4af5b71545fc6538c5be3dd",
+  "project_rows": 2149817,
+  "citizen_donors": 2971755,
+  "multirow_first_month_donors": 228679,
+  "unmatched_citizen_donors": 0,
+  "exactly_50_single_donors": 538562,
+  "single_donors_45_to_under55": 557355,
+  "funded_single_row_donors": 2451846,
+  "funded_invalid_or_negative_duration": 0,
+  "single_row_matched_donors": 2743076
+}

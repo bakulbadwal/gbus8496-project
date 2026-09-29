@@ -47,10 +47,10 @@ dollar
 58        1504        0.279   0.207
 59        1327        0.280   0.197
 60       11702        0.156   0.206
-$45–49.99 vs $50–54.99 (incl. exactly $50): packet 7.6% → 20.5%; repeat 18.8% → 14.4%; implied effect of a packet = Δrepeat/Δpacket = -34.1%
-$45–49.99 vs $50.01–54.99 (excl. exactly $50): packet 7.6% → 27.0%; repeat 18.8% → 17.9%; implied effect of a packet = Δrepeat/Δpacket = -4.6%
+$45–49.99 vs $50–54.99 (incl. exactly $50): packet 7.6% → 20.5%; repeat 18.8% → 14.4%; descriptive ratio (not a treatment effect) = Δrepeat/Δpacket = -34.1%
+$45–49.99 vs $50.01–54.99 (excl. exactly $50): packet 7.6% → 27.0%; repeat 18.8% → 17.9%; descriptive ratio (not a treatment effect) = Δrepeat/Δpacket = -4.6%
 
-Non-round whole amounts, $41–49 (n=3,416) vs $51–59 (n=4,315): packet 5.5% → 20.8% (+15.3 pp), repeat 16.0% → 17.9% (+1.9 pp). Implied packet effect +12.2% (bootstrap 95% CI +1.4% to +23.1%). Suggestive only: small n, and repeat rates also rise with gift size across the window.
+Non-round whole amounts, $41–49 (n=3,416) vs $51–59 (n=4,315): packet 5.5% → 20.8% (+15.3 pp), repeat 16.0% → 17.9% (+1.9 pp). Descriptive ratio (not a treatment effect) +12.2% (bootstrap 95% CI +1.4% to +23.1%). Descriptive only: sample selection and unknown timing prevent a causal interpretation.
 
 ==========================================================================================
 D · When is a packet sent? Packet rate by the first project's final status
@@ -79,3 +79,9 @@ E · Project-level thank-you note and impact letter (text masked; only whether o
 THANKYOU_NOTE: funded-project citizen donors with one 99.9%; repeat rate 12.9% with vs 17.9% without (n = 2,653,744 / 2,887)
 IMPACT_LETTER: funded-project citizen donors with one 88.0%; repeat rate 13.2% with vs 10.7% without (n = 2,337,148 / 319,483)
 No dates exist for either, so these share the packet's limit: correlation, not effect.
+
+[stderr]
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:239: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted

@@ -1,0 +1,35 @@
+September 29, 2026 — thank-you research integration validation
+
+Base: main 25fbeee6dbda0870df417e1c361211e7c9a319dc
+Environment: Python 3.11.4, pandas 2.3.3, scikit-learn 1.8.0; OMP_NUM_THREADS=4, OPENBLAS_NUM_THREADS=4
+Command: python evals/run_all.py
+→ 01_check_donor_id: OK in 29s, output saved to evals/results/01_check_donor_id.txt
+→ 02_labels: OK in 71s, output saved to evals/results/02_labels.txt
+→ 03_profile_cohorts: OK in 2s, output saved to evals/results/03_profile_cohorts.txt
+→ 04_score_citizen: OK in 3s, output saved to evals/results/04_score_citizen.txt
+→ 05_score_pooled: OK in 3s, output saved to evals/results/05_score_pooled.txt
+→ 06_reference_model: OK in 7s, output saved to evals/results/06_reference_model.txt
+→ 07_decision_layer: OK in 3s, output saved to evals/results/07_decision_layer.txt
+→ 08_features: OK in 31s, output saved to evals/results/08_features.txt
+→ 08_model_dev: OK in 116s, output saved to evals/results/08_model_dev.txt
+→ 09_calibration: OK in 6s, output saved to evals/results/09_calibration.txt
+→ 10_model_holdout: OK in 155s, output saved to evals/results/10_model_holdout.txt
+→ 11_decision_model: OK in 3s, output saved to evals/results/11_decision_model.txt
+→ 12_calibration_model: OK in 7s, output saved to evals/results/12_calibration_model.txt
+→ 13_qa_analyses: OK in 74s, output saved to evals/results/13_qa_analyses.txt
+→ 14_packet_model_dev: OK in 94s, output saved to evals/results/14_packet_model_dev.txt
+→ 15_thank_you_packet: OK in 10s, output saved to evals/results/15_thank_you_packet.txt
+→ 16_project_parser_audit: OK in 29s, output saved to evals/results/16_project_parser_audit.txt
+→ 17_refresh_feature_tables: OK in 16s, output saved to evals/results/17_refresh_feature_tables.txt
+→ 18_thank_you_audit: OK in 71s, output saved to evals/results/18_thank_you_audit.txt
+All steps reproduced in 12.2 minutes. Numbers are in evals/results/.
+
+python -m pytest tests/ -q: 29 passed (27 existing, 2 hand-worked audit checks).
+Notebook 05: six code cells executed, zero errors, explanatory markdown before each code cell.
+All 15 aggregate audit CSV files and checks.json reproduced byte-for-byte against the September 26 research.
+Shared Projects parser: 2,149,817 rows; MD5 and join checks pass; no unmatched citizen donors.
+All 2,971,755 citizen repeat labels match the raw donation stream.
+All 2,743,076 single-first-month-row amounts, packet flags and project IDs match; zero discrepancies.
+The frozen holdout headline reproduces: $120 versus $116/contact, paired bootstrap +$3.51 ± $0.51.
+Model code, features, hyperparameters and splits are unchanged. Unrelated rerun output/path changes are excluded from the PR.
+Audit exports contain aggregate statistics, not donor/project record identifiers.
