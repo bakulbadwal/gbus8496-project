@@ -17,7 +17,7 @@ One business problem, one artifact we built, one evaluation we can defend.
 
 | # | Deliverable | Where it is in this repo |
 |---|---|---|
-| 1 | Slides used in the presentation | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) (presented Tue Sep 29; hidden slides are the appendix) |
+| 1 | Slides used in the presentation | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) (the 20 slides presented Tue Sep 29) |
 | 2 | Annotated pipeline | [`notebooks/`](notebooks/) 01 labels & baseline · 02 feature join & effects · 03 model · 04 evaluation · 05 thank-you research; code in [`src/`](src/) |
 | 3 | Evaluation: test data, ground truth, code that reproduces the numbers | `python evals/run_all.py` rebuilds every number from the raw files; outputs in [`evals/results/`](evals/results/); label tests in [`tests/`](tests/) |
 | 4 | Dataset access | [`data/README.md`](data/README.md): ICPSR study 37898 download recipe (the data itself is not redistributed) |
