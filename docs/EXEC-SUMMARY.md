@@ -22,7 +22,7 @@ subsequent giving identified per contact. The baseline is her own rule, rank by 
 
 One finding shaped everything after it: the file holds three populations. Organizations are 0.1%
 of donors but 62% of repeat dollars, mostly corporate matching programs. Teachers seed their own
-classrooms. Pooled, any rule looks brilliant by finding the corporations. We scored citizen donors,
+classrooms. Pooled, any rule looks brilliant by finding the corporations. We scored individual donors,
 86% of people, the ones she actually calls.
 
 ## Findings
@@ -34,23 +34,24 @@ in ten reaches 58% of all subsequent giving. The model is two gradient-boosted e
 chance of a second gift and its size, using first-gift attributes plus the project and school
 first funded. Gift size carries much of the signal; the full model adds a modest gain.
 
-**Calibration and coverage limit the result.** The highest probability tenth predicts 27.2%
-returning and observes 24.5%. The dollar-ranked list identifies $139 per donor in 2017 and $103
-in 2018, beating gift size in both years. Under-$50 donors are 52.4% of the population but only
-**0.51% of this list**. The 14.1% figure applies to probability-only ranking, which identifies
-fewer dollars ($108/contact). The two lists serve different objectives. What the model changes is who is on the list: it swaps out teacher-referred donors, friends and
-family recruited for one classroom who return 13% of the time, for donors who funded several
-classrooms at once, who return 23%.
+**The result holds up, within limits.** When the model says its top tenth of donors has a 27%
+chance of returning, 24.5% actually do. It beats gift size in both test years ($139 per donor
+in 2017, $103 in 2018). What it changes is who gets the call: it swaps out teacher-referred
+donors, friends and family recruited for one classroom who return 13% of the time, for donors
+who funded several classrooms at once, who return 23%. Its list is still mostly larger first
+gifts; donors under $50 are half of all new donors but under 1% of its calls. Ranking purely by
+the chance of return reaches more people but fewer dollars ($108 per call), so the right list
+depends on whether the goal is more donors or more dollars.
 
 ## Recommendation
 
-Pilot the model-ranked list against gift-size ranking, measuring additional donations caused
-by outreach before scaling. The historical model list contains $9.76M of subsequent giving;
-subtracting contact costs at an assumed $25 leaves $7.72M, versus $7.44M for the gift-size list.
-These are **values identified less hypothetical costs, not profit estimates**. The log-amount
-model is a useful ranking score but is not calibrated as a mean-dollar forecast, so cost
-thresholds remain illustrative. Scoring runs locally without model API fees; outreach, setup
-and maintenance still require resources.
+**Use the model to build each month's call list, and prove it with a pilot.** Rank new
+individual donors by expected value and call the top 10%, then run a randomized pilot against
+the gift-size list to measure what outreach actually adds before scaling. On the holdout, the
+model's list holds $9.76M of next-year giving; after an assumed $25 per call it leaves $7.72M,
+versus $7.44M for the gift-size list. These are **values identified less hypothetical costs,
+not profit estimates**, and the amount model ranks well but is not a calibrated dollar
+forecast. Scoring runs monthly on a laptop with no API fees; the outreach itself is the cost.
 
 **What we are not claiming.** No causal effect: nobody was randomly assigned a call, so these are
 dollars *identified*, not *caused*; outreach impact remains unknown. The thank-you packet
