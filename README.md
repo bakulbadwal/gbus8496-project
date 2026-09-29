@@ -26,30 +26,20 @@ One business problem, one artifact we built, one evaluation we can defend.
 
 Build the zip from a clean, committed tree: `python evals/check_submission.py --zip` → `../Group_11.zip` (no data inside).
 
-## The team
+## The team — Group 11
 
-All five of us have push access to this repo. GitHub's **Contributors** sidebar only lists people
-who have already pushed a commit, so it will fill in as we each start working — it is not the
-membership list. This table is.
-
-| Member | GitHub | Workstream | Status |
+| Member | GitHub | Workstream | What they delivered |
 |---|---|---|---|
-| Malorie Black | [@blackm33](https://github.com/blackm33) | Outreach economics and recommendations | plain-language talk in progress; cost number owed |
-| Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and feature engineering | ✅ feature exploration pushed |
-| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | ✅ evaluation verified; slides 7 + 9 drafted with speaker notes; review and present |
-| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Baseline and model development | ✅ model pushed Sep 17, holdout scored Sep 22 |
-| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data and label construction | ✅ done Sep 11; integration + deck + exec summary Sep 22 |
+| Malorie Black | [@blackm33](https://github.com/blackm33) | Problem framing, stakeholder, recommendation | Proposed the topic; stakeholder and GoGood/Darden framing; decision-layer framing; built and led the final presentation deck |
+| Reid Jacobson | [@Reido938](https://github.com/Reido938) | Exploratory analysis and features | Projects join and feature exploration ([notebook 02](notebooks/02_feature_joining_and_effects.ipynb), [write-up](docs/REID-FEATURE-EXPLORATION.md)) |
+| Thadeus Knospe | [@thadeusk](https://github.com/thadeusk) | Evaluation and error analysis | Calibration and dollar-ranked error analysis ([notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb)), regression tests, the Projects parser fix ([audit](docs/PROJECT-PARSER-FIX.md)) |
+| Rodolfo Perez-Cortes Manrique | [@rodolfopiem33](https://github.com/rodolfopiem33) | Model development | Gradient-boosted return and amount models ([`src/model.py`](src/model.py), [notebook 03](notebooks/03_model_development.ipynb)), team model explainer |
+| Bakul Badwal | [@bakulbadwal](https://github.com/bakulbadwal) | Data, labels, integration | Donor-ID check, label construction and tests ([notebook 01](notebooks/01_labels_and_baseline.ipynb)), baseline ladder and scorer, decision layer, one-command reproduction, holdout scoring, exec summary, submission packaging |
 
-## Status by workstream — what is done, what is pending, what is left
-
-| Workstream | Owner | Status | What is left |
-|---|---|---|---|
-| **Data + label construction** | Bakul | ✅ **DONE Sep 11**, on the real file, **13 tests passing** (`tests/`) | One decision for the team to confirm (below) |
-| **Exploratory analysis + features** | Reid | ✅ **JOIN + EXPLORATION PUSHED** | Validate selected interactions against the gift-size baseline on the untouched holdout |
-| **Baseline + model** | Rodolfo | ✅ **Parser corrected and rerun Sep 27** (`evals/results/10_model_holdout.txt`): $119.71/contact vs $116.26, paired +$3.51 ± 0.51. See `docs/PROJECT-PARSER-FIX.md` | Present slide 6 |
-| **Evaluation + error analysis** | Thadeus | ✅ **verified and corrected Sep 24**: full reproduction, calibration, dollar-ranked cohort/size analysis, regression tests, executed [notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb); slides 7 + 9 and speaker notes drafted | Review the findings and speaking notes; share branch for teammate review; rehearse and present. Carry the corrected findings into Malorie’s final deck |
-| **Outreach economics + recommendation** | Malorie | ✅ **decision layer run on the model Sep 22** (`evals/results/11_decision_model.txt`); slides 8 + 10 filled; building a plain-language version of the talk | **One number still owed: real cost per contact** (placeholder $25 in `src/config.py`). Post it in the chat; re-run `src/decision.py` |
-| **Slides · exec summary · AI-use note · zip** | all | ✅ **Presented Tue Sep 29** | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) is the deck as presented (20 slides + 13 hidden appendix slides). The Sep 11 template and outline are in `docs/slides/superseded/`. Zip due to the Box link on Canvas by **Fri Oct 2, midnight**: `python evals/check_submission.py --zip` |
+**Result in one line:** on 2017–18 donors the model never saw, ranking the top 10% of each month's new
+individual donors by expected value identifies **about $120 of next-year giving per contact vs $116**
+for the "biggest gift first" rule (paired edge about $3.50, roughly 7 standard errors). It predicts
+who gives, not who a contact would persuade.
 
 ### What Bakul's workstream delivered
 
@@ -59,39 +49,38 @@ membership list. This table is.
 - **The population finding.** Pooled, gift-size ranking "found" 80% of subsequent value — an artefact of 708 organizations holding 62.5% of the dollars. `evals/profile_cohorts.py` reproduces it in one command.
 - **Notebook 01**, executed on the real data with outputs saved, 0 errors. Read it first.
 
-### What the reference model and the decision layer found — read before you build
+### What the reference model and the decision layer found (Sep 12)
 
 Both ran on the real holdout on Sep 12 (`evals/results/06_*.txt`, `07_*.txt`). Four things:
 
 1. **There is very little signal in the donations file alone.** A logistic regression on every
    first-gift attribute gets ROC-AUC **0.578** on a 12.6% base rate. It edges gift size at capacity
-   ($119 vs $116 per contact, precision 22% vs 20%), but barely. **Rodolfo:** the model that matters
-   needs Reid's projects join — subject, cost, school, whether the project funded. **Reid:** that
-   join is where the whole result lives now.
+   ($119 vs $116 per contact, precision 22% vs 20%), but barely. That pointed the final model at the
+   projects join (subject, cost, school) for extra signal.
 2. **Two attributes carry real sign.** Campaign gift-card donors are *less* likely to return
    (coefficient −0.21: someone gifted the money is not a self-motivated donor). And the repeat rate
-   **falls by cohort year** (−0.21): behaviour is drifting. **Thadeus:** that drift is your error
-   analysis by cohort.
+   **falls by cohort year** (−0.21): behaviour is drifting, which is why the evaluation checks each
+   cohort year separately.
 3. **The policy arithmetic is illustrative.** At a $25 placeholder contact cost, historical
    giving less hypothetical contact costs is **−$3.6M** for selecting everyone and **+$7.7M**
    for the reference model’s 10% list. Neither is outreach profit: the data does not establish
    how much giving contact causes. The train returner median of $50 is also not a mean-dollar forecast.
 4. **The illustrative threshold is sensitive to the cost assumption.** p* = cost / amount proxy. At $5 per
-   contact you call 61% of donors; at $10, 1.5%; at $25, 0.1%. **Malorie:** your cost per contact is
-   the single most consequential input in the project. The sensitivity table in
-   `evals/results/07_decision_layer.txt` shows exactly what each value implies.
+   contact you call 61% of donors; at $10, 1.5%; at $25, 0.1%. The cost per contact is the single
+   most consequential input, and $25 remains a placeholder. The sensitivity table in
+   `evals/results/07_decision_layer.txt` shows what each value implies.
 
 The reference amount proxy is the train-set cohort-year median, $50 in every year. A median is
 not an expected mean; the later log-amount regressor also supplies a ranking score rather than a
 calibrated forecast of dollar returns.
 
-### 🔴 One decision the team must confirm
+### Scoping decision: individual donors only
 
-`src/config.py` sets `STAKEHOLDER_POPULATION = "citizen donor"`. Organizations (0.1% of donors, 62.5% of subsequent dollars, one made 66,348 donations in a year) and teachers (seeding their own classrooms, 38% repeat rate) are not who a development lead stewards. The label is built for everyone; the filter is applied at scoring, so it is one line to reverse. **If anyone disagrees, say so in the chat before building on it.**
+`src/config.py` sets `STAKEHOLDER_POPULATION = "citizen donor"`. Organizations (0.1% of donors, 62.5% of subsequent dollars, one made 66,348 donations in a year) and teachers (seeding their own classrooms, 38% repeat rate) are not who a development lead stewards. The label is built for everyone and the filter is applied at scoring, so it is one line to reverse. The team adopted it; the pooled number is kept for contrast.
 
 Robustness note, already checked: 17 citizen-donor accounts made 200+ repeat gifts in their window and hold 8% of citizen subsequent value. Excluding them moves the 10%-capacity headline from 56.4% to 53.2% of value, $116 to $101 per contact. The result does not depend on them; they are left in.
 
-### The headline so far — citizen donors, 10% capacity, holdout
+### The baseline ladder — individual donors, 10% capacity, holdout
 
 | Ranking | Precision | Recall | Value identified | $ per contact |
 |---|---|---|---|---|
@@ -143,7 +132,7 @@ These contrast cells are descriptive comparisons, not causal effects. They show 
 
 These are full citizen-training associations with a minimum cell size of 500 donors. They identify candidate terms for the model; they are not causal effects and have not replaced the untouched holdout evaluation.
 
-### 🔴 THE RESULT — holdout, corrected parser rerun Sep 27 (`evals/results/10–12_*.txt`)
+### The result — holdout, corrected parser rerun Sep 27 (`evals/results/10–12_*.txt`)
 
 Model frozen on dev-val first (iteration cap raised 1,200 → 3,000 with learning rate 0.06 → 0.10 so
 early stopping actually fires; dev-val moved $119.82 → $119.51, i.e. the cap was not binding), then
@@ -262,15 +251,15 @@ error) and small (under 2%). ROC-AUC 0.590 against the reference logistic's 0.57
    (precision 23.3%) and the fewest *dollars* ($101). Which list she works depends on whether her
    goal is retained donors or retained revenue. That is a slide.
 3. **The classifier used 1,196 of 1,200 boosting iterations without early stopping firing** — it is
-   still undertrained or the learning rate is too low. Worth one more pass before the holdout run.
+   still undertrained or the learning rate is too low. Resolved Sep 22: the cap was raised, early stopping now fires, and the dev-val result was unchanged.
 
 ### Historical reference-model review — Sep 19
 
 These dated notes retain the original review. The latest rerun is in `evals/results/09_calibration.txt`; the final boosted model is evaluated above.
 
 `evals/calibration.py` answers Albert's "how do you know it works, and where does it not?" for
-any scores file. Run on the reference logistic's holdout predictions (it will be re-run on
-`model_scores.parquet` after the holdout run). Figure for slide 7: `docs/slides/assets/slide7_calibration.png`.
+any scores file. Run on the reference logistic's holdout predictions; the final model's version is
+`evals/results/12_calibration_model.txt`. Figure for slide 7: `docs/slides/assets/slide7_calibration.png`.
 
 1. **It under-promises.** Every decile returns *more* than predicted: the top decile says 18%
    and gets 22%; bottom says 6.5%, gets 8.2%. Expected calibration error 0.016, Brier 0.109 vs
@@ -306,39 +295,27 @@ python evals/profile_cohorts.py data/processed/cohorts.parquet                  
 python evals/score.py         data/processed/cohorts.parquet holdout              # measurement 1
 ```
 
-**No VM required.** All of the above ran on a laptop. The Very Large VM on JupyterHub is available
-if your machine is slow or you would rather not hold 3 GB locally, but nothing here needs it.
+**No VM required.** Everything, including `python evals/run_all.py`, ran on a laptop.
 
 **Rules that keep our numbers comparable.** The label window, the split boundary, the capacity and
-the population all live in [`src/config.py`](src/config.py) and nowhere else — change one only after
-saying so in the chat, because it invalidates every number anyone has already produced. Nobody
-looks at the holdout until a result is final; Rodolfo scores it once.
+the population all live in [`src/config.py`](src/config.py) and nowhere else; changing one
+invalidates every reported number. The holdout was scored once, after the model was frozen on 2016.
 
-## Two deadlines
+## Timeline
 
-| | Due | Where | Counts |
-|---|---|---|---|
-| **Proposal** | **Tue Sep 8, 2026 · midnight** | Canvas → *Final Project Proposal - per team* (one uploader for the team) | Not graded; **approval is mandatory** |
-| **Final project** | **Fri Oct 2, 2026 · 11:59 PM** | Box link on Canvas, one file `Group_11.zip` | **40% of the course grade** |
-
-Albert returns proposal feedback **Thu Sep 10**. Presentations are 10 minutes in Sessions 13–14, order drawn at random, all members present.
-
-## Where we are
-
-| Step | Status |
+| Step | Date |
 |---|---|
-| Team formed (Canvas / Google sheet) | ✅ done |
-| Team chat (Teams) | ✅ open |
-| Everyone on this repo | ✅ all five invited with push access; four accepted, Malorie's invite pending (checked Sep 8 AM) |
-| Direction chosen | ✅ **Predicting the Second Gift** (Malorie) — team poll Sep 7, 4 of 4. Amazon traction (Rodolfo) is the fallback. Reasoning: [docs/Project_DIRECTION-MEMO.md](docs/Project_DIRECTION-MEMO.md) |
-| Proposal submitted → **APPROVED** | ✅ submitted Sep 8; **Albert approved it Sep 9** ("a well-designed proposal"). His guidance changes the build order — read [docs/ALBERT-FEEDBACK.md](docs/ALBERT-FEEDBACK.md) before doing anything |
-| ✅ **Donor-ID link check** | **PASSED Sep 11** on the real file: 11,377,479 donations, 3,466,570 distinct donors, **25.4% give to more than one project**, so the ID follows the person. Also: **71.1% of all donors gave exactly once, ever** — the problem statement with a number on it |
-| Data on disk + labels built | ✅ **Sep 11** — ICPSR files in `data/raw/` (gitignored), codebooks in `docs/codebook/`. `cohorts.parquet`: **3,277,153 labelled donors, 15.8% gave again within 12 months**; train 2.33M / holdout 943K; 189K unlabelable 2019 cohorts dropped; 151 refund rows excluded |
-| Measurement 1 — first real number | ✅ **Sep 11, citizen donors, 10% capacity:** ranking by first-gift size identifies **56% of subsequent giving at $116 per contact** vs $21 contacting everyone. Precision 19.7%, so four in five contacts don't return. Full table: `python evals/score.py data/processed/cohorts.parquet` |
-| 🔴 **Scoping decision — team must confirm** | The file holds three populations. **708 organizations (0.1% of donors) hold 62.5% of subsequent dollars**; the largest made 66,348 donations in a year. Pooled, any ranker "wins" by finding corporations. `src/config.py` defaults to **citizen donors only**; the pooled number (80% at 10%) is kept for contrast. Evidence: `python evals/profile_cohorts.py data/processed/cohorts.parquet`. **Say in the chat if you disagree** |
-| Projects parser correction | ✅ Sep 27: all 3,277,153 project joins match; frozen model and dependent results rebuilt. $119.71 vs $116.26/contact. Branch pending teammate review; [audit and deliverable impact](docs/PROJECT-PARSER-FIX.md) |
-| Measurements 2–3 (Albert's order) | ✅ calibration + dollar-ranked error analysis verified Sep 24 (Thadeus), notebook 04 and slides 7 + 9 ready for review; thank-you-packet flag excluded because timing is unknown |
-| Slides, exec summary, AI-use note, zip | Evaluation slides 7 + 9 and exec-summary correction prepared Sep 24 in existing files. Team review, final deck integration, rehearsal/delivery and final zip remain; recorded backup needed if using a live demo |
+| Direction chosen by team poll (Second Gift, 4 of 4) | Sep 7 |
+| Proposal submitted / approved by Albert | Sep 8 / Sep 9 |
+| Real data landed; donor-ID check passed; labels built | Sep 11 |
+| Reference model and decision layer | Sep 12 |
+| Projects join and feature exploration | Sep 15 |
+| Model built; first real-data run | Sep 17 |
+| Holdout scored once; calibration on the final model | Sep 22 |
+| Evaluation review merged; thank-you-packet analysis | Sep 26 |
+| Projects parser fix (PR #2) merged and verified independently | Sep 27 |
+| Presented (Session 14) | Tue Sep 29 |
+| `Group_11.zip` to the Box link on Canvas | due Fri Oct 2, 11:59 PM |
 
 ## Read these first
 
@@ -370,15 +347,16 @@ gbus8496-project/
 ├── CLAUDE.md            ← Claude Code reads this; it points at AGENTS.md
 ├── AI-USE-NOTE.md       ← deliverable #6, kept as we go, not written at the end
 ├── requirements.txt
-├── docs/                ← spec, direction memo, Albert's original PDF; later: exec summary, slides
+├── docs/                ← exec summary, final slides, spec, proposal, codebooks, Albert's original PDF
 ├── data/                ← GITIGNORED. Raw data never gets committed; data/README.md says how to fetch it
 ├── notebooks/           ← COMMITTED. Annotated in the style of the course starter code
-├── src/                 ← shared Python (loading, chunking, models, scoring) imported by notebooks
-├── evals/               ← gold set, ground-truth provenance, and the one-command scorer
+├── src/                 ← shared Python: labels, projects join, baselines, model, decision layer
+├── tests/               ← label-rule, calibration and parser tests (pytest)
+├── evals/               ← scorer, run_all.py (one-command reproduction), analyses, results/
 └── assets/              ← images for docs and slides
 ```
 
-## Working here
+## Working on this repo
 
 **Setup**
 
