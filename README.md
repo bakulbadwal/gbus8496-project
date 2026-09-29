@@ -13,6 +13,19 @@ One business problem, one artifact we built, one evaluation we can defend.
 
 ---
 
+## Submission — `Group_11.zip` (Albert's six deliverables)
+
+| # | Deliverable | Where it is in this repo |
+|---|---|---|
+| 1 | Slides used in the presentation | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) (presented Tue Sep 29; hidden slides are the appendix) |
+| 2 | Annotated pipeline | [`notebooks/`](notebooks/) 01 labels & baseline · 02 feature join & effects · 03 model · 04 evaluation; code in [`src/`](src/) |
+| 3 | Evaluation: test data, ground truth, code that reproduces the numbers | `python evals/run_all.py` rebuilds every number from the raw files; outputs in [`evals/results/`](evals/results/); label tests in [`tests/`](tests/) |
+| 4 | Dataset access | [`data/README.md`](data/README.md): ICPSR study 37898 download recipe (the data itself is not redistributed) |
+| 5 | One-page executive summary | [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf) |
+| 6 | AI-use note | [`AI-USE-NOTE.md`](AI-USE-NOTE.md) |
+
+Build the zip from a clean, committed tree: `python evals/check_submission.py --zip` → `../Group_11.zip` (no data inside).
+
 ## The team
 
 All five of us have push access to this repo. GitHub's **Contributors** sidebar only lists people
@@ -36,7 +49,7 @@ membership list. This table is.
 | **Baseline + model** | Rodolfo | ✅ **Parser corrected and rerun Sep 27** (`evals/results/10_model_holdout.txt`): $119.71/contact vs $116.26, paired +$3.51 ± 0.51. See `docs/PROJECT-PARSER-FIX.md` | Present slide 6 |
 | **Evaluation + error analysis** | Thadeus | ✅ **verified and corrected Sep 24**: full reproduction, calibration, dollar-ranked cohort/size analysis, regression tests, executed [notebook 04](notebooks/04_evaluation_and_error_analysis.ipynb); slides 7 + 9 and speaker notes drafted | Review the findings and speaking notes; share branch for teammate review; rehearse and present. Carry the corrected findings into Malorie’s final deck |
 | **Outreach economics + recommendation** | Malorie | ✅ **decision layer run on the model Sep 22** (`evals/results/11_decision_model.txt`); slides 8 + 10 filled; building a plain-language version of the talk | **One number still owed: real cost per contact** (placeholder $25 in `src/config.py`). Post it in the chat; re-run `src/decision.py` |
-| **Slides · exec summary · AI-use note · zip** | all | ✅ **deck + exec summary filled with holdout numbers Sep 22** | [`Group11_deck.pptx`](docs/slides/Group11_deck.pptx) — slides 1–4, 6, 8–10 real; **7 and 9 completed Sep 24; 5 (Reid) remains an owner frame**, assets ready (`assets/slide7_calibration_model*.png`). Preview: [`Group11_deck_preview.pdf`](docs/slides/Group11_deck_preview.pdf). [`EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf): one page, complete. Run-throughs **Thu 9/24 1:15** and **Tue 9/29 first coffee**; present 9/29; zip Oct 2 |
+| **Slides · exec summary · AI-use note · zip** | all | ✅ **Presented Tue Sep 29** | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) is the deck as presented (20 slides + 13 hidden appendix slides). The Sep 11 template and outline are in `docs/slides/superseded/`. Zip due to the Box link on Canvas by **Fri Oct 2, midnight**: `python evals/check_submission.py --zip` |
 
 ### What Bakul's workstream delivered
 

@@ -99,7 +99,7 @@ def build_zip():
 def main(build=False):
     print(f"Submission pre-flight — Group_{GROUP}.zip, due Fri Oct 2 2026 11:59 PM to Box\n")
     checks = [
-        ("1. Slides",          lambda: check_file("docs/slides/Group11_deck.pptx", "deck")),
+        ("1. Slides",          lambda: check_file("docs/slides/Group11_FINAL_presented.pptx", "deck as presented Sep 29")),
         ("2. Notebook(s)",     check_notebooks),
         ("3. Evaluation",      lambda: check_file("evals/run_all.py", "reproduction command") and check_results()),
         ("4. Data access",     lambda: check_file("data/README.md", "fetch recipe")),
