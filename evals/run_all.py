@@ -28,6 +28,7 @@ It runs, in order, and stops at the first failure:
 
  16. evals/audit_project_parser.py  source checksum, row counts and repaired joins
  17. evals/refresh_feature_tables.py  recompute existing exploratory table comparisons
+ 18. evals/thank_you_audit.py   packet/note associations, cutoff sensitivity and timing bounds
 
 Each step's full output is saved to evals/results/<step>.txt so the numbers we quote in the
 presentation are traceable to a file, not to memory. Steps 1–7 take about 1.5 minutes on a
@@ -73,6 +74,7 @@ STEPS = [
     ("15_thank_you_packet", [sys.executable, "evals/thank_you_packet.py"]),
     ("16_project_parser_audit", [sys.executable, "evals/audit_project_parser.py"]),
     ("17_refresh_feature_tables", [sys.executable, "evals/refresh_feature_tables.py"]),
+    ("18_thank_you_audit", [sys.executable, "evals/thank_you_audit.py"]),
 ]
 
 

@@ -11,7 +11,7 @@ recomputed by hand or by a second method, a manual read of the output.
 - **Bakul**: Claude Code (Claude Fable 5.1, Claude Opus 5 and 5.5). Used for the data pipeline, labels, tests, baselines, decision layer, integration, holdout scoring, exec summary and packaging.
 - **Rodolfo**: Claude, the chat app. Used to write the model code.
 - **Reid**: OpenCode. Used for the projects join and feature exploration.
-- **Thadeus**: Codex (GPT-6) and ChatGPT. Used for the evaluation review and the Projects parser fix.
+- **Thadeus**: Codex (GPT-6) and ChatGPT. Used for the evaluation review, the Projects parser fix, and the thank-you research audit.
 - **Malorie**: Claude Opus. Used to draft the presentation deck.
 
 **What AI did.** It wrote most of the code and first drafts of the documents. People chose the question, the stakeholder, the label rules, the population scope and what to claim.
@@ -61,3 +61,26 @@ The dated log below records each session: who, which tool, what it did, and how 
   fixture outputs were discarded per the fixture's own warning.
 - **Human responsibility:** Rodolfo runs it on the real cohorts_with_projects.parquet, reviews the
   dev-val table with the team, and scores the holdout once after sign-off.
+
+## September 26, 2026 — Thadeus: thank-you research
+
+Codex (GPT-6) updated local main to 0778343, read the Teams project chat, audited the public-use
+dictionary/codebooks and DonorsChoose primary sources, reproduced the existing packet report,
+and added descriptive packet/note comparisons, $50 sensitivity, and conservative before-funding
+timing bounds. Verification: full donor-ID gate, all citizen repeat labels rebuilt from raw rows,
+zero single-row amount/flag/project mismatches, full Projects row count and manifest MD5 match,
+validated joins, and 23 existing tests passed. Found that default CSV quote parsing drops 5,513
+Projects records; the new audit uses literal TSV parsing. The production feature loader/model
+were not changed or retrained. No messages were sent and no changes were pushed. Interpretation
+and pilot recommendations in docs/THANK-YOU-RESEARCH.md are proposed for human/team review.
+
+## September 29, 2026 — Thadeus: integrate thank-you research for review
+
+Codex (GPT-6) integrated the research with main at 25fbeee, preserved the merged parser fix
+and current deliverables, reused the shared Projects loader, and appended the audit as step 18.
+Updated outdated parser-status wording and replaced causal cutoff labels with descriptive ratios.
+Verification: complete raw-data evaluation through step 18 passed; all audit tables/checks reproduced
+byte-for-byte; 29 tests passed, including two hand-worked standardization/overlap checks; notebook 05
+executed all six code cells with zero errors; the audit figure was inspected. No model specification
+changed. Detailed evidence is in evals/results/thank_you_integration_validation.txt.
+The user requested committing, pushing and opening a PR; teammate interpretation review remains pending.

@@ -5,13 +5,16 @@ thank_you_packet.py — the thank-you packet question, as far as this data can t
 
 The team asked two things on Sep 24: does the packet go to donors above a gift cutoff (which would
 allow a cutoff-based comparison), and does it matter differently for individuals and organizations.
+HISTORICAL EXPLORATION: see thank_you_audit.py and docs/THANK-YOU-RESEARCH.md for
+the corrected literal-TSV project join, single-donation cutoff diagnostics, and
+timing lower bounds. The ratios below are NOT identified treatment effects.
 The codebook gives no mailing date, so every result here is descriptive. The model-side test is
 `python src/model.py <cohorts_with_projects.parquet> --with-packet`, which assumes the packet was
 mailed before any second gift.
 
   A. Who gets a packet: rate and repeat rate by donor type.
   B. Citizen donors: repeat rate with vs without a packet, within first-gift size bands.
-  C. The $50 cutoff: packet and repeat rates in $1 steps around $50, and a fuzzy cutoff estimate.
+  C. The $50 cutoff: packet and repeat rates in $1 steps around $50, and descriptive ratios of jumps.
   D. When is a packet sent: packet rate by the first project's final status (funded or not), and
      alongside the project-level thank-you note and impact letter.
 """
@@ -75,11 +78,11 @@ def main():
         dy = h["y"].mean() - lo["y"].mean()
         print(f"$45–49.99 vs {name}: packet {pct(lo.packet.mean())} → {pct(h.packet.mean())}; "
               f"repeat {pct(lo.y.mean())} → {pct(h.y.mean())}; "
-              f"implied effect of a packet = Δrepeat/Δpacket = {dy / dp:+.1%}" if dp > 0.02 else
-              f"$45–49.99 vs {name}: packet jump too small ({dp * 100:+.1f} pp) to estimate an effect")
+              f"descriptive ratio (not a treatment effect) = Δrepeat/Δpacket = {dy / dp:+.1%}" if dp > 0.02 else
+              f"$45–49.99 vs {name}: packet jump too small ({dp * 100:+.1f} pp) to report a stable ratio")
 
     # Round amounts ($40, $45, $50, $55, $60) are preset buttons with their own packet rates, so the
-    # cleaner comparison uses whole-dollar amounts that are NOT multiples of 5, just either side of $50.
+    # sensitivity comparison uses non-multiples of 5. This selection changes the population.
     a = cit["first_gift_amount"]
     nonround = (np.abs(a - np.round(a)) < 1e-9) & (np.floor(a) % 5 != 0)
     L = cit[nonround & (a >= 41) & (a < 50)][["packet", "y"]].astype(float).values
@@ -92,9 +95,9 @@ def main():
         boots.append((h[:, 1].mean() - l[:, 1].mean()) / (h[:, 0].mean() - l[:, 0].mean()))
     print(f"\nNon-round whole amounts, $41–49 (n={len(L):,}) vs $51–59 (n={len(H):,}): packet "
           f"{pct(L[:, 0].mean())} → {pct(H[:, 0].mean())} ({dp * 100:+.1f} pp), repeat {pct(L[:, 1].mean())} → "
-          f"{pct(H[:, 1].mean())} ({dy * 100:+.1f} pp). Implied packet effect {dy / dp:+.1%} "
+          f"{pct(H[:, 1].mean())} ({dy * 100:+.1f} pp). Descriptive ratio (not a treatment effect) {dy / dp:+.1%} "
           f"(bootstrap 95% CI {np.percentile(boots, 2.5):+.1%} to {np.percentile(boots, 97.5):+.1%}). "
-          "Suggestive only: small n, and repeat rates also rise with gift size across the window.")
+          "Descriptive only: sample selection and unknown timing prevent a causal interpretation.")
 
     section("D · When is a packet sent? Packet rate by the first project's final status")
     proj = read_projects(PROJECTS, dtype=str,
