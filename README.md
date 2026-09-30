@@ -17,11 +17,11 @@ One business problem, one artifact we built, one evaluation we can defend.
 
 | # | Deliverable | Where it is in this repo |
 |---|---|---|
-| 1 | Slides used in the presentation | [`docs/slides/Group11_FINAL_presented.pptx`](docs/slides/Group11_FINAL_presented.pptx) (the 20 slides presented Tue Sep 29) |
+| 1 | Slides used in the presentation | [`Group11_Presentation_Slides.pptx`](Group11_Presentation_Slides.pptx) (top level of the folder) (the 20 slides presented Tue Sep 29) |
 | 2 | Annotated pipeline | [`notebooks/`](notebooks/) 01 labels & baseline · 02 feature join & effects · 03 model · 04 evaluation · 05 thank-you research; code in [`src/`](src/) |
 | 3 | Evaluation: test data, ground truth, code that reproduces the numbers | `python evals/run_all.py` rebuilds every number from the raw files; outputs in [`evals/results/`](evals/results/); label tests in [`tests/`](tests/) |
 | 4 | Dataset access | [`data/README.md`](data/README.md): ICPSR study 37898 download recipe (the data itself is not redistributed) |
-| 5 | One-page executive summary | [`docs/EXEC-SUMMARY.md`](docs/EXEC-SUMMARY.md) / [`.pdf`](docs/EXEC-SUMMARY.pdf) |
+| 5 | One-page executive summary | [`Group11_Executive_Summary.pdf`](Group11_Executive_Summary.pdf) (top level; [`.md`](Group11_Executive_Summary.md) source) |
 | 6 | AI-use note | [`AI-USE-NOTE.md`](AI-USE-NOTE.md) |
 
 Build the zip from a clean, committed tree: `python evals/check_submission.py --zip` → `../Group_11.zip` (no data inside).
@@ -347,6 +347,8 @@ Two questions every presentation must answer: **how do you know it works**, and 
 ```
 gbus8496-project/
 ├── README.md            ← you are here
+├── Group11_Presentation_Slides.pptx   ← deliverable 1: the deck as presented
+├── Group11_Executive_Summary.pdf      ← deliverable 5: the one-page summary
 ├── AGENTS.md            ← the contract every coding agent reads (Codex, OpenCode, Cursor, …)
 ├── CLAUDE.md            ← Claude Code reads this; it points at AGENTS.md
 ├── AI-USE-NOTE.md       ← deliverable #6, kept as we go, not written at the end
