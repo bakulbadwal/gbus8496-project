@@ -20,7 +20,7 @@ gift. The 2017–18 cohorts were held out during model selection, because her qu
 donors. Every rule is scored at her capacity, the top 10% of each month's new donors, in dollars of
 subsequent giving identified per contact. The baseline is her own rule, rank by first-gift size.
 
-One finding shaped everything after it: the file holds three populations. Organizations are 0.1%
+One finding shaped everything after it: the file holds three populations. In the 2017–18 cohorts, organizations are 0.1%
 of donors but 62% of repeat dollars, mostly corporate matching programs. Teachers seed their own
 classrooms. Pooled, any rule looks brilliant by finding the corporations. We scored individual donors,
 86% of people, the ones she actually calls.
@@ -35,10 +35,10 @@ chance of a second gift and its size, using first-gift attributes plus the proje
 first funded. Gift size carries much of the signal; the full model adds a modest gain.
 
 **The result holds up, within limits.** When the model says its top tenth of donors has a 27%
-chance of returning, 24.5% actually do. It beats gift size in both test years ($139 per donor
-in 2017, $103 in 2018). What it changes is who gets the call: it swaps out teacher-referred
-donors, friends and family recruited for one classroom who return 13% of the time, for donors
-who funded several classrooms at once, who return 23%. Its list is still mostly larger first
+chance of returning, 24.5% actually do: close, slightly optimistic at the top. It beats gift size in both test years ($139 per contact
+in 2017, $103 in 2018). What it changes is who gets the call: it swaps out donors who are mostly
+(81%) teacher-referred and return 13% of the time, for donors who return 23%; a third of these
+funded several classrooms in their first month. Its list is still mostly larger first
 gifts; donors under $50 are half of all new donors but under 1% of its calls. Ranking purely by
 the chance of return reaches more people but fewer dollars ($108 per call), so the right list
 depends on whether the goal is more donors or more dollars.
@@ -46,9 +46,9 @@ depends on whether the goal is more donors or more dollars.
 ## Recommendation
 
 **Use the model to build each month's call list, and prove it with a pilot.** Rank new
-individual donors by expected value and call the top 10%, then run a randomized pilot against
-the gift-size list to measure what outreach actually adds before scaling. On the holdout, the
-model's list holds $9.76M of next-year giving; after an assumed $25 per call it leaves $7.72M,
+individual donors by expected value and call the top 10%, then randomly hold back a share of each
+month's list from calls to measure what outreach actually adds before scaling. Across the two holdout
+years, the model's list holds $9.76M of next-year giving; after an assumed $25 per call it leaves $7.72M,
 versus $7.44M for the gift-size list. These are **values identified less hypothetical costs,
 not profit estimates**, and the amount model ranks well but is not a calibrated dollar
 forecast. Scoring runs monthly on a laptop with no API fees; the outreach itself is the cost.
@@ -59,4 +59,4 @@ does not improve dollar ranking in our sensitivity run, and it goes mostly to do
 cannot be separated from the project succeeding. Transfer from a marketplace to a relational
 small nonprofit is a hypothesis. The $25 cost is a placeholder for a figure from real practice.
 
-*Every number reproduces with `python evals/run_all.py`; sources in `evals/results/`.*
+*Every number reproduces with `python evals/run_all.py` · github.com/bakulbadwal/gbus8496-project*

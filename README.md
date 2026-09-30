@@ -9,6 +9,8 @@
 Problem → data → system → evaluation → judgment → communication.
 One business problem, one artifact we built, one evaluation we can defend.
 
+**Live repo:** https://github.com/bakulbadwal/gbus8496-project
+
 </div>
 
 ---
@@ -135,7 +137,7 @@ These are full citizen-training associations with a minimum cell size of 500 don
 ### The result — holdout, corrected parser rerun Sep 27 (`evals/results/10–12_*.txt`)
 
 Model frozen on dev-val first (iteration cap raised 1,200 → 3,000 with learning rate 0.06 → 0.10 so
-early stopping actually fires; dev-val moved $119.82 → $119.51, i.e. the cap was not binding), then
+early stopping actually fires; dev-val moved $119.82 → $119.51 before the parser fix, $119.62 after, i.e. the cap was not binding), then
 the 2017–18 holdout was first scored. The Sep 27 rerun corrects the input parser; features, hyperparameters, splits and seeds are unchanged. See [the parser-fix audit](docs/PROJECT-PARSER-FIX.md).
 
 | Citizen donors, holdout, 10% capacity | Precision | Recall | Value identified | $ per contact |
